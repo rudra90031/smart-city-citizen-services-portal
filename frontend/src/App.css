@@ -9,6 +9,7 @@ body {
 
   font-family: Montserrat;
   background-color: #f8fafc;
+  background: #f5f5f5;
 }
 
 * {
@@ -353,15 +354,9 @@ ul {
 /* DASHBOARD */
 
 .dashboard-hero {
-  background: white;
-  min-height: 45vh;
-
-  padding: 40px 60px;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-
-  background: white;
+    background: white;
+    min-height: 45vh;
+    padding: 40px 60px;
 }
 
 .menu-btn{
@@ -475,7 +470,7 @@ ul {
 }
 
 .dashboard-content {
-  background: #111111;
+  background: #1B1035;
 
   min-height: 100vh;
 
@@ -647,7 +642,7 @@ ul {
   display: none;
 }
 .complaints-hero{
-  background:#1a1a1a;
+  background:#5e7ce2;
   min-height:35vh;
   padding:60px;
   display:flex;
@@ -655,22 +650,200 @@ ul {
   justify-content:center;
 }
 
-.complaints-subtitle{
-  color:#9ca3af;
-  font-size:14px;
-  letter-spacing:3px;
-  margin-bottom:10px;
+.complaints-hero {
+  background: white;
+  color: #111;
+
+  padding: 60px;
+  min-height: 45vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.complaints-hero h1{
-  font-size:7rem;
-  line-height:1;
-  color:white;
-  margin-bottom:20px;
+.complaints-hero h1 {
+  color: #111;
+  font-size: 8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.complaints-subtitle,
+.complaints-description {
+  color: #444;
 }
 
 .complaints-description{
-  color:#d1d5db;
+  color:#444;
   font-size:1.2rem;
   max-width:600px;
+}
+/* COMPLAINT ACTION CARDS */
+
+.complaint-actions {
+  min-height: 70vh;
+  padding: 60px 40px;
+  display: flex;
+  gap: 20px;
+  background: url("./assets/com-img.png") center/cover no-repeat;
+}
+
+.complaint-card {
+  background: linear-gradient(
+    135deg,
+    #4c2ca3 0%,
+    #5b35c9 40%,
+    #7c4dff 100%
+  );
+
+  color: white;
+  border-radius: 24px;
+  padding: 40px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.complaint-card:hover {
+  background: white;
+  color: #222527;
+  transform: translateY(-8px);
+}
+
+.track-card {
+  flex: 1;
+  min-height: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #46289A;
+}
+
+.lodge-card {
+  flex: 2.3;
+  min-height: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(
+    90deg,
+    #6f42ff 0%,
+    #8b5cf6 100%
+  );
+}
+
+.track-card h2 {
+  font-size: 2.5rem;
+}
+
+.lodge-card h2 {
+  font-size: 5rem;
+  line-height: 1.1;
+}
+
+.complaint-card span {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.complaint-card p {
+  max-width: 350px;
+}
+
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.arrow {
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+@media (max-width: 900px) {
+  .complaint-actions {
+    flex-direction: column;
+  }
+
+  .lodge-card h2 {
+    font-size: 3rem;
+  }
+}
+/* Lodge Form */
+.lodge-form-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 30px;
+  background: #f5f5f5;
+  min-height: auto;
+}
+.lodge-form-section h1 {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+.lodge-form-section p {
+  margin-bottom: 35px;
+  font-size: 1rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  border: none;
+  border-bottom: 2px solid #bdbdbd;
+  background: transparent;
+  padding: 12px 0;
+  font-size: 1.1rem;
+  outline: none;
+}
+
+.form-group textarea {
+  min-height: 140px;
+  resize: none;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+.submit-btn {
+  margin-top: 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #111;
+  padding-bottom: 12px;
+
+  width: 230px;
+
+  font-size: 1.5rem;
+  text-align: left;
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+.submit-btn:hover {
+  transform: translateX(10px);
 }

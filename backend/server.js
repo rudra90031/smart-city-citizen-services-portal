@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 
 const connectDB = require("./config/db");
+const { protect } = require("./middleware/authMiddleware");
 
 dotenv.config();
 
@@ -17,6 +18,12 @@ app.use(express.json());
 app.get("/api/test", (req, res) => {
   res.json({
     message: "Backend Connected Successfully",
+  });
+});
+app.get("/api/profile", protect, (req, res) => {
+  res.json({
+    message: "Protected Route Accessed",
+    user: req.user,
   });
 });
 app.use("/api/auth", authRoutes);

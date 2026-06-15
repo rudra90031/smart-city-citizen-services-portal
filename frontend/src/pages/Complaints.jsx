@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 function Complaints() {
+  const navigate = useNavigate();
   return (
     <>
       <section className="complaints-hero">
@@ -11,6 +13,34 @@ function Complaints() {
         <p className="complaints-description">
           Lodge complaints, track their status, and stay updated on resolutions.
         </p>
+      </section>
+      <section className="complaint-actions">
+
+        <div className="complaint-card track-card">
+          <span>TRACK</span>
+          <h2>Track Complaint</h2>
+          <p>Check the live status of your submitted complaints.</p>
+
+          <div className="arrow">→</div>
+        </div>
+
+        <div className="complaint-card lodge-card"
+        onClick={() => navigate("/lodge-complaint")}>
+          
+          <span>CITIZEN SERVICES</span>
+
+          <h2>Lodge New Complaint</h2>
+
+          <p>
+            Report civic issues and help improve your city.
+          </p>
+
+          <div className="bottom-row">
+            <span>Submit Now</span>
+            <div className="arrow">→</div>
+          </div>
+        </div>
+
       </section>
     </>
   );
