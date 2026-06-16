@@ -1,9 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getComplaints } from "../services/authService";
 function Dashboard() {
   const [showMenu, setShowMenu] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [complaints, setComplaints] = useState([]);
+  useEffect(() => {
+
+    const user = JSON.parse(
+      localStorage.getItem("user")
+    );
+
+    if (user) {
+      setUserName(user.name);
+    }
+
+    const fetchComplaints = async () => {
+      try {
+
+        const data = await getComplaints();
+
+        console.log("DATA FROM API:", data);
+
+        setComplaints(data);
+
+      } catch (error) {
+        console.log("ERROR:", error.response?.data);
+      }
+    };
+
+    fetchComplaints();
+
+  }, []);
+  console.log("STATE:", complaints);
   return (
     <>
       <button
+        tabIndex="-1"
         className="menu-btn"
         onClick={() => setShowMenu(true)}
       >
@@ -41,7 +73,7 @@ function Dashboard() {
 
 
         <p className="welcome-text">
-          WELCOME BACK, RUDRA
+          WELCOME BACK, {userName.toUpperCase()}
         </p>
 
         <h1>Dashboard</h1>
@@ -54,29 +86,36 @@ function Dashboard() {
 
       <section className="dashboard-content">
 
-        <div className="stats-grid">
+        <div className="stats-text">
 
-          <div className="stat-card">
-            <h2>24</h2>
+          <div>
+            <h2>{complaints.length}</h2>
             <p>Total Complaints</p>
           </div>
 
-          <div className="stat-card">
-            <h2>7</h2>
+          <div>
+            <h2>
+              {
+                complaints.filter(
+                  (complaint) => complaint.status === "Pending"
+                ).length
+              }
+            </h2>
             <p>Pending Complaints</p>
           </div>
 
-          <div className="stat-card">
+          <div>
             <h2>18</h2>
             <p>Certificates Applied</p>
           </div>
 
-          <div className="stat-card">
+          <div>
             <h2>12</h2>
             <p>Bills Paid</p>
           </div>
 
         </div>
+
         <div className="dashboard-grid">
 
           {/* Recent Complaints */}
@@ -84,45 +123,23 @@ function Dashboard() {
           <div className="dashboard-card">
 
             <div className="card-header">
-              <h3>Recent Complaints</h3>
+              <h3>Recent Complaints ({complaints.length})</h3>
             </div>
 
             <div className="complaints-list">
 
-              <div className="complaint-item">
-                <span>Street Light Not Working</span>
-                <span className="status pending">Pending</span>
-              </div>
+              {complaints.map((complaint) => (
+                <div
+                  className="complaint-item"
+                  key={complaint._id}
+                >
+                  <span>{complaint.title}</span>
 
-              <div className="complaint-item">
-                <span>Water Leakage</span>
-                <span className="status resolved">Resolved</span>
-              </div>
-
-              <div className="complaint-item">
-                <span>Garbage Collection Delay</span>
-                <span className="status progress">In Progress</span>
-              </div>
-
-              <div className="complaint-item">
-                <span>Road Damage</span>
-                <span className="status review">Under Review</span>
-              </div>
-
-              <div className="complaint-item">
-                <span>Sewage Issue</span>
-                <span className="status pending">Pending</span>
-              </div>
-
-              <div className="complaint-item">
-                <span>Pothole on Main Road</span>
-                <span className="status resolved">Resolved</span>
-              </div>
-
-              <div className="complaint-item">
-                <span>Broken Traffic Signal</span>
-                <span className="status pending">Pending</span>
-              </div>
+                  <span className="status pending">
+                    {complaint.status}
+                  </span>
+                </div>
+              ))}
 
             </div>
 
@@ -177,7 +194,7 @@ function Dashboard() {
         </div>
 
       </section>
-      
+
     </>
   );
 }

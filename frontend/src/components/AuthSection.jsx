@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-    registerUser,
-    loginUser,
-} from "../services/authService";
+import { loginUser, registerUser } from "../services/authService";
 
 function AuthSection() {
     const [isLogin, setIsLogin] = useState(true);
@@ -20,41 +17,81 @@ function AuthSection() {
         mobile: "",
         password: "",
     });
+    const handleRegister = async () => {
+        try {
+
+            const response = await registerUser(registerData);
+
+            alert(response.message); // alert(response.message);
+
+            setIsLogin(true);
+
+        } catch (error) {
+
+            alert(
+                error.response?.data?.message ||
+                "Registration Failed"
+            );// alert(response.message);
+
+        }
+    };
+    const handleLogin = async () => {
+        try {
+
+            const response = await loginUser(loginData);
+
+            localStorage.setItem("token", response.token);
+            localStorage.setItem(
+                "user",
+                JSON.stringify(response.user)
+            );
+
+            window.location.href = "/portal";
+            // window.scrollTo({
+            //     top: 0,
+            //     behavior: "instant"
+            // });
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+    };
 
     return (
         <section id="auth" className="auth-section">
 
             <div className="auth-left">
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="auth-video"
+                >
+                    <source
+                        src="/videos/glass_bg.webm"
+                        type="video/webm"
+                    />
+                </video>
+
+                <div className="video-overlay"></div>
 
                 <div className="auth-content">
 
                     <h1>
                         Smart <br />
-                        City<span>.</span>
+                        <span className="city-text">
+                            City<span className="dot">.</span>
+                        </span>
                     </h1>
 
-                    <p>
-                        A unified platform for citizens
-                        to access government services.
-                    </p>
-
                     <div className="stats">
-
-                        <div className="stat-item">
-                            <h3>10K+</h3>
-                            <p>Citizens</p>
-                        </div>
-
-                        <div className="stat-item">
-                            <h3>50+</h3>
-                            <p>Services</p>
-                        </div>
-
-                        <div className="stat-item">
+                        <div className="stat-item support-stat">
                             <h3>24/7</h3>
                             <p>Support</p>
                         </div>
-
                     </div>
 
                 </div>
@@ -91,7 +128,9 @@ function AuthSection() {
                             }
                         />
 
-                        <button>Login</button>
+                        <button onClick={handleLogin}>
+                            Login
+                        </button>
 
                         <p>
                             Don't have an account?{" "}
@@ -154,7 +193,9 @@ function AuthSection() {
                             }
                         />
 
-                        <button>Register</button>
+                        <button onClick={handleRegister}>
+                            Register
+                        </button>
 
                         <p>
                             Already have an account?{" "}

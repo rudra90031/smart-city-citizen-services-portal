@@ -19,3 +19,18 @@ export const loginUser = async (userData) => {
 
   return response.data;
 };
+export const getComplaints = async () => {
+
+  const token = localStorage.getItem("token");
+
+  const response = await axios.get(
+    "http://localhost:5000/api/complaints",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data;
+};
