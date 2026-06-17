@@ -133,7 +133,29 @@ function Dashboard() {
                   className="complaint-item"
                   key={complaint._id}
                 >
-                  <span>{complaint.title}</span>
+                  <div className="complaint-info">
+
+                    <span>{complaint.title}</span>
+
+                    <div className="complaint-id-row">
+
+                      <small>
+                        {complaint._id.slice(-8)}
+                      </small>
+
+                      <button
+                        className="copy-btn"
+                        onClick={() => {
+                          navigator.clipboard.writeText(complaint._id);
+                          // alert("Complaint ID Copied");
+                        }}
+                      >
+                        📋
+                      </button>
+
+                    </div>
+
+                  </div>
 
                   <span className="status pending">
                     {complaint.status}

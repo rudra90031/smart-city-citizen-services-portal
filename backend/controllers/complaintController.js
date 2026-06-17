@@ -31,9 +31,13 @@ const createComplaint = async (req, res) => {
 const getComplaints = async (req, res) => {
   try {
 
+    console.log("Logged In User:", req.user.id);
+
     const complaints = await Complaint.find({
       user: req.user.id,
     });
+
+    console.log("Complaints Found:", complaints);
 
     res.status(200).json(complaints);
 

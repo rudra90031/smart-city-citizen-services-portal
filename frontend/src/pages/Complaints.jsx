@@ -16,7 +16,8 @@ function Complaints() {
       </section>
       <section className="complaint-actions">
 
-        <div className="complaint-card track-card">
+        <div className="complaint-card track-card"
+        onClick={() => navigate("/track-complaint")}>
           <span>TRACK</span>
           <h2>Track Complaint</h2>
           <p>Check the live status of your submitted complaints.</p>
