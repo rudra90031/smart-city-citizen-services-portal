@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Portal from "./pages/Portal";
 import LodgeComplaint from "./pages/LodgeComplaint";
 import TrackComplaint from "./pages/TrackComplaint";
-
+import Certificates from "./pages/Certificates";
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +15,10 @@ function App() {
         <Route
           path="/track-complaint"
           element={<TrackComplaint />}
+        />
+        <Route
+          path="/certificates"
+          element={<Certificates />}
         />
       </Routes>
     </BrowserRouter>

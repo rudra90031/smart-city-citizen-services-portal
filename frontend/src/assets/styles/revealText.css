@@ -1,0 +1,17 @@
+.hero-title {
+
+    font-size: 120px;
+    font-weight: 700;
+    line-height: 0.9;
+
+    color: #000;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    margin: 0;
+}
+
+.hero-title span {
+    display: inline-block;
+}

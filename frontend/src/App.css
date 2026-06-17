@@ -463,7 +463,7 @@ ul {
 .dashboard-hero h1 {
   font-size: 8rem;
 
-  font-weight: 700;
+  font-weight: 500;
 
   color: black;
 
@@ -697,7 +697,7 @@ ul {
 .complaints-hero h1 {
   color: #111;
   font-size: 8rem;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.2;
 }
 

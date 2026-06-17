@@ -1,0 +1,178 @@
+.certificate-wrapper {
+    min-height: 100vh;
+    background: #f7f7f7;
+    padding: 70px 100px;
+}
+
+.certificate-hero {
+    margin-bottom: 60px;
+}
+
+.certificate-hero h1 {
+    font-size: 110px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.certificate-hero p {
+    font-size: 20px;
+    color: #666;
+}
+
+.certificate-divider {
+    width: 100%;
+    height: 1px;
+    background: #d8d8d8;
+    margin-bottom: 60px;
+}
+
+.certificate-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 80px;
+}
+
+/* LEFT SIDE */
+
+.certificate-form {
+    flex: 1.2;
+}
+
+.form-group {
+    margin-bottom: 35px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #d8d8d8;
+    background: transparent;
+    padding: 12px 0;
+    font-size: 18px;
+    outline: none;
+}
+
+.form-group input[type="file"] {
+    border: none;
+    padding-top: 10px;
+}
+
+.submit-btn {
+    margin-top: 25px;
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submit-btn:hover {
+    transform: translateX(6px);
+}
+
+/* RIGHT SIDE */
+
+.applications-section {
+    flex: 0.8;
+}
+
+.applications-section h2 {
+    font-size: 40px;
+    margin-bottom: 35px;
+}
+
+.application-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 0;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.application-item h4 {
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.application-item p {
+    color: #777;
+    font-size: 14px;
+}
+
+.status {
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.progress {
+    background: #e7efff;
+    color: #2563eb;
+}
+
+.approved {
+    background: #e8fff0;
+    color: #16a34a;
+}
+
+.rejected {
+    background: #ffe8e8;
+    color: #dc2626;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 992px) {
+
+    .certificate-wrapper {
+        padding: 50px 30px;
+    }
+
+    .certificate-content {
+        flex-direction: column;
+    }
+
+    .certificate-hero h1 {
+        font-size: 65px;
+    }
+}
+.reveal-title {
+  font-size: 110px;
+  font-weight: 700;
+  color: #000;
+
+  display: inline-block;
+
+  filter: blur(15px);
+  clip-path: inset(0 100% 0 0);
+
+  animation: revealBlur 2s ease forwards;
+}
+
+@keyframes revealBlur {
+
+  0% {
+    clip-path: inset(0 100% 0 0);
+    filter: blur(15px);
+    opacity: 0;
+  }
+
+  100% {
+    clip-path: inset(0 0 0 0);
+    filter: blur(0);
+    opacity: 1;
+  }
+
+}
