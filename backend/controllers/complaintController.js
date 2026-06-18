@@ -47,7 +47,31 @@ const getComplaints = async (req, res) => {
     });
   }
 };
+const getComplaintById = async (req, res) => {
+  try {
+
+    const complaint = await Complaint.findById(
+      req.params.id
+    );
+
+    if (!complaint) {
+      return res.status(404).json({
+        message: "Complaint Not Found",
+      });
+    }
+
+    res.status(200).json(complaint);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+
+  }
+};
 module.exports = {
-  createComplaint,
-  getComplaints,
+    createComplaint,
+    getComplaints,
+    getComplaintById,
 };

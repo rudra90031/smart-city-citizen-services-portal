@@ -5,6 +5,7 @@ import Portal from "./pages/Portal";
 import LodgeComplaint from "./pages/LodgeComplaint";
 import TrackComplaint from "./pages/TrackComplaint";
 import Certificates from "./pages/Certificates";
+import AdminDashboard from "./pages/AdminDashboard";
 function App() {
   return (
     <BrowserRouter>
@@ -19,6 +20,10 @@ function App() {
         <Route
           path="/certificates"
           element={<Certificates />}
+        />
+        <Route
+          path="/admin/dashboard"
+          element={<AdminDashboard />}
         />
       </Routes>
     </BrowserRouter>

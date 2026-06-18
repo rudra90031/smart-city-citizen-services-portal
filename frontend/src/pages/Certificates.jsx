@@ -1,111 +1,220 @@
-import React from "react";
+import React, { useState } from "react";
 import "../assets/styles/certificates.css";
 import RevealText from "../components/RevealText";
 import "../assets/styles/revealText.css";
+
 function Certificates() {
-    return (
-        <div className="certificate-wrapper">
+    const documentRequirements = {
+        "Birth Certificate": [
+            "Aadhaar Card",
+            "Birth Proof / Hospital Record"
+        ],
 
-            <div className="certificate-hero">
+        "Domicile Certificate": [
+            "Aadhaar Card",
+            "Address Proof"
+        ],
 
-                <RevealText text="Apply For Certificates" />
+        "Income Certificate": [
+            "Aadhaar Card",
+            "Income Proof"
+        ],
 
-                <p>
-                    Apply and track government certificates online.
-                </p>
+        "Character Certificate": [
+            "Aadhaar Card",
+            "Passport Size Photo"
+        ]
+    };
+    const supportingDocumentLabels = {
+        "Birth Certificate": "UPLOAD BIRTH PROOF",
+        "Domicile Certificate": "UPLOAD ADDRESS PROOF",
+        "Income Certificate": "UPLOAD INCOME PROOF",
+        "Character Certificate": "UPLOAD PASSPORT SIZE PHOTO"
+    };
+    const [selectedCertificate, setSelectedCertificate] =
+        useState("Birth Certificate");
+    return (<div className="certificate-wrapper">
 
-            </div>
+        ```
+        <div className="certificate-hero">
 
-            <div className="certificate-divider"></div>
+            <RevealText text="Apply For Certificates" />
 
-            <div className="certificate-content">
+            <p>
+                Apply and track government certificates online.
+            </p>
 
-                {/* Left Side */}
+        </div>
 
-                <div className="certificate-form">
+        <div className="certificate-divider"></div>
 
-                    <div className="form-group">
-                        <label>SELECT CERTIFICATE</label>
+        <div className="certificate-content">
 
-                        <select>
-                            <option>Birth Certificate</option>
-                            <option>Domicile Certificate</option>
-                            <option>Income Certificate</option>
-                            <option>Death Certificate</option>
-                        </select>
-                    </div>
+            {/* Left Side */}
 
-                    <div className="form-group">
-                        <label>APPLICANT NAME</label>
-                        <input
-                            type="text"
-                            placeholder="Enter Name"
-                        />
-                    </div>
+            <div className="certificate-form">
 
-                    <div className="form-group">
-                        <label>ADDRESS</label>
-                        <input
-                            type="text"
-                            placeholder="Enter Address"
-                        />
-                    </div>
+                <div className="form-group">
+                    <label>SELECT CERTIFICATE</label>
 
-                    <div className="form-group">
-                        <label>UPLOAD DOCUMENT</label>
-                        <input type="file" />
-                    </div>
+                    <select
+                        value={selectedCertificate}
+                        onChange={(e) =>
+                            setSelectedCertificate(e.target.value)
+                        }
+                    >
+                        <option>Birth Certificate</option>
+                        <option>Domicile Certificate</option>
+                        <option>Income Certificate</option>
+                        <option>Character Certificate</option>
+                    </select>
+                </div>
 
-                    <button className="submit-btn">
-                        Submit Application →
-                    </button>
+                <div className="form-group">
+                    <label>APPLICANT NAME</label>
+                    <input
+                        type="text"
+                        placeholder="Enter Name"
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>EMAIL</label>
+                    <input
+                        type="email"
+                        placeholder="Enter Email"
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>PHONE NUMBER</label>
+                    <input
+                        type="text"
+                        placeholder="Enter Phone Number"
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>ADDRESS</label>
+                    <input
+                        type="text"
+                        placeholder="Enter Address"
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>PURPOSE OF APPLICATION</label>
+                    <input
+                        type="text"
+                        placeholder="College Admission / Passport / Government Job"
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>AADHAAR CARD</label>
+                    <input type="file" />
+                </div>
+
+                <div className="form-group">
+                    <label>
+                        {supportingDocumentLabels[selectedCertificate]}
+                    </label>
+                    <input type="file" />
+                </div>
+
+                <div className="required-documents">
+
+                    <h4>Required Documents</h4>
+
+                    <ul>
+                        {documentRequirements[selectedCertificate].map(
+                            (doc, index) => (
+                                <li key={index}>
+                                    ✓ {doc}
+                                </li>
+                            )
+                        )}
+                    </ul>
 
                 </div>
 
-                {/* Right Side */}
+                <button className="submit-btn">
+                    Submit Application →
+                </button>
 
-                <div className="applications-section">
+            </div>
 
-                    <h2>My Applications</h2>
+            {/* Right Side */}
 
-                    <div className="application-item">
-                        <div>
-                            <h4>Birth Certificate</h4>
-                            <p>Applied on: 12 May 2026</p>
-                        </div>
+            <div className="applications-section">
 
-                        <span className="status progress">
-                            In Progress
-                        </span>
+                <h2>My Applications</h2>
+
+                <div className="application-item">
+
+                    <div>
+                        <h4>Birth Certificate</h4>
+
+                        <p className="application-id">
+                            Application ID: CERT-2026-001
+                        </p>
+
+                        <p>
+                            Applied on: 12 May 2026
+                        </p>
                     </div>
 
-                    <div className="application-item">
-                        <div>
-                            <h4>Domicile Certificate</h4>
-                            <p>Applied on: 10 May 2026</p>
-                        </div>
+                    <span className="status progress">
+                        In Progress
+                    </span>
 
-                        <span className="status approved">
-                            Approved
-                        </span>
+                </div>
+
+                <div className="application-item">
+
+                    <div>
+                        <h4>Domicile Certificate</h4>
+
+                        <p className="application-id">
+                            Application ID: CERT-2026-002
+                        </p>
+
+                        <p>
+                            Applied on: 10 May 2026
+                        </p>
                     </div>
 
-                    <div className="application-item">
-                        <div>
-                            <h4>Income Certificate</h4>
-                            <p>Applied on: 06 May 2026</p>
-                        </div>
+                    <span className="status approved">
+                        Approved
+                    </span>
 
-                        <span className="status rejected">
-                            Rejected
-                        </span>
+                </div>
+
+                <div className="application-item">
+
+                    <div>
+                        <h4>Income Certificate</h4>
+
+                        <p className="application-id">
+                            Application ID: CERT-2026-003
+                        </p>
+
+                        <p>
+                            Applied on: 06 May 2026
+                        </p>
                     </div>
+
+                    <span className="status rejected">
+                        Rejected
+                    </span>
 
                 </div>
 
             </div>
 
         </div>
+
+    </div>
     );
 }
 

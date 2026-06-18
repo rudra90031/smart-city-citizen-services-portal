@@ -42,6 +42,7 @@
 
 .form-group {
     margin-bottom: 35px;
+    max-width: 750px;
 }
 
 .form-group label {
@@ -54,12 +55,12 @@
 
 .form-group input,
 .form-group select {
-    width: 100%;
+    width: 85%;
     border: none;
     border-bottom: 1px solid #d8d8d8;
     background: transparent;
     padding: 12px 0;
-    font-size: 18px;
+    font-size: 16px;
     outline: none;
 }
 
@@ -148,31 +149,137 @@
         font-size: 65px;
     }
 }
+
 .reveal-title {
-  font-size: 110px;
-  font-weight: 700;
-  color: #000;
+    font-size: 110px;
+    font-weight: 700;
+    color: #000;
 
-  display: inline-block;
+    display: inline-block;
 
-  filter: blur(15px);
-  clip-path: inset(0 100% 0 0);
+    filter: blur(15px);
+    clip-path: inset(0 100% 0 0);
 
-  animation: revealBlur 2s ease forwards;
+    animation: revealBlur 2s ease forwards;
 }
 
 @keyframes revealBlur {
 
-  0% {
-    clip-path: inset(0 100% 0 0);
-    filter: blur(15px);
-    opacity: 0;
-  }
+    0% {
+        clip-path: inset(0 100% 0 0);
+        filter: blur(15px);
+        opacity: 0;
+    }
 
-  100% {
-    clip-path: inset(0 0 0 0);
-    filter: blur(0);
-    opacity: 1;
-  }
+    100% {
+        clip-path: inset(0 0 0 0);
+        filter: blur(0);
+        opacity: 1;
+    }
 
+}
+
+/* Application ID */
+
+.application-id {
+    font-size: 13px !important;
+    color: #999 !important;
+    margin: 6px 0 !important;
+    letter-spacing: 0.5px;
+}
+
+/* Required Documents */
+
+.required-documents {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.required-documents h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 12px;
+}
+
+.required-documents ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.required-documents li {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+/* File Upload Styling */
+
+.form-group input[type="file"] {
+    margin-top: 8px;
+    font-size: 15px;
+    color: #666;
+}
+
+/* Better Submit Button */
+
+.submit-btn {
+    margin-top: 35px;
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    transform: translateX(8px);
+}
+
+/* Applications Section */
+
+.application-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 28px 0;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.application-item h4 {
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+/* Status Badges */
+
+.status {
+    min-width: 110px;
+    text-align: center;
+}
+
+.form-group select {
+    width: 85%;
+
+    padding: 14px 18px;
+
+    border: 1px solid #e4dfd7;
+    /* border-radius: 12px; */
+
+    background: #fbfaf7;
+
+    color: #333;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    appearance: none;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.form-group select:hover {
+    background: #e8e4df;
 }

@@ -24,7 +24,7 @@ function RevealText({ text }) {
                     }}
 
                     viewport={{
-                        once: false,
+                        once: true,
                         amount: 0.4,
                     }}
                     transition={{

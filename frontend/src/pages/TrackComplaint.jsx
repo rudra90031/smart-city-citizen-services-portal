@@ -1,7 +1,45 @@
 import React, { useState } from "react";
+import axios from "axios";
 function TrackComplaint() {
     const [searched, setSearched] = useState(false);
     const [complaintId, setComplaintId] = useState("");
+    const [complaint, setComplaint] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const handleTrackComplaint = async () => {
+        try {
+
+            if (!complaintId.trim()) return;
+
+            setLoading(true);
+
+            const token = localStorage.getItem("token");
+
+            const response = await axios.get(
+                `http://localhost:5000/api/complaints/${complaintId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            setComplaint(response.data);
+            setSearched(true);
+
+        } catch (error) {
+
+            alert("Complaint Not Found");
+
+            setComplaint(null);
+            setSearched(false);
+
+        } finally {
+
+            setLoading(false);
+
+        }
+    };
+    const status = complaint?.status || "";
     return (
         <div className="track-wrapper">
 
@@ -23,11 +61,7 @@ function TrackComplaint() {
                 />
 
                 <button
-                    onClick={() => {
-                        if (complaintId.trim()) {
-                            setSearched(true);
-                        }
-                    }}
+                    onClick={handleTrackComplaint}
                 >
                     Track →
                 </button>
@@ -44,32 +78,40 @@ function TrackComplaint() {
 
                     <div className="track-field">
                         <label>COMPLAINT ID</label>
-                        <p>{searched ? "CMP001" : ""}</p>
+                        <p>{complaint?._id}</p>
                     </div>
 
                     <div className="track-field">
                         <label>CATEGORY</label>
-                        <p>{searched ? "Street Light" : ""}</p>
+                        <p>{complaint?.category}</p>
                     </div>
 
                     <div className="track-field">
                         <label>LOCATION</label>
-                        <p>{searched ? "Sector 15, Near City Park" : ""}</p>
+                        <p>{complaint?.location}</p>
                     </div>
 
                     <div className="track-field">
                         <label>DESCRIPTION</label>
-                        <p>{searched ? "Street light is not working from last 3 days." : ""}</p>
+                        <p>{complaint?.description}</p>
                     </div>
 
                     <div className="track-field">
                         <label>DATE SUBMITTED</label>
-                        <p>{searched ? "17 June 2026" : ""}</p>
+                        <p>
+                            {complaint?.createdAt
+                                ? new Date(complaint.createdAt).toLocaleDateString()
+                                : ""}
+                        </p>
                     </div>
 
                     <div className="track-field">
                         <label>LAST UPDATED</label>
-                        <p>{searched ? "18 June 2026" : ""}</p>
+                        <p>
+                            {complaint?.updatedAt
+                                ? new Date(complaint.updatedAt).toLocaleDateString()
+                                : ""}
+                        </p>
                     </div>
 
                 </div>
@@ -80,7 +122,8 @@ function TrackComplaint() {
 
                     <h2>Status History</h2>
 
-                    <div className={`timeline-item ${searched ? "active" : ""}`}>
+
+                    <div className={`timeline-item ${complaint ? "active" : ""}`}>
 
                         <span></span>
 
@@ -91,7 +134,14 @@ function TrackComplaint() {
 
                     </div>
 
-                    <div className={`timeline-item ${searched ? "active" : ""}`}>
+                    <div
+                        className={`timeline-item ${complaint?.status === "In Progress" ||
+                                complaint?.status === "Assigned" ||
+                                complaint?.status === "Resolved"
+                                ? "active"
+                                : ""
+                            }`}
+                    >
 
                         <span></span>
 
@@ -102,7 +152,13 @@ function TrackComplaint() {
 
                     </div>
 
-                    <div className="timeline-item">
+                    <div
+                        className={`timeline-item ${complaint?.status === "Assigned" ||
+                                complaint?.status === "Resolved"
+                                ? "active"
+                                : ""
+                            }`}
+                    >
 
                         <span></span>
 
@@ -113,7 +169,12 @@ function TrackComplaint() {
 
                     </div>
 
-                    <div className="timeline-item">
+                    <div
+                        className={`timeline-item ${complaint?.status === "Resolved"
+                                ? "active"
+                                : ""
+                            }`}
+                    >
 
                         <span></span>
 
