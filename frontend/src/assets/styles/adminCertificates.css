@@ -1,0 +1,123 @@
+.cert-page{
+    margin-left:280px;
+    padding:35px;
+    background:#f6f6f4;
+    min-height:100vh;
+}
+
+.cert-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.cert-header h1{
+    font-size:36px;
+}
+
+.cert-header p{
+    color:#777;
+}
+
+.cert-export-btn{
+    background:#006EFB;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+.cert-filters-box{
+    background:white;
+    padding:20px;
+    border-radius:20px;
+
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+
+    gap:12px;
+}
+
+.cert-filters-box input,
+.cert-filters-box select{
+    height:48px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:0 12px;
+}
+
+.cert-quick-stats{
+    display:flex;
+    gap:15px;
+    margin:18px 0;
+}
+
+.cert-quick-stats span{
+    background:white;
+    padding:8px 16px;
+    border-radius:50px;
+    font-size:14px;
+}
+
+.cert-table-container{
+    background:white;
+    border-radius:25px;
+    overflow:hidden;
+}
+
+.cert-table-container table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.cert-table-container thead{
+    background:#fafafa;
+}
+
+.cert-table-container th{
+    text-align:left;
+    padding:18px;
+}
+
+.cert-table-container td{
+    padding:18px;
+    border-top:1px solid #eee;
+}
+
+.cert-status{
+    padding:8px 14px;
+    border-radius:50px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.cert-pending{
+    background:#fff0cf;
+    color:#c88900;
+}
+
+.cert-under-review{
+    background:#e7eeff;
+    color:#2962ff;
+}
+
+.cert-approved{
+    background:#dff5df;
+    color:#219653;
+}
+
+.cert-rejected{
+    background:#ffe4e4;
+    color:#d62828;
+}
+
+.cert-view-btn{
+    background:#006EFB;
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:10px;
+    cursor:pointer;
+}

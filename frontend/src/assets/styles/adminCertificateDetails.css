@@ -1,0 +1,139 @@
+.cert-details-page{
+    margin-left:280px;
+    padding:30px;
+    background:#f6f6f4;
+    min-height:100vh;
+}
+
+.cert-details-header{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.cert-details-back-btn{
+    background:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.cert-details-header h1{
+    font-size:36px;
+}
+
+.cert-details-header p{
+    color:#777;
+}
+
+.cert-details-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:20px;
+}
+
+.cert-details-card{
+    background:white;
+    border-radius:25px;
+    padding:25px;
+}
+
+.cert-details-card h3{
+    margin-bottom:20px;
+}
+
+.cert-details-info-row{
+    margin-bottom:18px;
+}
+
+.cert-details-info-row span{
+    display:block;
+    font-size:13px;
+    color:#888;
+    margin-bottom:5px;
+}
+
+.cert-details-info-row p{
+    margin:0;
+}
+
+.cert-details-document-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 0;
+    border-bottom:1px solid #eee;
+}
+
+.cert-details-document-btn{
+    background:#006EFB;
+    color:white;
+    border:none;
+    padding:8px 14px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.cert-details-action-card{
+    background:white;
+    border-radius:25px;
+    padding:25px;
+    margin-top:20px;
+}
+
+.cert-details-action-card h3{
+    margin-bottom:20px;
+}
+
+.cert-details-select{
+    width:100%;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:15px;
+}
+
+.cert-details-textarea{
+    width:100%;
+    height:120px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:12px;
+    resize:none;
+    margin-bottom:15px;
+}
+
+.cert-details-buttons{
+    display:flex;
+    gap:12px;
+}
+
+.cert-details-approve-btn{
+    background:#563324;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+.cert-details-reject-btn{
+    background:#B61624;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+.cert-details-update-btn{
+    background:#006EFB;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:12px;
+    cursor:pointer;
+}

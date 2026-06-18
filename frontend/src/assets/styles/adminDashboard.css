@@ -182,14 +182,7 @@
     color: #666;
 }
 
-.gauge-wrapper {
-    width:300px;
-    height:140px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .gauge-svg {
     width: 100%;

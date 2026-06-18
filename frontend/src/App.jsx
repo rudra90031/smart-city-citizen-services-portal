@@ -6,6 +6,10 @@ import LodgeComplaint from "./pages/LodgeComplaint";
 import TrackComplaint from "./pages/TrackComplaint";
 import Certificates from "./pages/Certificates";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminComplaints from "./pages/AdminComplaints";
+import AdminComplaintDetails from "./pages/AdminComplaintDetails";
+import AdminCertificates from "./pages/AdminCertificates";
+import AdminCertificateDetails from "./pages/AdminCertificateDetails";
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +28,19 @@ function App() {
         <Route
           path="/admin/dashboard"
           element={<AdminDashboard />}
+        />
+        <Route path="/admin/complaints" element={<AdminComplaints />} />
+        <Route
+          path="/admin/complaints/:id"
+          element={<AdminComplaintDetails />}
+        />
+        <Route
+          path="/admin/certificates"
+          element={<AdminCertificates />}
+        />
+        <Route
+          path="/admin/certificates/:id"
+          element={<AdminCertificateDetails />}
         />
       </Routes>
     </BrowserRouter>
