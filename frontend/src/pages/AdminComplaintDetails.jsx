@@ -1,26 +1,70 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminComplaintDetails.css";
 
 function AdminComplaintDetails() {
+    const { id } = useParams();
 
-    const complaint = {
-        complaintId: "SC-2026-0001",
-        title: "Street Light Not Working",
-        category: "Street Light",
-        location: "Sector 15",
-        description:
-            "Street light has not been working for the last 3 days and the area becomes completely dark at night.",
+    const [complaint, setComplaint] = useState(null);
+    const [status, setStatus] = useState("");
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        fetchComplaint();
+    }, []);
+    const updateStatus = async () => {
+        try {
+            const token = localStorage.getItem("token");
 
-        status: "Pending",
+            await axios.put(
+                `http://localhost:5000/api/complaints/admin/${id}/status`,
+                { status },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-        citizenName: "Rudra Pratap Singh",
-        email: "rudra@example.com",
-        phone: "+91 9876543210",
-        address: "Sector 15, Smart City",
+            alert("Status Updated");
 
-        submittedOn: "18 Jun 2026",
-        lastUpdated: "18 Jun 2026",
+            fetchComplaint();
+
+        } catch (error) {
+            console.error(error);
+            alert("Update Failed");
+        }
     };
+
+
+    const fetchComplaint = async () => {
+        try {
+            setLoading(true);
+
+            const token = localStorage.getItem("token");
+
+            const res = await axios.get(
+                `http://localhost:5000/api/complaints/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            setComplaint(res.data);
+            setStatus(res.data.status);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    console.log(complaint);
+
+
 
     return (
         <>
@@ -49,105 +93,135 @@ function AdminComplaintDetails() {
 
                 <div className="details-grid">
 
-                    {/* Left */}
-
-                    <div className="details-card">
-
-                        <h3>Complaint Information</h3>
-
-                        <div className="info-row">
-                            <span>Complaint ID</span>
-                            <p>{complaint.complaintId}</p>
-                        </div>
-
-                        <div className="info-row">
-                            <span>Title</span>
-                            <p>{complaint.title}</p>
-                        </div>
-
-                        <div className="info-row">
-                            <span>Category</span>
-                            <p>{complaint.category}</p>
-                        </div>
-
-                        <div className="info-row">
-                            <span>Location</span>
-                            <p>{complaint.location}</p>
-                        </div>
-
-                        <div className="info-row">
-                            <span>Description</span>
-                            <p>{complaint.description}</p>
-                        </div>
-
-                        <div className="evidence-box">
-                            <h4>Complaint Evidence</h4>
-
-                            <div className="image-placeholder">
-                                No Evidence Uploaded
-                            </div>
-                        </div>
-
-                    </div>
-
-                    {/* Right */}
-
-                    <div className="right-column">
+                    {loading ? (
 
                         <div className="details-card">
-
-                            <h3>Citizen Information</h3>
-
-                            <div className="info-row">
-                                <span>Name</span>
-                                <p>{complaint.citizenName}</p>
-                            </div>
-
-                            <div className="info-row">
-                                <span>Email</span>
-                                <p>{complaint.email}</p>
-                            </div>
-
-                            <div className="info-row">
-                                <span>Phone</span>
-                                <p>{complaint.phone}</p>
-                            </div>
-
-                            <div className="info-row">
-                                <span>Address</span>
-                                <p>{complaint.address}</p>
-                            </div>
-
-                            <div className="info-row">
-                                <span>Submitted On</span>
-                                <p>{complaint.submittedOn}</p>
-                            </div>
-
-                            <div className="info-row">
-                                <span>Last Updated</span>
-                                <p>{complaint.lastUpdated}</p>
-                            </div>
-
+                            <h3>Loading Complaint Details...</h3>
                         </div>
 
-                        <div className="details-card">
+                    ) : (
+                        <>
 
-                            <h3>Update Status</h3>
+                            {/* Left */}
 
-                            <select>
-                                <option>Pending</option>
-                                <option>In Progress</option>
-                                <option>Resolved</option>
-                            </select>
+                            <div className="details-card">
 
-                            <button className="update-btn">
-                                Update Status
-                            </button>
+                                <h3>Complaint Information</h3>
 
-                        </div>
+                                <div className="info-row">
+                                    <span>Complaint ID</span>
+                                    <p>{complaint.complaintId}</p>
+                                </div>
 
-                    </div>
+                                <div className="info-row">
+                                    <span>Title</span>
+                                    <p>{complaint.title}</p>
+                                </div>
 
+                                <div className="info-row">
+                                    <span>Category</span>
+                                    <p>{complaint.category}</p>
+                                </div>
+
+                                <div className="info-row">
+                                    <span>Location</span>
+                                    <p>{complaint.location}</p>
+                                </div>
+
+                                <div className="info-row">
+                                    <span>Description</span>
+                                    <p>{complaint.description}</p>
+                                </div>
+
+                                <div className="evidence-box">
+
+                                    <h4>Complaint Evidence</h4>
+
+                                    {complaint.image ? (
+
+                                        <img
+                                            src={`http://localhost:5000/uploads/${complaint.image}`}
+                                            alt="Complaint Evidence"
+                                            className="evidence-image"
+                                        />
+
+                                    ) : (
+
+                                        <div className="image-placeholder">
+                                            No Evidence Uploaded
+                                        </div>
+
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                            {/* Right */}
+
+                            <div className="right-column">
+
+                                <div className="details-card">
+
+                                    <h3>Citizen Information</h3>
+
+                                    <div className="info-row">
+                                        <span>Name</span>
+                                        <p>{complaint.user?.name}</p>
+                                    </div>
+
+                                    <div className="info-row">
+                                        <span>Email</span>
+                                        <p>{complaint.user?.email}</p>
+                                    </div>
+
+                                    <div className="info-row">
+                                        <span>Phone</span>
+                                        <p>{complaint.user?.mobile}</p>
+                                    </div>
+
+                                    <div className="info-row">
+                                        <span>Address</span>
+                                        <p>{complaint.location}</p>
+                                    </div>
+
+                                    <div className="info-row">
+                                        <span>Submitted On</span>
+                                        <p>{new Date(complaint.createdAt).toLocaleDateString()}</p>
+                                    </div>
+
+                                    <div className="info-row">
+                                        <span>Last Updated</span>
+                                        <p>{new Date(complaint.updatedAt).toLocaleDateString()}</p>
+                                    </div>
+
+                                </div>
+
+                                <div className="details-card">
+
+                                    <h3>Update Status</h3>
+
+                                    <select
+                                        value={status}
+                                        onChange={(e) => setStatus(e.target.value)}
+                                    >
+                                        <option>Pending</option>
+                                        <option>In Progress</option>
+                                        <option>Resolved</option>
+                                    </select>
+
+                                    <button
+                                        className="update-btn"
+                                        onClick={updateStatus}
+                                    >
+                                        Update Status
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </>
+                    )}
                 </div>
 
             </div>

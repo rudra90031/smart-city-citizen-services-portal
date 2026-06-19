@@ -493,30 +493,32 @@ ul {
 
   padding: 60px;
 }
-.complaint-info{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
+
+.complaint-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.complaint-id-row{
-  display:flex;
-  align-items:center;
-  gap:6px;
+.complaint-id-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.complaint-id-row small{
-  font-size:12px;
-  color:#777;
+.complaint-id-row small {
+  font-size: 12px;
+  color: #777;
 }
 
-.copy-btn{
-  border:none;
-  background:transparent;
-  cursor:pointer;
-  font-size:14px;
-  padding:0;
+.copy-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
 }
+
 .stats-text {
   display: flex;
   justify-content: space-around;
@@ -822,9 +824,10 @@ ul {
 }
 
 .form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40px;
+    row-gap: 1px;
 }
 
 .form-group {
@@ -851,7 +854,7 @@ ul {
 }
 
 .form-group textarea {
-  min-height: 140px;
+  min-height: 95px;
   resize: none;
 }
 
@@ -860,19 +863,26 @@ ul {
 }
 
 .submit-btn {
-  margin-top: 20px;
+  margin-top: 1px;
   background: transparent;
   border: none;
   border-bottom: 2px solid #111;
-  padding-bottom: 12px;
+  padding-bottom: 2px;
 
   width: 230px;
 
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   text-align: left;
   cursor: pointer;
 
   transition: 0.3s ease;
+}
+
+.form-group small {
+  display: block;
+  margin-top: 6px;
+  color: #777;
+  font-size: 13px;
 }
 
 .submit-btn:hover {

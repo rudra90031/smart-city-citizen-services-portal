@@ -1,36 +1,36 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminComplaints.css";
 
 function AdminComplaints() {
   const navigate = useNavigate();
+  const [complaints, setComplaints] = useState([]);
+  useEffect(() => {
+    fetchComplaints();
+  }, []);
 
-  const complaints = [
-    {
-      id: "SC-2026-0001",
-      citizen: "Rudra Verma",
-      category: "Street Light",
-      location: "Sector 15",
-      status: "Pending",
-      date: "18 Jun 2026",
-    },
-    {
-      id: "SC-2026-0002",
-      citizen: "Anam Sharma",
-      category: "Garbage",
-      location: "Sector 10",
-      status: "In Progress",
-      date: "18 Jun 2026",
-    },
-    {
-      id: "SC-2026-0003",
-      citizen: "Neha Singh",
-      category: "Water Supply",
-      location: "Sector 7",
-      status: "Resolved",
-      date: "17 Jun 2026",
-    },
-  ];
+  const fetchComplaints = async () => {
+    try {
+
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get(
+        "http://localhost:5000/api/complaints/admin/all",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setComplaints(res.data);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -80,7 +80,7 @@ function AdminComplaints() {
         </div>
 
         <div className="quick-stats">
-          <span>Showing 248 Complaints</span>
+          <span>Showing {complaints.length} Complaints</span>
           <span>Pending: 43</span>
           <span>In Progress: 21</span>
           <span>Resolved: 184</span>
@@ -108,9 +108,9 @@ function AdminComplaints() {
 
                 <tr key={index}>
 
-                  <td>{item.id}</td>
+                  <td>{item._id.slice(-6)}</td>
 
-                  <td>{item.citizen}</td>
+                  <td>{item.user?.name}</td>
 
                   <td>{item.category}</td>
 
@@ -122,13 +122,15 @@ function AdminComplaints() {
                     </span>
                   </td>
 
-                  <td>{item.date}</td>
+                  <td>
+                    {new Date(item.createdAt).toLocaleDateString()}
+                  </td>
 
                   <td>
                     <button
                       className="view-btn"
                       onClick={() =>
-                        navigate(`/admin/complaints/${item.id}`)
+                        navigate(`/admin/complaints/${item._id}`)
                       }
                     >
                       View
