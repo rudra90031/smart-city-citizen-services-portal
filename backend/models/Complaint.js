@@ -32,6 +32,11 @@ const complaintSchema = new mongoose.Schema(
       default: "",
     },
 
+    complaintId: {
+      type: String,
+      unique: true,
+    },
+    
     status: {
       type: String,
       default: "Pending",

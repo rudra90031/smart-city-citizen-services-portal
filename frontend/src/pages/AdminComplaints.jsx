@@ -7,9 +7,60 @@ import "../assets/styles/adminComplaints.css";
 function AdminComplaints() {
   const navigate = useNavigate();
   const [complaints, setComplaints] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [sortOrder, setSortOrder] = useState("Newest");
   useEffect(() => {
     fetchComplaints();
   }, []);
+
+  let filteredComplaints = complaints.filter((item) => {
+
+    const matchesSearch =
+      item.complaintId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.location?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesStatus =
+      statusFilter === "" ||
+      item.status === statusFilter;
+
+    const matchesCategory =
+      categoryFilter === "" ||
+      item.category === categoryFilter;
+
+    const complaintDate = new Date(item.createdAt);
+
+    const matchesFromDate =
+      !fromDate ||
+      complaintDate >= new Date(fromDate);
+
+    const matchesToDate =
+      !toDate ||
+      complaintDate <= new Date(toDate + "T23:59:59");
+
+    return (
+      matchesSearch &&
+      matchesStatus &&
+      matchesCategory &&
+      matchesFromDate &&
+      matchesToDate
+    );
+
+  });
+
+  filteredComplaints.sort((a, b) => {
+
+    if (sortOrder === "Newest") {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    }
+
+    return new Date(a.createdAt) - new Date(b.createdAt);
+
+  });
 
   const fetchComplaints = async () => {
     try {
@@ -54,36 +105,80 @@ function AdminComplaints() {
           <input
             type="text"
             placeholder="Search Complaint ID, Citizen, Location..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
 
-          <select>
-            <option>All Categories</option>
+
+
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
           </select>
 
-          <select>
-            <option>All Status</option>
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+          >
+            <option value="">All Categories</option>
+            <option value="Street Light">Street Light</option>
+            <option value="Garbage Collection">Garbage Collection</option>
+            <option value="Water Supply">Water Supply</option>
+            <option value="Road Damage">Road Damage</option>
           </select>
 
-          <select>
-            <option>All Areas</option>
-          </select>
+          <input
+            type="date"
+            value={fromDate}
+            onChange={(e) => setFromDate(e.target.value)}
+          />
 
-          <input type="date" />
+          <input
+            type="date"
+            value={toDate}
+            onChange={(e) => setToDate(e.target.value)}
+          />
 
-          <input type="date" />
-
-          <select>
-            <option>Newest First</option>
-            <option>Oldest First</option>
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value="Newest">Newest First</option>
+            <option value="Oldest">Oldest First</option>
           </select>
 
         </div>
 
         <div className="quick-stats">
           <span>Showing {complaints.length} Complaints</span>
-          <span>Pending: 43</span>
-          <span>In Progress: 21</span>
-          <span>Resolved: 184</span>
+          <span>
+            Pending: {
+              complaints.filter(
+                c => c.status === "Pending"
+              ).length
+            }
+          </span>
+
+          <span>
+            In Progress: {
+              complaints.filter(
+                c => c.status === "In Progress"
+              ).length
+            }
+          </span>
+
+          <span>
+            Resolved: {
+              complaints.filter(
+                c => c.status === "Resolved"
+              ).length
+            }
+          </span>
         </div>
 
         <div className="table-container">
@@ -104,11 +199,11 @@ function AdminComplaints() {
 
             <tbody>
 
-              {complaints.map((item, index) => (
+              {filteredComplaints.map((item, index) => (
 
                 <tr key={index}>
 
-                  <td>{item._id.slice(-6)}</td>
+                  <td>{item.complaintId}</td>
 
                   <td>{item.user?.name}</td>
 

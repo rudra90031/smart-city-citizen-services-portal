@@ -8,6 +8,7 @@ const {
     getComplaintById,
     getAllComplaints,
     updateComplaintStatus,
+    getComplaintByComplaintId,
 } = require("../controllers/complaintController");
 
 const { protect } = require("../middleware/authMiddleware");
@@ -15,6 +16,7 @@ router.post("/", protect, upload.single("image"), createComplaint);
 router.get("/", protect, getComplaints);
 
 router.get("/admin/all", getAllComplaints);
+router.get("/track/:complaintId", getComplaintByComplaintId);
 
 router.put("/admin/:id/status", protect, updateComplaintStatus);
 

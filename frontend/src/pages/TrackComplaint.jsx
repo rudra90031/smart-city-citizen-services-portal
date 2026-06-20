@@ -15,7 +15,7 @@ function TrackComplaint() {
             const token = localStorage.getItem("token");
 
             const response = await axios.get(
-                `http://localhost:5000/api/complaints/${complaintId}`,
+                `http://localhost:5000/api/complaints/track/${complaintId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -78,7 +78,7 @@ function TrackComplaint() {
 
                     <div className="track-field">
                         <label>COMPLAINT ID</label>
-                        <p>{complaint?._id}</p>
+                        <p>{complaint?.complaintId}</p>
                     </div>
 
                     <div className="track-field">

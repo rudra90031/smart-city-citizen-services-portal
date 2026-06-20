@@ -22,6 +22,12 @@ const createComplaint = async (req, res) => {
         : "",
 
     });
+    const count = await Complaint.countDocuments();
+
+    complaint.complaintId =
+      `SC-${new Date().getFullYear()}-${String(count).padStart(4, "0")}`;
+
+    await complaint.save();
 
     res.status(201).json({
       message: "Complaint Submitted Successfully",
@@ -123,10 +129,43 @@ const updateComplaintStatus = async (req, res) => {
 
   }
 };
+const getComplaintByComplaintId = async (
+  req,
+  res
+) => {
+  try {
+
+    const complaint =
+      await Complaint.findOne({
+        complaintId:
+          req.params.complaintId,
+      });
+
+    if (!complaint) {
+      return res.status(404).json({
+        message:
+          "Complaint Not Found",
+      });
+    }
+
+    res.status(200).json(
+      complaint
+    );
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+
+  }
+};
+
 module.exports = {
   createComplaint,
   getComplaints,
   getComplaintById,
   getAllComplaints,
   updateComplaintStatus,
+  getComplaintByComplaintId,
 };

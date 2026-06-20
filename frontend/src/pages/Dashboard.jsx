@@ -140,13 +140,15 @@ function Dashboard() {
                     <div className="complaint-id-row">
 
                       <small>
-                        {complaint._id.slice(-8)}
+                        {complaint.complaintId}
                       </small>
 
                       <button
                         className="copy-btn"
                         onClick={() => {
-                          navigator.clipboard.writeText(complaint._id);
+                          navigator.clipboard.writeText(
+                            complaint.complaintId
+                          );
                           // alert("Complaint ID Copied");
                         }}
                       >
