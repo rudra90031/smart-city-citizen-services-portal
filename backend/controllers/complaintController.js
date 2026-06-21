@@ -1,4 +1,5 @@
 const Complaint = require("../models/Complaint");
+const XLSX = require("xlsx");
 
 const createComplaint = async (req, res) => {
   try {
@@ -160,6 +161,71 @@ const getComplaintByComplaintId = async (
 
   }
 };
+const exportComplaintsExcel = async (req, res) => {
+  try {
+    const complaints = await Complaint.find()
+      .populate("user", "name email mobile")
+      .sort({ createdAt: -1 });
+
+    const data = complaints.map((item) => ({
+      "Complaint ID": item.complaintId,
+      "Title": item.title,
+      "Citizen Name": item.user?.name || "",
+      "Email": item.user?.email || "",
+      "Mobile": item.user?.mobile || "",
+      "Category": item.category,
+      "Location": item.location,
+      "Status": item.status,
+      "Description": item.description,
+      "Date Submitted": new Date(item.createdAt).toLocaleString(),
+      "Last Updated": new Date(item.updatedAt).toLocaleString(),
+    }));
+
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    worksheet["!cols"] = [
+      { wch: 18 },
+      { wch: 25 },
+      { wch: 20 },
+      { wch: 30 },
+      { wch: 15 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 15 },
+      { wch: 40 },
+      { wch: 25 },
+      { wch: 25 },
+    ];
+
+    XLSX.utils.book_append_sheet(
+      workbook,
+      worksheet,
+      "Complaints"
+    );
+
+    const buffer = XLSX.write(workbook, {
+      type: "buffer",
+      bookType: "xlsx",
+    });
+
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=complaints.xlsx"
+    );
+
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+
+    res.send(buffer);
+  } catch (error) {
+    res.status(500).json({
+      message: "Export Failed",
+    });
+  }
+};
 
 module.exports = {
   createComplaint,
@@ -168,4 +234,5 @@ module.exports = {
   getAllComplaints,
   updateComplaintStatus,
   getComplaintByComplaintId,
+  exportComplaintsExcel,
 };

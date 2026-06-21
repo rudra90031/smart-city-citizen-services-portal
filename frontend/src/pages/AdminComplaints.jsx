@@ -82,6 +82,42 @@ function AdminComplaints() {
       console.error(error);
     }
   };
+  const exportExcel = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(
+        "http://localhost:5000/api/complaints/admin/export-excel",
+        {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const url = window.URL.createObjectURL(
+        new Blob([response.data])
+      );
+
+      const link = document.createElement("a");
+      link.href = url;
+
+      const fileName = `complaints_${new Date()
+        .toISOString()
+        .slice(0, 10)}.xlsx`;
+
+      link.download = fileName;
+
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error(error);
+      alert("Excel export failed");
+    }
+  };
 
   return (
     <>
@@ -95,8 +131,11 @@ function AdminComplaints() {
             <p>Manage and track all citizen complaints</p>
           </div>
 
-          <button className="export-btn">
-            Export CSV
+          <button
+            className="export-btn"
+            onClick={exportExcel}
+          >
+            Export Excel
           </button>
         </div>
 
