@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../assets/styles/certificates.css";
 import RevealText from "../components/RevealText";
 import "../assets/styles/revealText.css";
-
+import axios from "axios";
 function Certificates() {
+    const [purpose, setPurpose] = useState("");
+    const [certificates, setCertificates] = useState([]);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [mobile, setMobile] = useState("");
     const documentRequirements = {
         "Birth Certificate": [
             "Aadhaar Card",
@@ -33,6 +38,74 @@ function Certificates() {
     };
     const [selectedCertificate, setSelectedCertificate] =
         useState("Birth Certificate");
+    const fetchCertificates = async () => {
+        try {
+            const token = localStorage.getItem("token");
+
+            const res = await axios.get(
+                "http://localhost:5000/api/certificates",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            setCertificates(res.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const fetchUserProfile = async () => {
+        try {
+            const token = localStorage.getItem("token");
+
+            const res = await axios.get(
+                "http://localhost:5000/api/auth/profile",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            setName(res.data.name || "");
+            setEmail(res.data.email || "");
+            setMobile(res.data.mobile || "");
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    useEffect(() => {
+        fetchCertificates();
+        fetchUserProfile();
+    }, []);
+    const handleSubmit = async () => {
+        try {
+            const token = localStorage.getItem("token");
+
+            const res = await axios.post(
+                "http://localhost:5000/api/certificates",
+                {
+                    certificateType: selectedCertificate,
+                    purpose,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            alert("Certificate Application Submitted");
+
+            fetchCertificates();
+            setPurpose("");
+        } catch (error) {
+            console.error(error);
+            alert("Submission Failed");
+        }
+    };
     return (<div className="certificate-wrapper">
 
         ```
@@ -74,7 +147,8 @@ function Certificates() {
                     <label>APPLICANT NAME</label>
                     <input
                         type="text"
-                        placeholder="Enter Name"
+                        value={name}
+                        readOnly
                     />
                 </div>
 
@@ -82,7 +156,8 @@ function Certificates() {
                     <label>EMAIL</label>
                     <input
                         type="email"
-                        placeholder="Enter Email"
+                        value={email}
+                        readOnly
                     />
                 </div>
 
@@ -90,7 +165,8 @@ function Certificates() {
                     <label>PHONE NUMBER</label>
                     <input
                         type="text"
-                        placeholder="Enter Phone Number"
+                        value={mobile}
+                        readOnly
                     />
                 </div>
 
@@ -106,6 +182,8 @@ function Certificates() {
                     <label>PURPOSE OF APPLICATION</label>
                     <input
                         type="text"
+                        value={purpose}
+                        onChange={(e) => setPurpose(e.target.value)}
                         placeholder="College Admission / Passport / Government Job"
                     />
                 </div>
@@ -138,7 +216,10 @@ function Certificates() {
 
                 </div>
 
-                <button className="submit-btn">
+                <button
+                    className="submit-btn"
+                    onClick={handleSubmit}
+                >
                     Submit Application →
                 </button>
 
@@ -147,69 +228,35 @@ function Certificates() {
             {/* Right Side */}
 
             <div className="applications-section">
-
                 <h2>My Applications</h2>
 
-                <div className="application-item">
+                {certificates.map((cert) => (
+                    <div className="application-item" key={cert._id}>
+                        <div>
+                            <h4>{cert.certificateType}</h4>
+                            <p>
+                                Application ID: {cert.applicationId}
+                            </p>
 
-                    <div>
-                        <h4>Birth Certificate</h4>
+                            <p>
+                                Purpose: {cert.purpose}
+                            </p>
 
-                        <p className="application-id">
-                            Application ID: CERT-2026-001
-                        </p>
+                            <p>
+                                Applied on:{" "}
+                                {new Date(cert.createdAt).toLocaleDateString()}
+                            </p>
+                        </div>
 
-                        <p>
-                            Applied on: 12 May 2026
-                        </p>
+                        <span
+                            className={`status ${cert.status
+                                .toLowerCase()
+                                .replace(" ", "-")}`}
+                        >
+                            {cert.status}
+                        </span>
                     </div>
-
-                    <span className="status progress">
-                        In Progress
-                    </span>
-
-                </div>
-
-                <div className="application-item">
-
-                    <div>
-                        <h4>Domicile Certificate</h4>
-
-                        <p className="application-id">
-                            Application ID: CERT-2026-002
-                        </p>
-
-                        <p>
-                            Applied on: 10 May 2026
-                        </p>
-                    </div>
-
-                    <span className="status approved">
-                        Approved
-                    </span>
-
-                </div>
-
-                <div className="application-item">
-
-                    <div>
-                        <h4>Income Certificate</h4>
-
-                        <p className="application-id">
-                            Application ID: CERT-2026-003
-                        </p>
-
-                        <p>
-                            Applied on: 06 May 2026
-                        </p>
-                    </div>
-
-                    <span className="status rejected">
-                        Rejected
-                    </span>
-
-                </div>
-
+                ))}
             </div>
 
         </div>

@@ -5,15 +5,10 @@ const createCertificate = async (req, res) => {
     try {
 
         const certificate = await Certificate.create({
-
             user: req.user.id,
-
-            certificateType:
-                req.body.certificateType,
-
-            purpose:
-                req.body.purpose,
-
+            applicationId: `CERT-${Date.now()}`,
+            certificateType: req.body.certificateType,
+            purpose: req.body.purpose,
         });
 
         res.status(201).json(certificate);
@@ -55,8 +50,8 @@ const getAllCertificates = async (req, res) => {
 
         const certificates =
             await Certificate.find()
-            .populate("user", "name email")
-            .sort({ createdAt: -1 });
+                .populate("user", "name email")
+                .sort({ createdAt: -1 });
 
         res.status(200).json(certificates);
 
