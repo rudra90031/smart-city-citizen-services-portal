@@ -31,6 +31,17 @@ const certificateSchema = new mongoose.Schema(
             type: String,
             default: "",
         },
+        address: {
+            type: String,
+        },
+
+        aadhaarFile: {
+            type: String,
+        },
+
+        supportingFile: {
+            type: String,
+        },
     },
     {
         timestamps: true,

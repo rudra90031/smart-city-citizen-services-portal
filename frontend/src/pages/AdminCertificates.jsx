@@ -1,41 +1,35 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminCertificates.css";
 
 function AdminCertificates() {
 
     const navigate = useNavigate();
+    const fetchCertificates = async () => {
+        try {
+            const token = localStorage.getItem("token");
 
-    const certificates = [
-        {
-            id: "SC-CER-0001",
-            citizen: "Rudra Pratap Singh",
-            type: "Income Certificate",
-            date: "18 Jun 2026",
-            status: "Pending",
-        },
-        {
-            id: "SC-CER-0002",
-            citizen: "Aman Sharma",
-            type: "Birth Certificate",
-            date: "17 Jun 2026",
-            status: "Approved",
-        },
-        {
-            id: "SC-CER-0003",
-            citizen: "Neha Singh",
-            type: "Domicile Certificate",
-            date: "16 Jun 2026",
-            status: "Under Review",
-        },
-        {
-            id: "SC-CER-0004",
-            citizen: "Rohit Kumar",
-            type: "Character Certificate",
-            date: "15 Jun 2026",
-            status: "Rejected",
-        },
-    ];
+            const res = await axios.get(
+                "http://localhost:5000/api/certificates/admin/all",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            setCertificates(res.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    useEffect(() => {
+        fetchCertificates();
+    }, []);
+
+    const [certificates, setCertificates] = useState([]);
 
     return (
         <>
@@ -91,13 +85,29 @@ function AdminCertificates() {
 
                 <div className="cert-quick-stats">
 
-                    <span>Pending: 12</span>
+                    <span>
+                        Pending: {
+                            certificates.filter(
+                                (c) => c.status === "Pending"
+                            ).length
+                        }
+                    </span>
 
-                    <span>Under Review: 7</span>
+                    <span>
+                        Approved: {
+                            certificates.filter(
+                                (c) => c.status === "Approved"
+                            ).length
+                        }
+                    </span>
 
-                    <span>Approved: 84</span>
-
-                    <span>Rejected: 3</span>
+                    <span>
+                        Rejected: {
+                            certificates.filter(
+                                (c) => c.status === "Rejected"
+                            ).length
+                        }
+                    </span>
 
                 </div>
 
@@ -122,15 +132,17 @@ function AdminCertificates() {
 
                             {certificates.map((item) => (
 
-                                <tr key={item.id}>
+                                <tr key={item._id}>
 
-                                    <td>{item.id}</td>
+                                    <td>{item.applicationId}</td>
 
-                                    <td>{item.citizen}</td>
+                                    <td>{item.user?.name}</td>
 
-                                    <td>{item.type}</td>
+                                    <td>{item.certificateType}</td>
 
-                                    <td>{item.date}</td>
+                                    <td>
+                                        {new Date(item.createdAt).toLocaleDateString()}
+                                    </td>
 
                                     <td>
 
@@ -149,7 +161,7 @@ function AdminCertificates() {
                                         <button
                                             className="cert-view-btn"
                                             onClick={() =>
-                                                navigate(`/admin/certificates/${item.id}`)
+                                                navigate(`/admin/certificates/${item._id}`)
                                             }
                                         >
                                             View

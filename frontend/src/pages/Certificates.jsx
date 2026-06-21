@@ -9,6 +9,9 @@ function Certificates() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [mobile, setMobile] = useState("");
+    const [address, setAddress] = useState("");
+    const [aadhaarFile, setAadhaarFile] = useState("");
+    const [supportingFile, setSupportingFile] = useState("");
     const documentRequirements = {
         "Birth Certificate": [
             "Aadhaar Card",
@@ -89,6 +92,9 @@ function Certificates() {
                 {
                     certificateType: selectedCertificate,
                     purpose,
+                    address,
+                    aadhaarFile,
+                    supportingFile,
                 },
                 {
                     headers: {
@@ -174,6 +180,8 @@ function Certificates() {
                     <label>ADDRESS</label>
                     <input
                         type="text"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
                         placeholder="Enter Address"
                     />
                 </div>
@@ -190,14 +198,24 @@ function Certificates() {
 
                 <div className="form-group">
                     <label>AADHAAR CARD</label>
-                    <input type="file" />
+                    <input
+                        type="file"
+                        onChange={(e) =>
+                            setAadhaarFile(e.target.files[0]?.name || "")
+                        }
+                    />
                 </div>
 
                 <div className="form-group">
                     <label>
                         {supportingDocumentLabels[selectedCertificate]}
                     </label>
-                    <input type="file" />
+                    <input
+                        type="file"
+                        onChange={(e) =>
+                            setSupportingFile(e.target.files[0]?.name || "")
+                        }
+                    />
                 </div>
 
                 <div className="required-documents">

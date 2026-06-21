@@ -4,11 +4,17 @@ const createCertificate = async (req, res) => {
 
     try {
 
+        const applicationId =
+            "CERT-" + Date.now().toString().slice(-6);
+
         const certificate = await Certificate.create({
             user: req.user.id,
-            applicationId: `CERT-${Date.now()}`,
             certificateType: req.body.certificateType,
             purpose: req.body.purpose,
+            address: req.body.address,
+            aadhaarFile: req.body.aadhaarFile,
+            supportingFile: req.body.supportingFile,
+            applicationId,
         });
 
         res.status(201).json(certificate);
@@ -64,9 +70,22 @@ const getAllCertificates = async (req, res) => {
     }
 
 };
+const getCertificateById = async (req, res) => {
+    try {
+        const certificate = await Certificate.findById(req.params.id)
+            .populate("user", "name email");
+
+        res.status(200).json(certificate);
+    } catch (error) {
+        res.status(500).json({
+            message: "Server Error",
+        });
+    }
+};
 
 module.exports = {
     createCertificate,
     getCertificates,
     getAllCertificates,
+    getCertificateById,
 };

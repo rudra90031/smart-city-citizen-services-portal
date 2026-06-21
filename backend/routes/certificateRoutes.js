@@ -5,6 +5,7 @@ const {
     createCertificate,
     getCertificates,
     getAllCertificates,
+    getCertificateById,
 } = require("../controllers/certificateController");
 
 const {
@@ -14,5 +15,6 @@ const {
 router.post("/", protect, createCertificate);
 router.get("/", protect, getCertificates);
 router.get("/admin/all", getAllCertificates);
+router.get("/:id", protect, getCertificateById);
 
 module.exports = router;
