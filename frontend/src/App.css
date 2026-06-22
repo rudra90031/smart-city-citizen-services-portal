@@ -107,7 +107,7 @@ ul {
 .hero-content {
   width: 80%;
   margin: 0 auto;
-  padding-top: 50px;
+  padding-top: 150px;
   color: white;
   margin-bottom: 100px;
 }
@@ -120,7 +120,7 @@ ul {
 }
 
 .smart-city {
-  font-size: 220px;
+  font-size: 240px;
   color: white;
   font-weight: 700;
   margin: 0;
@@ -481,7 +481,7 @@ ul {
 }
 
 .dashboard-content {
-  background: #1B1035;
+  background: #000000;
 
   min-height: 100vh;
 
@@ -552,7 +552,7 @@ ul {
 .dashboard-card {
   background: white;
 
-  border-radius: 25px;
+  border-radius: 10px;
 
   padding: 25px;
 }

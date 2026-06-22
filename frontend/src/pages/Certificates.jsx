@@ -10,8 +10,8 @@ function Certificates() {
     const [email, setEmail] = useState("");
     const [mobile, setMobile] = useState("");
     const [address, setAddress] = useState("");
-    const [aadhaarFile, setAadhaarFile] = useState("");
-    const [supportingFile, setSupportingFile] = useState("");
+    const [aadhaarFile, setAadhaarFile] = useState(null);
+    const [supportingFile, setSupportingFile] = useState(null);
     const documentRequirements = {
         "Birth Certificate": [
             "Aadhaar Card",
@@ -84,31 +84,53 @@ function Certificates() {
         fetchUserProfile();
     }, []);
     const handleSubmit = async () => {
+        alert("Button Clicked");
         try {
             const token = localStorage.getItem("token");
 
-            const res = await axios.post(
+            const formData = new FormData();
+
+            formData.append(
+                "certificateType",
+                selectedCertificate
+            );
+
+            formData.append("purpose", purpose);
+            formData.append("address", address);
+
+            if (aadhaarFile) {
+                formData.append("aadhaarFile", aadhaarFile);
+            }
+
+            if (supportingFile) {
+                formData.append("supportingFile", supportingFile);
+            }
+
+            console.log("Submitting FormData");
+            console.log("certificateType:", selectedCertificate);
+            console.log("purpose:", purpose);
+            console.log("address:", address);
+            console.log("aadhaarFile:", aadhaarFile);
+            console.log("supportingFile:", supportingFile);
+
+            await axios.post(
                 "http://localhost:5000/api/certificates",
-                {
-                    certificateType: selectedCertificate,
-                    purpose,
-                    address,
-                    aadhaarFile,
-                    supportingFile,
-                },
+                formData,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
-                    },
+                    }
                 }
             );
 
-            alert("Certificate Application Submitted");
+            alert("Certificate Submitted");
 
             fetchCertificates();
-            setPurpose("");
         } catch (error) {
-            console.error(error);
+            console.log("FULL ERROR:", error);
+            console.log("RESPONSE:", error.response);
+            console.log("DATA:", error.response?.data);
+
             alert("Submission Failed");
         }
     };
@@ -201,7 +223,7 @@ function Certificates() {
                     <input
                         type="file"
                         onChange={(e) =>
-                            setAadhaarFile(e.target.files[0]?.name || "")
+                            setAadhaarFile(e.target.files[0] || null)
                         }
                     />
                 </div>
@@ -213,7 +235,7 @@ function Certificates() {
                     <input
                         type="file"
                         onChange={(e) =>
-                            setSupportingFile(e.target.files[0]?.name || "")
+                            setSupportingFile(e.target.files[0] || null)
                         }
                     />
                 </div>
@@ -266,13 +288,23 @@ function Certificates() {
                             </p>
                         </div>
 
-                        <span
-                            className={`status ${cert.status
-                                .toLowerCase()
-                                .replace(" ", "-")}`}
-                        >
-                            {cert.status}
-                        </span>
+                        <div className="application-right">
+
+                            <span
+                                className={`status ${cert.status
+                                    .toLowerCase()
+                                    .replace(" ", "-")}`}
+                            >
+                                {cert.status}
+                            </span>
+
+                            {cert.adminRemarks && (
+                                <p className="remarks">
+                                    <strong>Admin Remarks:</strong> {cert.adminRemarks}
+                                </p>
+                            )}
+
+                        </div>
                     </div>
                 ))}
             </div>

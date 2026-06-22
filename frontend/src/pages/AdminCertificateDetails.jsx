@@ -12,6 +12,8 @@ function AdminCertificateDetails() {
     const { id } = useParams();
 
     const [application, setApplication] = useState(null);
+    const [status, setStatus] = useState("Pending");
+    const [remarks, setRemarks] = useState("");
 
     useEffect(() => {
         fetchCertificate();
@@ -31,6 +33,33 @@ function AdminCertificateDetails() {
             );
 
             setApplication(res.data);
+            setStatus(res.data.status);
+            console.log(res.data);
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const handleStatusUpdate = async () => {
+        try {
+            const token = localStorage.getItem("token");
+
+            await axios.put(
+                `http://localhost:5000/api/certificates/${id}/status`,
+                {
+                    status,
+                    adminRemarks: remarks,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            alert("Status Updated");
+            fetchCertificate();
+
         } catch (error) {
             console.error(error);
         }
@@ -39,6 +68,7 @@ function AdminCertificateDetails() {
     if (!application) {
         return <h2>Loading...</h2>;
     }
+    console.log("APPLICATION DATA:", application);
     return (
         <>
             <AdminSidebar />
@@ -93,8 +123,13 @@ function AdminCertificateDetails() {
                         </div>
 
                         <div className="cert-details-info-row">
-                            <span>Certificate Number</span>
-                            <p>{application.certificateNumber}</p>
+                            <span>Status</span>
+                            <p>{application.status}</p>
+                        </div>
+
+                        <div className="cert-details-info-row">
+                            <span>Application ID</span>
+                            <p>{application.applicationId}</p>
                         </div>
 
                     </div>
@@ -106,27 +141,49 @@ function AdminCertificateDetails() {
                         <h3>Uploaded Documents</h3>
 
                         <div className="cert-details-document-row">
-                            <span>Aadhar Card</span>
+                            <span>Aadhaar Card</span>
 
-                            <button className="cert-details-document-btn">
-                                View
-                            </button>
+                            <div>
+                                {application.aadhaarFile && (
+                                    <>
+                                        <span style={{ color: "green", marginRight: "10px" }}>
+                                            ✓
+                                        </span>
+
+                                        <a
+                                            href={`http://localhost:5000/uploads/${application.aadhaarFile}`}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="cert-details-document-btn"
+                                        >
+                                            View
+                                        </a>
+                                    </>
+                                )}
+                            </div>
                         </div>
 
                         <div className="cert-details-document-row">
-                            <span>Income Proof</span>
+                            <span>Supporting Document</span>
 
-                            <button className="cert-details-document-btn">
-                                View
-                            </button>
-                        </div>
+                            <div>
+                                {application.supportingFile && (
+                                    <>
+                                        <span style={{ color: "green", marginRight: "10px" }}>
+                                            ✓
+                                        </span>
 
-                        <div className="cert-details-document-row">
-                            <span>Passport Photo</span>
-
-                            <button className="cert-details-document-btn">
-                                View
-                            </button>
+                                        <a
+                                            href={`http://localhost:5000/uploads/${application.supportingFile}`}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="cert-details-document-btn"
+                                        >
+                                            View
+                                        </a>
+                                    </>
+                                )}
+                            </div>
                         </div>
 
                     </div>
@@ -149,7 +206,7 @@ function AdminCertificateDetails() {
 
                         <div className="cert-details-info-row">
                             <span>Phone</span>
-                            <p>{application.phone}</p>
+                            <p>{application.user?.mobile}</p>
                         </div>
 
                         <div className="cert-details-info-row">
@@ -167,7 +224,11 @@ function AdminCertificateDetails() {
 
                     <h3>Verification & Approval</h3>
 
-                    <select className="cert-details-select">
+                    <select
+                        className="cert-details-select"
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value)}
+                    >
                         <option>Pending</option>
                         <option>Under Review</option>
                         <option>Approved</option>
@@ -176,6 +237,8 @@ function AdminCertificateDetails() {
 
                     <textarea
                         className="cert-details-textarea"
+                        value={remarks}
+                        onChange={(e) => setRemarks(e.target.value)}
                         placeholder="Enter admin remarks..."
                     />
 
@@ -189,7 +252,10 @@ function AdminCertificateDetails() {
                             Reject
                         </button>
 
-                        <button className="cert-details-update-btn">
+                        <button
+                            className="cert-details-update-btn"
+                            onClick={handleStatusUpdate}
+                        >
                             Update Status
                         </button>
 

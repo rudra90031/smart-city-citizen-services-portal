@@ -30,14 +30,18 @@ app.get("/api/profile", protect, (req, res) => {
   });
 });
 app.use(
-    "/api/certificates",
-    certificateRoutes
+  "/api/certificates",
+  certificateRoutes
 );
 app.use(
-    "/uploads",
-    express.static(
-        path.join(__dirname, "uploads")
-    )
+  "/uploads",
+  express.static(
+    path.join(__dirname, "uploads")
+  )
+);
+app.use(
+  "/uploads",
+  express.static("uploads")
 );
 app.use("/api/auth", authRoutes);
 app.use("/api/complaints", complaintRoutes);
