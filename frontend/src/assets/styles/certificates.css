@@ -1,6 +1,6 @@
 .certificate-wrapper {
     min-height: 100vh;
-    background: #f7f7f7;
+    background: #f7f5f3;
     padding: 70px 100px;
 }
 
@@ -296,4 +296,32 @@
     color: #666;
     max-width: 220px;
     text-align: right;
+}
+
+.applications-list {
+    height: 820px;
+    overflow-y: auto;
+    position: relative;
+    padding-right: 10px;
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0) transparent;
+}
+
+/* Chrome, Edge */
+.applications-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.applications-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.applications-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.applications-list::-webkit-scrollbar-thumb {
+    background: #d9d9d9;
+    border-radius: 20px;
 }

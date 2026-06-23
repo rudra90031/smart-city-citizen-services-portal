@@ -1,0 +1,245 @@
+.bills-wave-section {
+  width: 100%;
+  position: relative;
+  margin-top: -1px;
+  background: #3C0304;
+}
+
+/* -------------------- PAGE -------------------- */
+
+.bills-page {
+  background: #3C0304;
+  min-height: 100vh;
+  padding: 50px 80px 80px;
+}
+
+/* -------------------- HEADER -------------------- */
+
+.bills-header {
+  margin-bottom: 60px;
+}
+
+.bills-header h1 {
+  font-size: clamp(120px, 11vw, 180px);
+  line-height: 0.9;
+  letter-spacing: -4px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.bills-header p {
+  color: rgba(255,255,255,0.75);
+  font-size: 18px;
+  margin: 0;
+}
+
+/* -------------------- CONTAINER -------------------- */
+
+.bills-container {
+  max-height: 650px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.bills-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.bills-container::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 50px;
+}
+
+/* -------------------- BILL CARD -------------------- */
+
+.bill-row {
+  background: #2A0203;
+
+  padding: 34px 38px;
+  margin-bottom: 24px;
+
+  border-radius: 28px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  transition: all 0.3s ease;
+}
+
+.bill-row:hover {
+  transform: translateY(-4px);
+}
+
+/* -------------------- LEFT -------------------- */
+
+.bill-left h2 {
+  color: white;
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.bill-left p {
+  color: rgba(255,255,255,0.75);
+  font-size: 17px;
+  margin: 6px 0;
+}
+
+/* -------------------- RIGHT -------------------- */
+
+.bill-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* -------------------- STATUS -------------------- */
+
+.bill-status {
+  height: 48px;
+  padding: 0 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.pending {
+  background: #ffe8b0;
+  color: #9a6500;
+}
+
+.paid {
+  background: #d9ffe2;
+  color: #008c3b;
+}
+
+.overdue {
+  background: #ffd6d6;
+  color: #d10000;
+}
+
+/* -------------------- BUTTONS -------------------- */
+
+.view-btn,
+.paid-btn {
+  height: 52px;
+  padding: 0 28px;
+
+  border-radius: 999px;
+
+  border: 1px solid #000;
+
+  background: #D3FD74;
+  color: #000;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: default;
+}
+.paid-btn:hover {
+  background: #000;
+  color: #fff;
+
+  border: 1px solid #fff;
+}
+
+/* transparent premium button */
+
+.details-link {
+  background: transparent;
+  border: none;
+
+  color: white;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  padding: 0;
+
+  cursor: pointer;
+
+  border-bottom: 1.5px solid rgba(255,255,255,0.8);
+
+  transition: all 0.25s ease;
+}
+
+.details-link:hover {
+  transform: translateX(4px);
+  border-bottom-color: white;
+}
+
+/* primary button */
+
+.pay-btn {
+  height: 52px;
+  padding: 0 28px;
+
+  border-radius: 999px;
+
+  border: 1px solid #000;
+
+  background: #fff;
+  color: #000;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all .25s ease;
+}
+
+.pay-btn:hover {
+  background: #000;
+  color: #fff;
+
+  border: 1px solid #fff;
+}
+
+/* -------------------- RESPONSIVE -------------------- */
+
+@media (max-width: 900px) {
+
+  .bills-page {
+    padding: 40px 25px;
+  }
+
+  .bills-header h1 {
+    font-size: 72px;
+  }
+
+  .bill-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .bill-right {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+.status-text {
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.pending-text {
+  color: #D4F56A;
+}
+
+.overdue-text {
+  color: #FF6B6B;
+}

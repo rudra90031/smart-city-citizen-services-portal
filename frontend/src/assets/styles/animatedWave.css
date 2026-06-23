@@ -1,0 +1,17 @@
+.wave-wrapper {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  line-height: 0;
+  background: #f7f5f3; /* upar wala cream color */
+}
+
+.jelly-wave {
+  width: 100%;
+  height: 220px;
+  display: block;
+}
+
+.wave-path {
+  fill: #3C0304; /* neeche wala red */
+}

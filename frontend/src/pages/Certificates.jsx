@@ -270,43 +270,45 @@ function Certificates() {
             <div className="applications-section">
                 <h2>My Applications</h2>
 
-                {certificates.map((cert) => (
-                    <div className="application-item" key={cert._id}>
-                        <div>
-                            <h4>{cert.certificateType}</h4>
-                            <p>
-                                Application ID: {cert.applicationId}
-                            </p>
+                <div className="applications-list">
+                    {certificates.map((cert) => (
+                        <div className="application-item" key={cert._id}>
+                            <div>
+                                <h4>{cert.certificateType}</h4>
 
-                            <p>
-                                Purpose: {cert.purpose}
-                            </p>
-
-                            <p>
-                                Applied on:{" "}
-                                {new Date(cert.createdAt).toLocaleDateString()}
-                            </p>
-                        </div>
-
-                        <div className="application-right">
-
-                            <span
-                                className={`status ${cert.status
-                                    .toLowerCase()
-                                    .replace(" ", "-")}`}
-                            >
-                                {cert.status}
-                            </span>
-
-                            {cert.adminRemarks && (
-                                <p className="remarks">
-                                    <strong>Admin Remarks:</strong> {cert.adminRemarks}
+                                <p>
+                                    Application ID: {cert.applicationId}
                                 </p>
-                            )}
 
+                                <p>
+                                    Purpose: {cert.purpose}
+                                </p>
+
+                                <p>
+                                    Applied on:{" "}
+                                    {new Date(cert.createdAt).toLocaleDateString()}
+                                </p>
+                            </div>
+
+                            <div className="application-right">
+                                <span
+                                    className={`status ${cert.status
+                                        .toLowerCase()
+                                        .replace(" ", "-")}`}
+                                >
+                                    {cert.status}
+                                </span>
+
+                                {cert.adminRemarks && (
+                                    <p className="remarks">
+                                        <strong>Admin Remarks:</strong>{" "}
+                                        {cert.adminRemarks}
+                                    </p>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
 
         </div>
