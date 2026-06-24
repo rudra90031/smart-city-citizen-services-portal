@@ -7,6 +7,8 @@ const connectDB = require("./config/db");
 const { protect } = require("./middleware/authMiddleware");
 const complaintRoutes = require("./routes/complaintRoutes");
 const certificateRoutes = require("./routes/certificateRoutes");
+const billRoutes = require("./routes/billRoutes");
+
 const path = require("path");
 
 dotenv.config();
@@ -43,6 +45,7 @@ app.use(
   "/uploads",
   express.static("uploads")
 );
+app.use("/api/bills", billRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/complaints", complaintRoutes);
 const PORT = process.env.PORT || 5000;

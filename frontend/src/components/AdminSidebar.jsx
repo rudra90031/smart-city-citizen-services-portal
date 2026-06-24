@@ -6,7 +6,8 @@ import {
     FiMap,
     FiBell,
     FiSettings,
-    FiLogOut
+    FiLogOut,
+    FiCreditCard
 } from "react-icons/fi";
 
 import "../assets/styles/adminSidebar.css";
@@ -46,6 +47,14 @@ function AdminSidebar() {
                 >
                     <FiFileText />
                     Certificates
+                </NavLink>
+
+                <NavLink
+                    to="/admin/bills"
+                    className="sidebar-link"
+                >
+                    <FiCreditCard />
+                    Utility Bills
                 </NavLink>
 
                 <NavLink

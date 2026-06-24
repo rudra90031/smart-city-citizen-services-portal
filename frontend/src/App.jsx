@@ -10,6 +10,7 @@ import AdminComplaints from "./pages/AdminComplaints";
 import AdminComplaintDetails from "./pages/AdminComplaintDetails";
 import AdminCertificates from "./pages/AdminCertificates";
 import AdminCertificateDetails from "./pages/AdminCertificateDetails";
+import AdminBills from "./pages/AdminBills";
 function App() {
   return (
     <BrowserRouter>
@@ -37,6 +38,10 @@ function App() {
         <Route
           path="/admin/certificates"
           element={<AdminCertificates />}
+        />
+        <Route
+          path="/admin/bills"
+          element={<AdminBills />}
         />
         <Route
           path="/admin/certificates/:id"
