@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminBills.css";
 
@@ -42,59 +43,45 @@ function AdminBills() {
         return daysLate * 50;
     };
 
-    const saveChanges = () => {
+    const saveChanges = async () => {
+        if (!selectedBill?._id) {
+            console.log("No selected bill");
+            return;
+        }
+        try {
+            const res = await axios.put(
+                `http://localhost:5000/api/bills/${selectedBill._id}`,
+                selectedBill
+            );
 
-        const updatedBill = {
-            ...selectedBill,
-            status: getBillStatus(
-                selectedBill.dueDate,
-                selectedBill.isPaid
-            ),
-        };
+            const updatedBills = billsData.map((bill) =>
+                bill._id === selectedBill._id ? res.data : bill
+            );
 
-        const updatedBills = billsData.map((bill) =>
-            bill.id === updatedBill.id
-                ? updatedBill
-                : bill
-        );
+            setBillsData(updatedBills);
+            setSelectedBill(res.data);
+            setEditMode(false);
 
-        setBillsData(updatedBills);
-        setSelectedBill(updatedBill);
-        setEditMode(false);
+        } catch (err) {
+            console.log(err);
+        }
     };
-    const bills = [
-        {
-            id: "BL-001",
-            citizen: "Rudra Pratap",
-            mobile: "9876543210",
-            type: "Electricity",
-            amount: 1250,
-            dueDate: "2026-07-15",
-            isPaid: false,
-            remarks: "Awaiting payment",
-        },
-        {
-            id: "BL-002",
-            citizen: "Aman Sharma",
-            mobile: "9123456780",
-            type: "Water",
-            amount: 850,
-            dueDate: "2026-06-15",
-            isPaid: true,
-            remarks: "Paid Online",
-        },
-        {
-            id: "BL-003",
-            citizen: "Rahul Singh",
-            mobile: "9988776655",
-            type: "Property Tax",
-            amount: 3500,
-            dueDate: "2026-06-01",
-            isPaid: false,
-            remarks: "Reminder Sent",
-        },
-    ];
-    const [billsData, setBillsData] = useState(bills);
+    const [billsData, setBillsData] = useState([]);
+
+    const fetchBills = async () => {
+        try {
+            const res = await axios.get(
+                "http://localhost:5000/api/bills"
+            );
+            setBillsData(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    useEffect(() => {
+        fetchBills();
+    }, []);
+
     const [newBill, setNewBill] = useState({
         citizen: "",
         mobile: "",
@@ -102,11 +89,12 @@ function AdminBills() {
         amount: "",
         dueDate: "",
         remarks: "",
+        userId: "",
     });
-    const filteredBills = bills.filter((bill) =>
-        bill.citizen.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        bill.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        bill.mobile.includes(searchTerm)
+    const filteredBills = billsData.filter((bill) =>
+        (bill.citizen || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (bill.billId || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (bill.mobile || "").includes(searchTerm)
     );
 
     return (
@@ -176,7 +164,7 @@ function AdminBills() {
 
                             {filteredBills.map((bill) => (
                                 <div
-                                    key={bill.id}
+                                    key={bill._id || bill.id}
                                     className="bill-row-admin"
                                     onClick={() => {
                                         setSelectedBill(bill);
@@ -185,7 +173,7 @@ function AdminBills() {
                                 >
                                     <div className="bill-col citizen-col">
                                         <h3>{bill.citizen}</h3>
-                                        <span>{bill.id}</span>
+                                        <span>{bill.billId || bill.id}</span>
                                     </div>
 
                                     <div className="bill-col">
@@ -197,7 +185,11 @@ function AdminBills() {
                                     </div>
 
                                     <div className="bill-col">
-                                        {bill.dueDate}
+                                        {new Date(bill.dueDate).toLocaleDateString("en-IN", {
+                                            day: "2-digit",
+                                            month: "short",
+                                            year: "numeric",
+                                        })}
                                     </div>
 
                                     <div
@@ -267,25 +259,29 @@ function AdminBills() {
                                         />
 
                                         <button
-                                            onClick={() => {
-                                                const bill = {
-                                                    id: `BL-${Date.now()}`,
-                                                    ...newBill,
-                                                    isPaid: false,
-                                                };
+                                            onClick={async () => {
+                                                try {
+                                                    const res = await axios.post(
+                                                        "http://localhost:5000/api/bills",
+                                                        newBill
+                                                    );
 
-                                                setBillsData([bill, ...billsData]);
+                                                    setBillsData([res.data, ...billsData]);
 
-                                                setNewBill({
-                                                    citizen: "",
-                                                    mobile: "",
-                                                    type: "",
-                                                    amount: "",
-                                                    dueDate: "",
-                                                    remarks: "",
-                                                });
+                                                    setNewBill({
+                                                        citizen: "",
+                                                        mobile: "",
+                                                        type: "",
+                                                        amount: "",
+                                                        dueDate: "",
+                                                        remarks: "",
+                                                        userId: "",
+                                                    });
 
-                                                setShowCreate(false);
+                                                    setShowCreate(false);
+                                                } catch (err) {
+                                                    console.log(err);
+                                                }
                                             }}
                                         >
                                             Create Bill
@@ -412,7 +408,13 @@ function AdminBills() {
                                                 }
                                             />
                                         ) : (
-                                            <p>{selectedBill.dueDate}</p>
+                                            <p>
+                                                {new Date(selectedBill.dueDate).toLocaleDateString("en-IN", {
+                                                    day: "2-digit",
+                                                    month: "short",
+                                                    year: "numeric",
+                                                })}
+                                            </p>
                                         )}
                                     </div>
 
@@ -453,41 +455,48 @@ function AdminBills() {
                                             </button>
                                         )}
                                         <button
-                                            onClick={() => {
-
-                                                const updatedBills = billsData.map((bill) =>
-                                                    bill.id === selectedBill.id
-                                                        ? {
-                                                            ...bill,
+                                            onClick={async () => {
+                                                try {
+                                                    const res = await axios.put(
+                                                        `http://localhost:5000/api/bills/${selectedBill._id}`,
+                                                        {
+                                                            ...selectedBill,
                                                             isPaid: true,
-                                                            status: "Paid",
                                                         }
-                                                        : bill
-                                                );
+                                                    );
 
-                                                setBillsData(updatedBills);
+                                                    const updatedBills = billsData.map((bill) =>
+                                                        bill._id === selectedBill._id ? res.data : bill
+                                                    );
 
-                                                setSelectedBill({
-                                                    ...selectedBill,
-                                                    isPaid: true,
-                                                    status: "Paid",
-                                                });
+                                                    setBillsData(updatedBills);
+                                                    setSelectedBill(res.data);
 
+                                                } catch (error) {
+                                                    console.log(error);
+                                                }
                                             }}
                                         >
                                             Mark Paid
                                         </button>
                                         <button
-                                            onClick={() => {
+                                            onClick={async () => {
+                                                try {
+                                                    await axios.delete(
+                                                        `http://localhost:5000/api/bills/${selectedBill._id}`
+                                                    );
 
-                                                const updatedBills = billsData.filter(
-                                                    (bill) => bill.id !== selectedBill.id
-                                                );
+                                                    setBillsData(
+                                                        billsData.filter(
+                                                            (bill) => bill._id !== selectedBill._id
+                                                        )
+                                                    );
 
-                                                setBillsData(updatedBills);
+                                                    setSelectedBill(null);
 
-                                                setSelectedBill(null);
-
+                                                } catch (error) {
+                                                    console.log(error);
+                                                }
                                             }}
                                         >
                                             Delete Bill

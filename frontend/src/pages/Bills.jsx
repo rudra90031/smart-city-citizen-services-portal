@@ -1,38 +1,65 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../assets/styles/bills.css";
 import AnimatedWave from "../components/AnimatedWave";
 
 function Bills() {
-    const bills = [
-        {
-            id: 1,
-            type: "Electricity Bill",
-            amount: 1250,
-            dueDate: "15 Jul 2026",
-            status: "Pending",
-        },
-        {
-            id: 2,
-            type: "Water Bill",
-            amount: 450,
-            dueDate: "10 Jul 2026",
-            status: "Paid",
-        },
-        {
-            id: 3,
-            type: "Property Tax",
-            amount: 2500,
-            dueDate: "01 Jul 2026",
-            status: "Overdue",
-        },
-        {
-            id: 4,
-            type: "Sewerage Bill",
-            amount: 700,
-            dueDate: "20 Jul 2026",
-            status: "Pending",
-        },
-    ];
+    const getBillStatus = (dueDate, isPaid) => {
+        if (isPaid) return "Paid";
+
+        const today = new Date();
+        const due = new Date(dueDate);
+
+        return today > due ? "Overdue" : "Pending";
+    };
+
+    const calculateLateFee = (dueDate, isPaid) => {
+        if (isPaid) return 0;
+
+        const today = new Date();
+        const due = new Date(dueDate);
+
+        const daysLate = Math.floor(
+            (today - due) / (1000 * 60 * 60 * 24)
+        );
+
+        if (daysLate <= 0) return 0;
+
+        return daysLate * 50;
+    };
+    const [bills, setBills] = useState([]);
+    const fetchBills = async () => {
+        try {
+            const user = JSON.parse(localStorage.getItem("user"));
+
+            const res = await axios.get("http://localhost:5000/api/bills");
+
+            console.log("Logged User:", user);
+            console.log("Bills API:", res.data);
+            res.data.forEach((bill) => {
+                console.log("----------------");
+                console.log("Bill user:", bill.user);
+                console.log("Bill user._id:", bill.user?._id);
+                console.log("Logged user:", user.id);
+            });
+
+            const myBills = res.data.filter(
+                (bill) =>
+                    bill.user === user.id ||
+                    bill.user?._id === user.id
+            );
+
+            setBills(myBills);
+
+        } catch (err) {
+            console.log("ERROR:", err);
+            console.log("Response:", err.response);
+            console.log("Data:", err.response?.data);
+        }
+    };
+    useEffect(() => {
+        fetchBills();
+    }, []);
 
     return (
         <section className="bills-wave-section">
@@ -52,22 +79,34 @@ function Bills() {
                             <div className="bill-left">
                                 <h2>{bill.type}</h2>
 
-                                <p>Amount: ₹{bill.amount}</p>
-                                <p>Due Date: {bill.dueDate}</p>
+                                <p>
+                                    Amount: ₹
+                                    {bill.amount + calculateLateFee(bill.dueDate, bill.isPaid)}
+                                </p>
+                                <p>
+                                    Due Date: {new Date(bill.dueDate).toLocaleDateString("en-IN", {
+                                        day: "2-digit",
+                                        month: "short",
+                                        year: "numeric",
+                                    })}
+                                </p>
                             </div>
 
                             <div className="bill-right">
-                                {bill.status === "Paid" ? (
+                                {bill.isPaid ? (
                                     <button className="paid-btn">
                                         Paid ✓
                                     </button>
                                 ) : (
-                                    <span className={`status-text ${bill.status.toLowerCase()}-text`}>
-                                        {bill.status}
+                                    <span
+                                        className={`status-text ${bill.isPaid ? "paid-text" : "pending-text"
+                                            }`}
+                                    >
+                                        {getBillStatus(bill.dueDate, bill.isPaid)}
                                     </span>
                                 )}
 
-                                {bill.status !== "Paid" && (
+                                {!bill.isPaid && (
                                     <>
                                         <button className="details-link">
                                             Details →
