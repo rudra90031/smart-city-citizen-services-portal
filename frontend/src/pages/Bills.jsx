@@ -61,6 +61,18 @@ function Bills() {
         fetchBills();
     }, []);
 
+    const payBill = async (billId) => {
+        try {
+
+            await axios.put(`http://localhost:5000/api/bills/${billId}/pay`);
+
+            fetchBills();
+
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <section className="bills-wave-section">
 
@@ -112,7 +124,10 @@ function Bills() {
                                             Details →
                                         </button>
 
-                                        <button className="pay-btn">
+                                        <button
+                                            className="pay-btn"
+                                            onClick={() => payBill(bill._id)}
+                                        >
                                             Pay Bill
                                         </button>
                                     </>

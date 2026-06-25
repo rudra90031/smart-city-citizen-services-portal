@@ -96,7 +96,10 @@ exports.payBill = async (req, res) => {
 
         await bill.save();
 
-        res.status(200).json(bill);
+        res.status(200).json({
+            message: "Payment Successful",
+            bill
+        });
 
     } catch (error) {
 
