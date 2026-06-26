@@ -40,10 +40,18 @@ exports.createBill = async (req, res) => {
             });
         }
 
-        const count = await Bill.countDocuments();
+        const lastBill = await Bill.findOne().sort({ createdAt: -1 });
+
+        let nextNumber = 1;
+
+        if (lastBill) {
+            nextNumber = parseInt(lastBill.billId.split("-")[1]) + 1;
+        }
+
+        const billId = `BL-${String(nextNumber).padStart(3, "0")}`;
 
         const bill = await Bill.create({
-            billId: `BL-${String(count + 1).padStart(3, "0")}`,
+            billId,
             citizen,
             mobile,
             type,
