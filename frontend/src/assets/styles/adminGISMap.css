@@ -1,0 +1,97 @@
+.gis-page{
+    flex:1;
+    margin-left:280px;   /* same as sidebar width */
+    height:100vh;
+    padding:30px;
+    background:#eef4ff;
+    overflow:hidden;
+}
+
+.gis-header h1{
+    color:#1f3a93;
+    font-size:34px;
+}
+
+.gis-header p{
+    color:#555;
+    margin-top:8px;
+}
+
+.gis-filters{
+    margin:30px 0;
+    display:flex;
+    gap:15px;
+}
+
+.gis-filters input,
+.gis-filters select{
+
+    padding:12px;
+    border-radius:10px;
+    border:none;
+    outline:none;
+    font-size:15px;
+}
+
+.gis-filters input{
+    width:320px;
+    height: 50px;
+}
+
+.gis-content{
+    display:grid;
+    grid-template-columns:2fr 380px;
+    gap:25px;
+    height:calc(100vh - 220px);
+}
+
+.map-section{
+    width:100%;
+}
+
+.map{
+    width:100%;
+    height:calc(100vh - 250px);
+    border-radius:18px;
+}
+
+.details-panel{
+    height:calc(100vh - 250px);
+    overflow-y:auto;
+}
+
+.details-panel h2{
+
+    margin-bottom:25px;
+}
+
+.detail-row{
+
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:22px;
+    border-bottom:1px solid #eee;
+    padding-bottom:10px;
+}
+.admin-layout{
+    display:flex;
+    height:100vh;
+    overflow:hidden;
+}
+.map-container{
+    height:calc(100vh - 190px);
+}
+.leaflet-container{
+    z-index:1;
+}
+.map{
+    position:relative;
+    z-index:1;
+}
+.admin-sidebar{
+    width:280px;
+    height:100vh;
+    position:fixed;
+    left:0;
+    top:0;
+}

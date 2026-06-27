@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
+import LocationPicker from "../components/LocationPicker";
 function LodgeComplaint() {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Street Light");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
+  const [showLocationPicker, setShowLocationPicker] = useState(false);
+
+  const [selectedLocation, setSelectedLocation] = useState({
+    latitude: "",
+    longitude: "",
+    area: ""
+  });
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -88,12 +96,48 @@ function LodgeComplaint() {
         <div className="form-group full-width">
           <label>Location</label>
 
-          <input
-            type="text"
-            placeholder="Sector 15, Near City Park"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
+          {
+            selectedLocation.latitude ? (
+
+              <div className="location-details">
+
+                <div className="location-item">
+                  <strong>Area</strong>
+                  <span>{selectedLocation.area || "Not Selected"}</span>
+                </div>
+
+                <div className="location-item">
+                  <strong>Latitude</strong>
+                  <span>{selectedLocation.latitude}</span>
+                </div>
+
+                <div className="location-item">
+                  <strong>Longitude</strong>
+                  <span>{selectedLocation.longitude}</span>
+                </div>
+
+                <button
+                  type="button"
+                  className="change-location-btn"
+                  onClick={() => setShowLocationPicker(true)}
+                >
+                  Change Location
+                </button>
+
+              </div>
+
+            ) : (
+
+              <button
+                type="button"
+                className="location-btn"
+                onClick={() => setShowLocationPicker(true)}
+              >
+                Select Complaint Location
+              </button>
+
+            )
+          }
         </div>
 
         <div className="form-group full-width">
@@ -129,6 +173,26 @@ function LodgeComplaint() {
         </button>
 
       </form>
+
+      {
+        showLocationPicker && (
+
+          <LocationPicker
+
+            onClose={() => setShowLocationPicker(false)}
+
+            onConfirm={(location) => {
+
+              setSelectedLocation(location);
+
+              setShowLocationPicker(false);
+
+            }}
+
+          />
+
+        )
+      }
 
     </section>
   );

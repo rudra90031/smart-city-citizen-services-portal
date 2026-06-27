@@ -24,8 +24,18 @@ const complaintSchema = new mongoose.Schema(
     },
 
     location: {
-      type: String,
-      required: true,
+      latitude: {
+        type: Number,
+        required: true,
+      },
+      longitude: {
+        type: Number,
+        required: true,
+      },
+      area: {
+        type: String,
+        required: true,
+      }
     },
     image: {
       type: String,
@@ -36,7 +46,7 @@ const complaintSchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
-    
+
     status: {
       type: String,
       default: "Pending",
