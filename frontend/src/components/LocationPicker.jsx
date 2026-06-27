@@ -17,18 +17,42 @@ function LocationMarker({
     position,
     setPosition,
     setLatitude,
-    setLongitude
+    setLongitude,
+    setArea
 }) {
 
     useMapEvents({
 
-        click(e) {
+        click: async (e) => {
 
             setPosition(e.latlng);
 
             setLatitude(e.latlng.lat.toFixed(6));
 
             setLongitude(e.latlng.lng.toFixed(6));
+
+            const reverse = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${e.latlng.lat}&lon=${e.latlng.lng}`
+            );
+
+            const reverseData = await reverse.json();
+            console.log("Map Click:", reverseData);
+            console.log("Map Address:", reverseData.address);
+
+            setArea(
+                reverseData.address?.road ||
+                reverseData.address?.residential ||
+                reverseData.address?.hamlet ||      // <-- ADD THIS
+                reverseData.address?.suburb ||
+                reverseData.address?.neighbourhood ||
+                reverseData.address?.quarter ||
+                reverseData.address?.city_district ||
+                reverseData.address?.village ||
+                reverseData.address?.town ||
+                reverseData.address?.city ||
+                reverseData.display_name ||
+                "Unknown Area"
+            );
 
         }
 
@@ -66,7 +90,7 @@ function LocationPicker({ onClose, onConfirm }) {
     const searchRef = useRef(null);
 
     const getCurrentLocation = () => {
-        
+
         setSuggestions([]);
 
         if (!navigator.geolocation) {
@@ -78,7 +102,7 @@ function LocationPicker({ onClose, onConfirm }) {
 
         navigator.geolocation.getCurrentPosition(
 
-            (location) => {
+            async (location) => {
 
                 const lat = location.coords.latitude;
                 const lng = location.coords.longitude;
@@ -90,6 +114,29 @@ function LocationPicker({ onClose, onConfirm }) {
 
                 setLatitude(lat.toFixed(6));
                 setLongitude(lng.toFixed(6));
+
+                const reverse = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
+                );
+
+                const reverseData = await reverse.json();
+                console.log("Current Location:", reverseData);
+                console.log("Current Address:", reverseData.address);
+
+                setArea(
+                    reverseData.address?.road ||
+                    reverseData.address?.residential ||
+                    reverseData.address?.hamlet ||      // <-- ADD THIS
+                    reverseData.address?.suburb ||
+                    reverseData.address?.neighbourhood ||
+                    reverseData.address?.quarter ||
+                    reverseData.address?.city_district ||
+                    reverseData.address?.village ||
+                    reverseData.address?.town ||
+                    reverseData.address?.city ||
+                    reverseData.display_name ||
+                    "Unknown Area"
+                );
 
             },
 
@@ -307,6 +354,7 @@ function LocationPicker({ onClose, onConfirm }) {
                             setPosition={setPosition}
                             setLatitude={setLatitude}
                             setLongitude={setLongitude}
+                            setArea={setArea}
                         />
 
                     </MapContainer>
