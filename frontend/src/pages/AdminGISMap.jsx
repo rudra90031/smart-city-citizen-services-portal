@@ -166,7 +166,8 @@ function AdminGISMap() {
 
         .sort((a, b) => b[1] - a[1])
 
-        .slice(0, 5);
+        .slice(0, 3);
+
 
     const filteredComplaints = complaints.filter((c) => {
 
@@ -198,6 +199,16 @@ function AdminGISMap() {
 
     });
 
+    const nearbyComplaints = selectedComplaint
+        ? complaints
+            .filter(
+                (c) =>
+                    c.area === selectedComplaint.area &&
+                    c._id !== selectedComplaint._id
+            )
+            .slice(0, 5)
+        : [];
+
     return (
         <div className="admin-layout">
 
@@ -206,67 +217,62 @@ function AdminGISMap() {
             <div className="gis-page">
 
                 <div className="gis-header">
-                    <h1>GIS Complaint Mapping</h1>
-                    <p>Visualize and monitor city complaints.</p>
+
+                    <div className="gis-title">
+
+                        <div className="title-icon">
+                            <i className="ri-map-pin-2-fill"></i>
+                        </div>
+
+                        <div>
+
+                            <h1>GIS COMPLAINT MAPPING</h1>
+
+                            <p>Visualize and monitor city complaints.</p>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
                 <div className="gis-topbar">
 
-
-
                     <div className="gis-right-info">
 
-                        <div className="gis-stats">
+                        <div className="stats-strip">
 
-                            <span className="stat-box total">
-
-                                Total {total}
-
+                            <span>
+                                TOTAL <strong>{total}</strong>
                             </span>
 
-                            <span className="stat-box pending">
-
-                                Pending {pending}
-
+                            <span>
+                                PENDING <strong>{pending}</strong>
                             </span>
 
-                            <span className="stat-box progress">
-
-                                Progress {progress}
-
+                            <span>
+                                IN PROGRESS <strong>{progress}</strong>
                             </span>
 
-                            <span className="stat-box resolved">
-
-                                Resolved {resolved}
-
+                            <span>
+                                RESOLVED <strong>{resolved}</strong>
                             </span>
 
-                            <span className="stat-box rejected">
-
-                                Rejected {rejected}
-
+                            <span>
+                                REJECTED <strong>{rejected}</strong>
                             </span>
 
                         </div>
 
-                        <div className="category-strip">
+                        <div className="category-strip-new">
 
-                            <span className="category-pill">
-                                Water {waterCount}
-                            </span>
+                            <span>WATER <strong>{waterCount}</strong></span>
 
-                            <span className="category-pill">
-                                Road {roadCount}
-                            </span>
+                            <span>ROAD <strong>{roadCount}</strong></span>
 
-                            <span className="category-pill">
-                                Garbage {garbageCount}
-                            </span>
+                            <span>GARBAGE <strong>{garbageCount}</strong></span>
 
-                            <span className="category-pill">
-                                Street Light {lightCount}
-                            </span>
+                            <span>STREET LIGHT <strong>{lightCount}</strong></span>
 
                         </div>
 
@@ -276,11 +282,16 @@ function AdminGISMap() {
 
                 <div className="gis-filters">
 
-                    <input
-                        placeholder="Search Complaint ID / Citizen / Area"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
+                    <div className="search-box">
+                        <i className="ri-search-line"></i>
+
+                        <input
+                            type="text"
+                            placeholder="Search Complaint ID / Citizen / Area"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                    </div>
 
                     <select
                         value={categoryFilter}
@@ -313,7 +324,8 @@ function AdminGISMap() {
                         <MapContainer
                             center={[29.9457, 78.1642]}
                             zoom={13}
-                            scrollWheelZoom={true}
+                            scrollWheelZoom={false}
+                            doubleClickZoom={false}
                             className="map"
                         >
                             <TileLayer
@@ -411,104 +423,98 @@ function AdminGISMap() {
 
                                 <h3>Hotspot Areas</h3>
 
-                                <div
-                                    className="hotspot-item danger"
-                                    onClick={() =>
-                                        setFocusLocation({
-                                            lat: 29.954,
-                                            lng: 78.164
-                                        })
-                                    }
-                                >
+                                {
+                                    hotspotAreas.map((item, index) => (
 
-                                    <span>1. Sector 15</span>
-                                    <span>12 Complaints</span>
+                                        <div
+                                            key={index}
+                                            className={`hotspot-item ${index === 0
+                                                ? "danger"
+                                                : index === 1
+                                                    ? "warning"
+                                                    : ""
+                                                }`}
+                                            onClick={() => {
 
-                                </div>
+                                                const complaint = complaints.find(
 
-                                <div
-                                    className="hotspot-item warning"
-                                    onClick={() =>
-                                        setFocusLocation({
-                                            lat: 29.947,
-                                            lng: 78.156
-                                        })
-                                    }
-                                >
+                                                    c => c.area === item[0]
 
-                                    <span>2. Railway Road</span>
-                                    <span>8 Complaints</span>
+                                                );
 
-                                </div>
+                                                if (complaint) {
 
-                                <div
-                                    className="hotspot-item"
-                                    onClick={() =>
-                                        setFocusLocation({
-                                            lat: 29.942,
-                                            lng: 78.171
-                                        })
-                                    }
-                                >
+                                                    setFocusLocation({
 
-                                    <span>3. BHEL Colony</span>
-                                    <span>5 Complaints</span>
+                                                        lat: Number(complaint.latitude),
 
-                                </div>
+                                                        lng: Number(complaint.longitude)
+
+                                                    });
+
+                                                }
+
+                                            }}
+                                        >
+
+                                            <span>
+
+                                                {index + 1}. {item[0]}
+
+                                            </span>
+
+                                            <span>
+
+                                                {item[1]} Complaints
+
+                                            </span>
+
+                                        </div>
+
+                                    ))
+                                }
 
                             </div>
 
                             <div className="nearby-card">
 
                                 <h3>Nearby Complaints</h3>
-
                                 {
+                                    nearbyComplaints.length === 0 ? (
 
-                                    selectedComplaint ?
+                                        <p>Select a complaint marker.</p>
 
-                                        complaints
+                                    ) : (
 
-                                            .filter(c =>
+                                        nearbyComplaints.map((c) => (
 
-                                                c.area === selectedComplaint.area &&
+                                            <div
+                                                key={c._id}
+                                                className="hotspot-row"
+                                            >
 
-                                                c._id !== selectedComplaint._id
+                                                <div>
 
-                                            )
+                                                    <strong>{c.complaintId}</strong>
 
-                                            .slice(0, 5)
-
-                                            .map(c => (
-
-                                                <div
-                                                    key={c._id}
-                                                    className="hotspot-row"
-                                                >
-
-                                                    <span>
-
-                                                        {c.complaintId}
-
-                                                    </span>
-
-                                                    <strong>
-
-                                                        {c.status}
-
-                                                    </strong>
+                                                    <div
+                                                        style={{
+                                                            fontSize: "11px",
+                                                            color: "#666"
+                                                        }}
+                                                    >
+                                                        {c.category}
+                                                    </div>
 
                                                 </div>
 
-                                            ))
+                                                <span>{c.status}</span>
 
-                                        :
+                                            </div>
 
-                                        <p>
+                                        ))
 
-                                            Select a complaint marker.
-
-                                        </p>
-
+                                    )
                                 }
 
                             </div>
@@ -519,61 +525,14 @@ function AdminGISMap() {
 
                     <div className="details-panel">
 
-                        {
-                            selectedComplaint && (
+                        <div className="details-heading">
 
-                                <div
-                                    className={`hotspot-badge ${pending >= 10 ? "danger" :
-                                        pending >= 5 ? "warning" :
-                                            "safe"
-                                        }`}
-                                >
+                            <h2>Complaint Details</h2>
 
-                                    {
-                                        pending >= 10
-                                            ? "🔴 High Complaint Zone"
-                                            : pending >= 5
-                                                ? "🟡 Medium Complaint Zone"
-                                                : "🟢 Low Complaint Zone"
-                                    }
+                            <div className="heading-line"></div>
 
-                                </div>
+                        </div>
 
-                            )
-                        }
-
-                        <h2>Complaint Details</h2>
-
-                        {
-                            selectedComplaint && (
-
-                                <div className="detail-actions">
-
-                                    <button
-                                        className="navigate-btn"
-                                        onClick={() => {
-                                            window.open(
-                                                `https://www.google.com/maps?q=${selectedComplaint.latitude},${selectedComplaint.longitude}`
-                                            );
-                                        }}
-                                    >
-
-                                        Navigate
-
-                                    </button>
-
-                                    <button
-                                        className="assign-btn"
-                                    >
-
-                                        Assign Team
-
-                                    </button>
-
-                                </div>
-
-                            )
-                        }
 
                         <div className="detail-row">
 
@@ -664,48 +623,6 @@ function AdminGISMap() {
 
                         {
                             selectedComplaint && (
-
-                                <div className="nearby-box">
-
-                                    <h4>
-
-                                        Nearby Complaints
-
-                                    </h4>
-
-                                    {
-
-                                        complaints
-
-                                            .filter(c =>
-
-                                                c.area === selectedComplaint.area &&
-
-                                                c._id !== selectedComplaint._id
-
-                                            )
-
-                                            .slice(0, 3)
-
-                                            .map(c => (
-
-                                                <p key={c._id}>
-
-                                                    • {c.complaintId}
-
-                                                </p>
-
-                                            ))
-
-                                    }
-
-                                </div>
-
-                            )
-                        }
-
-                        {
-                            selectedComplaint && (
                                 <>
                                     <div className="location-box">
 
@@ -766,14 +683,13 @@ function AdminGISMap() {
                             )
                         }
 
+                        <div className="details-footer">
+
+                            📍 SELECT A MARKER ON THE MAP
+
+                        </div>
+
                     </div>
-
-                </div>
-
-                <div className="gis-bottom">
-
-
-
 
                 </div>
 
