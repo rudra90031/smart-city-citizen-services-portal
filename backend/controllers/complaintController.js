@@ -2,7 +2,13 @@ const Complaint = require("../models/Complaint");
 const XLSX = require("xlsx");
 
 const createComplaint = async (req, res) => {
+  console.log("CREATE API HIT");
+
   try {
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
+    console.log("USER:", req.user);
+
     const {
       title,
       description,
@@ -10,19 +16,17 @@ const createComplaint = async (req, res) => {
       location,
     } = req.body;
 
-    const complaint = await Complaint.create({
+    const parsedLocation = JSON.parse(location);
 
+    const complaint = await Complaint.create({
       user: req.user.id,
       title,
       description,
       category,
-      location,
-
-      image: req.file
-        ? req.file.filename
-        : "",
-
+      location: parsedLocation,
+      image: req.file ? req.file.filename : "",
     });
+
     const count = await Complaint.countDocuments();
 
     complaint.complaintId =
@@ -36,8 +40,14 @@ const createComplaint = async (req, res) => {
     });
 
   } catch (error) {
+    console.log("================ ERROR ================");
+    console.log(error);
+    console.log(error.message);
+    console.log(error.errors);
+    console.log("=======================================");
+
     res.status(500).json({
-      message: "Server Error",
+      message: error.message,
     });
   }
 };

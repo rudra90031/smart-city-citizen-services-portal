@@ -22,7 +22,9 @@ function AdminComplaints() {
     const matchesSearch =
       item.complaintId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.location?.toLowerCase().includes(searchTerm.toLowerCase());
+      item.location?.area
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase())
 
     const matchesStatus =
       statusFilter === "" ||
@@ -248,7 +250,7 @@ function AdminComplaints() {
 
                   <td>{item.category}</td>
 
-                  <td>{item.location}</td>
+                  <td>{item.location?.area || "N/A"}</td>
 
                   <td>
                     <span className={`status ${item.status.toLowerCase().replace(" ", "-")}`}>

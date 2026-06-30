@@ -125,7 +125,9 @@ function AdminComplaintDetails() {
 
                                 <div className="info-row">
                                     <span>Location</span>
-                                    <p>{complaint.location}</p>
+                                    <p>
+                                        {complaint.location?.area} | Lat: {complaint.location?.latitude} | Lng: {complaint.location?.longitude}
+                                    </p>
                                 </div>
 
                                 <div className="info-row">
@@ -182,7 +184,7 @@ function AdminComplaintDetails() {
 
                                     <div className="info-row">
                                         <span>Address</span>
-                                        <p>{complaint.location}</p>
+                                        <p>{complaint.location?.area}</p>
                                     </div>
 
                                     <div className="info-row">

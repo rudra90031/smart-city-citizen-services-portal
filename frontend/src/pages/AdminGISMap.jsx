@@ -17,6 +17,42 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminGISMap.css";
 
+
+const updateComplaintStatus = async (newStatus) => {
+    if (!selectedComplaint) return;
+
+    try {
+        const token = localStorage.getItem("token");
+
+        const { data } = await axios.put(
+            `http://localhost:5000/api/complaints/admin/${selectedComplaint._id}/status`,
+            {
+                status: newStatus,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        setComplaints((prev) =>
+            prev.map((c) =>
+                c._id === selectedComplaint._id
+                    ? data.complaint
+                    : c
+            )
+        );
+
+        setSelectedComplaint(data.complaint);
+
+        await fetchComplaints();
+    } catch (err) {
+        console.log(err);
+        alert("Status update failed");
+    }
+};
+
 const redIcon = new L.Icon({
     iconUrl:
         "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
@@ -77,9 +113,12 @@ function MapFocus({ lat, lng }) {
 
     useEffect(() => {
 
+        console.log("Flying to:", lat, lng);
+
         map.flyTo([lat, lng], 16, {
             duration: 1.5
         });
+        map.closePopup();
 
     }, [lat, lng, map]);
 
@@ -91,11 +130,13 @@ function AdminGISMap() {
     const [complaints, setComplaints] = useState([]);
     const [selectedComplaint, setSelectedComplaint] = useState(null);
     const [search, setSearch] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
 
     const [statusFilter, setStatusFilter] = useState("All");
 
     const [categoryFilter, setCategoryFilter] = useState("All");
     const [focusLocation, setFocusLocation] = useState(null);
+
 
     useEffect(() => {
 
@@ -103,15 +144,27 @@ function AdminGISMap() {
 
     }, []);
 
+
     const fetchComplaints = async () => {
 
         try {
 
+            const token = localStorage.getItem("token");
+
             const res = await axios.get(
-                "http://localhost:5000/api/complaints"
+                "http://localhost:5000/api/complaints/admin/all",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             );
+            console.log("API DATA:", res.data);
 
             setComplaints(res.data);
+
+            setSelectedComplaint(null);
+            setFocusLocation(null);
 
         } catch (err) {
 
@@ -120,6 +173,8 @@ function AdminGISMap() {
         }
 
     };
+
+
     const total = complaints.length;
 
     const pending = complaints.filter(
@@ -142,7 +197,7 @@ function AdminGISMap() {
         complaints.filter(c => c.category === "Water").length;
 
     const roadCount =
-        complaints.filter(c => c.category === "Road").length;
+        complaints.filter(c => c.category === "Road Damage").length;
 
     const garbageCount =
         complaints.filter(c => c.category === "Garbage").length;
@@ -154,7 +209,7 @@ function AdminGISMap() {
 
         complaints.reduce((acc, complaint) => {
 
-            const area = complaint.area || "Unknown";
+            const area = complaint.location?.area || "Unknown";
 
             acc[area] = (acc[area] || 0) + 1;
 
@@ -171,39 +226,58 @@ function AdminGISMap() {
 
     const filteredComplaints = complaints.filter((c) => {
 
-        const searchMatch =
-
-            c.complaintId?.toLowerCase().includes(search.toLowerCase()) ||
-
-            c.area?.toLowerCase().includes(search.toLowerCase()) ||
-
-            c.citizenName?.toLowerCase().includes(search.toLowerCase());
-
         const statusMatch =
-
             statusFilter === "All"
-
                 ? true
-
                 : c.status === statusFilter;
 
         const categoryMatch =
-
             categoryFilter === "All"
-
                 ? true
-
                 : c.category === categoryFilter;
 
-        return searchMatch && statusMatch && categoryMatch;
+        return statusMatch && categoryMatch;
 
     });
+
+    useEffect(() => {
+
+        if (!searchQuery.trim()) return;
+
+        const complaint = complaints.find(c =>
+
+            c.complaintId?.toLowerCase() === searchQuery.toLowerCase() ||
+
+            c.location?.area?.toLowerCase() === searchQuery.toLowerCase() ||
+
+            c.user?.name?.toLowerCase() === searchQuery.toLowerCase()
+
+        );
+
+        if (complaint) {
+
+            console.log("Searching:", complaint);
+
+            setSelectedComplaint(complaint);
+
+            setTimeout(() => {
+
+                setFocusLocation({
+                    lat: Number(complaint.location.latitude),
+                    lng: Number(complaint.location.longitude)
+                });
+
+            }, 100);
+
+        }
+
+    }, [searchQuery, complaints]);
 
     const nearbyComplaints = selectedComplaint
         ? complaints
             .filter(
                 (c) =>
-                    c.area === selectedComplaint.area &&
+                    c.location?.area === selectedComplaint.location?.area &&
                     c._id !== selectedComplaint._id
             )
             .slice(0, 5)
@@ -283,6 +357,7 @@ function AdminGISMap() {
                 <div className="gis-filters">
 
                     <div className="search-box">
+
                         <i className="ri-search-line"></i>
 
                         <input
@@ -290,7 +365,28 @@ function AdminGISMap() {
                             placeholder="Search Complaint ID / Citizen / Area"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    setSearchQuery(search);
+                                    console.log(search);
+                                }
+                            }}
                         />
+
+                        {search && (
+                            <button
+                                className="clear-search"
+                                onClick={() => {
+                                    setSearch("");
+                                    setSearchQuery("");
+                                    setSelectedComplaint(null);
+                                    setFocusLocation(null);
+                                }}
+                            >
+                                ✕
+                            </button>
+                        )}
+
                     </div>
 
                     <select
@@ -299,7 +395,7 @@ function AdminGISMap() {
                     >
                         <option value="All">All Categories</option>
                         <option value="Water">Water</option>
-                        <option value="Road">Road</option>
+                        <option value="Road Damage">Road Damage</option>
                         <option value="Garbage">Garbage</option>
                         <option value="Street Light">Street Light</option>
                     </select>
@@ -334,60 +430,86 @@ function AdminGISMap() {
                             />
                             {
 
-                                filteredComplaints.map((complaint) => (
+                                filteredComplaints.map((complaint) => {
+                                    console.log(
+                                        complaint.complaintId,
+                                        complaint.location
+                                    );
 
-                                    <Marker
-                                        key={complaint._id}
-                                        position={[
-                                            Number(complaint.latitude),
-                                            Number(complaint.longitude)
-                                        ]}
-                                        icon={getMarkerIcon(complaint.status)}
-                                        eventHandlers={{
-                                            click: () => {
+                                    return (
+                                        <Marker
+                                            key={complaint._id}
+                                            position={[
+                                                Number(complaint.location.latitude),
+                                                Number(complaint.location.longitude)
+                                            ]}
 
-                                                setSelectedComplaint(complaint);
+                                            icon={
+                                                selectedComplaint?._id === complaint._id
+                                                    ? new L.Icon({
+                                                        iconUrl: getMarkerIcon(complaint.status).options.iconUrl,
+                                                        shadowUrl: getMarkerIcon(complaint.status).options.shadowUrl,
+                                                        iconSize: [34, 55],
+                                                        iconAnchor: [17, 55]
+                                                    })
+                                                    : getMarkerIcon(complaint.status)
 
                                             }
-                                        }}
-                                    >
 
-                                        <Popup>
+                                            eventHandlers={{
+                                                click: () => {
+                                                    setSelectedComplaint(complaint);
 
-                                            <b>{complaint.complaintId}</b>
+                                                    setFocusLocation({
+                                                        lat: Number(complaint.location.latitude),
+                                                        lng: Number(complaint.location.longitude)
+                                                    });
+                                                }
+                                            }}
+                                        >
 
-                                            <br />
+                                            <Popup className="custom-popup" closeButton={false} autoPan={false}>
 
-                                            {complaint.category}
+                                                <div className="popup-card">
 
-                                            <br />
+                                                    <div className="popup-id">
+                                                        {complaint.complaintId}
+                                                    </div>
 
-                                            {complaint.status}
+                                                    <div><b>Category:</b> {complaint.category}</div>
 
-                                            <br />
+                                                    <div><b>Status:</b> {complaint.status}</div>
 
-                                            {complaint.area}
+                                                    <div><b>Area:</b> {complaint.location.area}</div>
 
-                                            <br /><br />
+                                                    <button
+                                                        className="popup-btn"
+                                                        onClick={() => {
+                                                            setSelectedComplaint(complaint);
 
-                                            <button
-                                                className="popup-btn"
-                                                onClick={() => setSelectedComplaint(complaint)}
-                                            >
-                                                View Details
-                                            </button>
+                                                            setFocusLocation({
+                                                                lat: Number(complaint.location.latitude),
+                                                                lng: Number(complaint.location.longitude)
+                                                            });
+                                                        }}
+                                                    >
+                                                        View Details
+                                                    </button>
 
-                                        </Popup>
+                                                </div>
 
-                                    </Marker>
+                                            </Popup>
 
-                                ))
+                                        </Marker>
+                                    );
+                                })
 
                             }
                             {
                                 focusLocation &&
 
                                 <MapFocus
+                                    key={`${focusLocation.lat}-${focusLocation.lng}`}
                                     lat={focusLocation.lat}
                                     lng={focusLocation.lng}
                                 />
@@ -428,28 +550,29 @@ function AdminGISMap() {
 
                                         <div
                                             key={index}
-                                            className={`hotspot-item ${index === 0
-                                                ? "danger"
-                                                : index === 1
-                                                    ? "warning"
-                                                    : ""
+                                            className={`hotspot-item ${selectedComplaint?.location?.area === item[0]
+                                                ? "active-hotspot"
+                                                : index === 0
+                                                    ? "danger"
+                                                    : index === 1
+                                                        ? "warning"
+                                                        : ""
                                                 }`}
                                             onClick={() => {
 
                                                 const complaint = complaints.find(
 
-                                                    c => c.area === item[0]
+                                                    c => c.location?.area === item[0]
 
                                                 );
 
                                                 if (complaint) {
 
+                                                    setSelectedComplaint(complaint);
+
                                                     setFocusLocation({
-
-                                                        lat: Number(complaint.latitude),
-
-                                                        lng: Number(complaint.longitude)
-
+                                                        lat: Number(complaint.location.latitude),
+                                                        lng: Number(complaint.location.longitude)
                                                     });
 
                                                 }
@@ -490,7 +613,19 @@ function AdminGISMap() {
 
                                             <div
                                                 key={c._id}
-                                                className="hotspot-row"
+                                                className={`hotspot-row ${selectedComplaint?._id === c._id ? "active-row" : ""
+                                                    }`}
+
+                                                onClick={() => {
+
+                                                    setSelectedComplaint(c);
+
+                                                    setFocusLocation({
+                                                        lat: Number(c.location.latitude),
+                                                        lng: Number(c.location.longitude)
+                                                    });
+
+                                                }}
                                             >
 
                                                 <div>
@@ -524,178 +659,191 @@ function AdminGISMap() {
                     </div>
 
                     <div className="details-panel">
+                        <div className="details-content">
 
-                        <div className="details-heading">
+                            <div className="details-heading">
 
-                            <h2>Complaint Details</h2>
+                                <h2>Complaint Details</h2>
 
-                            <div className="heading-line"></div>
+                                <div className="heading-line"></div>
 
-                        </div>
+                            </div>
 
 
-                        <div className="detail-row">
+                            <div className="detail-row">
 
-                            <span>Complaint ID</span>
+                                <span>Complaint ID</span>
 
-                            <strong>
+                                <strong>
 
-                                {selectedComplaint?.complaintId || "---"}
+                                    {selectedComplaint?.complaintId || "---"}
 
-                            </strong>
+                                </strong>
 
-                        </div>
+                            </div>
 
-                        <div className="detail-row">
+                            <div className="detail-row">
 
-                            <span>Citizen</span>
+                                <span>Citizen</span>
 
-                            <strong>
+                                <strong>
+                                    {selectedComplaint?.user?.name || "---"}
+                                </strong>
 
-                                {selectedComplaint?.citizenName || "---"}
+                            </div>
 
-                            </strong>
+                            <div className="detail-row">
 
-                        </div>
+                                <span>Category</span>
 
-                        <div className="detail-row">
+                                <strong>
 
-                            <span>Category</span>
+                                    {selectedComplaint?.category || "---"}
 
-                            <strong>
+                                </strong>
 
-                                {selectedComplaint?.category || "---"}
+                            </div>
 
-                            </strong>
+                            <div className="detail-row">
 
-                        </div>
+                                <span>Status</span>
 
-                        <div className="detail-row">
+                                <select
 
-                            <span>Status</span>
+                                    value={selectedComplaint?.status || ""}
 
-                            <strong>
+                                    onChange={(e) => updateComplaintStatus(e.target.value)}
 
-                                {selectedComplaint?.status || "---"}
+                                >
 
-                            </strong>
+                                    <option>Pending</option>
 
-                        </div>
+                                    <option>In Progress</option>
 
-                        <div className="detail-row">
+                                    <option>Resolved</option>
 
-                            <span>Area</span>
+                                    <option>Rejected</option>
 
-                            <strong>
+                                </select>
 
-                                {selectedComplaint?.area || "---"}
+                            </div>
 
-                            </strong>
+                            <div className="detail-row">
 
-                        </div>
+                                <span>Area</span>
 
-                        <div className="detail-row">
+                                <strong>
 
-                            <span>Description</span>
+                                    {selectedComplaint?.location?.area || "---"}
+
+                                </strong>
+
+                            </div>
+
+                            <div className="detail-row description-row">
+
+                                <span>Description</span>
+
+                                <div className="description-content">
+
+                                    <p>
+                                        {selectedComplaint?.description || "---"}
+                                    </p>
+
+                                </div>
+
+                            </div>
 
                             {
-                                selectedComplaint?.image && (
+                                selectedComplaint && (
+                                    <>
+                                        <div className="location-box">
 
-                                    <div className="gis-photo">
+                                            <h4>Location</h4>
 
-                                        <img
-                                            src={selectedComplaint.image}
-                                            alt="complaint"
-                                        />
+                                            <p>
+                                                Latitude : {selectedComplaint.location?.latitude}
+                                            </p>
 
-                                    </div>
+                                            <p>
+                                                Longitude : {selectedComplaint.location?.longitude}
+                                            </p>
 
-                                )
-                            }
-
-                            <strong>
-
-                                {selectedComplaint?.description || "---"}
-
-                            </strong>
-
-                        </div>
-
-                        {
-                            selectedComplaint && (
-                                <>
-                                    <div className="location-box">
-
-                                        <h4>Location</h4>
-
-                                        <p>
-                                            Latitude : {selectedComplaint.latitude}
-                                        </p>
-
-                                        <p>
-                                            Longitude : {selectedComplaint.longitude}
-                                        </p>
-
-                                        <p>
-                                            Area : {selectedComplaint.area}
-                                        </p>
-
-                                    </div>
-
-                                    <div className="analytics-box">
-
-                                        <h4>Complaint Analytics</h4>
-
-                                        <div className="analytics-grid">
-
-                                            <div className="analytics-item">
-                                                <span>Priority</span>
-                                                <strong>{selectedComplaint.priority || "Medium"}</strong>
-                                            </div>
-
-                                            <div className="analytics-item">
-                                                <span>Department</span>
-                                                <strong>{selectedComplaint.department || "Municipal"}</strong>
-                                            </div>
-
-                                            <div className="analytics-item">
-                                                <span>Reported</span>
-                                                <strong>
-                                                    {selectedComplaint.createdAt
-                                                        ? new Date(selectedComplaint.createdAt).toLocaleDateString()
-                                                        : "--"}
-                                                </strong>
-                                            </div>
-
-                                            <div className="analytics-item">
-                                                <span>Updated</span>
-                                                <strong>
-                                                    {selectedComplaint.updatedAt
-                                                        ? new Date(selectedComplaint.updatedAt).toLocaleDateString()
-                                                        : "--"}
-                                                </strong>
-                                            </div>
+                                            <p>
+                                                Area : {selectedComplaint.location?.area}
+                                            </p>
 
                                         </div>
 
-                                    </div>
-                                </>
-                            )
-                        }
+                                        {selectedComplaint?.image && (
+                                            <div className="gis-photo">
+                                                <img
+                                                    src={`http://localhost:5000/uploads/${selectedComplaint.image}`}
+                                                    alt="complaint"
+                                                />
+                                            </div>
+                                        )}
 
+                                        <div className="analytics-box">
+
+                                            <h4>Complaint Analytics</h4>
+
+                                            <div className="analytics-grid">
+
+                                                <div className="analytics-item">
+                                                    <span>Priority</span>
+                                                    <strong>{selectedComplaint.priority || "Medium"}</strong>
+                                                </div>
+
+                                                <div className="analytics-item">
+                                                    <span>Department</span>
+                                                    <strong>{selectedComplaint.department || "Municipal"}</strong>
+                                                </div>
+
+                                                <div className="analytics-item">
+                                                    <span>Reported</span>
+                                                    <strong>
+                                                        {selectedComplaint.createdAt
+                                                            ? new Date(selectedComplaint.createdAt).toLocaleDateString()
+                                                            : "--"}
+                                                    </strong>
+                                                </div>
+
+                                                <div className="analytics-item">
+                                                    <span>Updated</span>
+                                                    <strong>
+                                                        {selectedComplaint.updatedAt
+                                                            ? new Date(selectedComplaint.updatedAt).toLocaleDateString()
+                                                            : "--"}
+                                                    </strong>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </>
+                                )
+                            }
+                        </div>
                         <div className="details-footer">
 
-                            📍 SELECT A MARKER ON THE MAP
+                            {selectedComplaint
+                                ? `Viewing ${selectedComplaint.complaintId}`
+                                : "SELECT A MARKER ON THE MAP"
+                            }
 
                         </div>
 
+
                     </div>
+
+
 
                 </div>
 
             </div>
 
-        </div>
+        </div >
     );
 }
 

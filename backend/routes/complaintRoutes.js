@@ -16,7 +16,7 @@ const { protect } = require("../middleware/authMiddleware");
 router.post("/", protect, upload.single("image"), createComplaint);
 router.get("/", protect, getComplaints);
 
-router.get("/admin/all", getAllComplaints);
+router.get("/admin/all", protect, getAllComplaints);
 router.get("/admin/export-excel", protect, exportComplaintsExcel);
 router.get("/track/:complaintId", getComplaintByComplaintId);
 

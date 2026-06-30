@@ -15,6 +15,10 @@ function LodgeComplaint() {
     area: ""
   });
   const handleSubmit = async (e) => {
+    if (!selectedLocation.latitude) {
+      alert("Please select complaint location");
+      return;
+    }
     e.preventDefault();
 
     try {
@@ -24,7 +28,14 @@ function LodgeComplaint() {
 
       formData.append("title", title);
       formData.append("category", category);
-      formData.append("location", location);
+      formData.append(
+        "location",
+        JSON.stringify({
+          latitude: selectedLocation.latitude,
+          longitude: selectedLocation.longitude,
+          area: selectedLocation.area,
+        })
+      );
       formData.append("description", description);
 
       if (image) {
