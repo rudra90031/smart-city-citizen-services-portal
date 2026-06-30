@@ -139,6 +139,96 @@ function Bills() {
 
             </div>
 
+            <section className="profile-section">
+
+                <div className="profile-header">
+
+                    <div className="profile-avatar">
+                        RP
+                    </div>
+
+                    <div>
+
+                        <h2>Rudra Pratap Singh</h2>
+
+                        <p>rudra@gmail.com</p>
+
+                    </div>
+
+                </div>
+
+                <div className="profile-grid">
+
+                    <div className="profile-card">
+
+                        <h3>Personal Details</h3>
+
+                        <label>Full Name</label>
+                        <input type="text" value="Rudra Pratap Singh" />
+
+                        <label>Email</label>
+                        <input type="email" value="rudra@gmail.com" />
+
+                        <label>Mobile Number</label>
+                        <input type="text" value="+91 9876543210" />
+
+                        <button className="save-btn">
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                    <div className="profile-card">
+
+                        <h3>Change Password</h3>
+
+                        <label>Current Password</label>
+                        <input type="password" />
+
+                        <label>New Password</label>
+                        <input type="password" />
+
+                        <label>Confirm Password</label>
+                        <input type="password" />
+
+                        <button className="save-btn">
+                            Update Password
+                        </button>
+
+                    </div>
+
+                    <div className="profile-card">
+
+                        <h3>Account Information</h3>
+
+                        <div className="info-row">
+                            <span>Citizen ID</span>
+                            <strong>SC-2026-0015</strong>
+                        </div>
+
+                        <div className="info-row">
+                            <span>Account Status</span>
+                            <strong className="active-status">
+                                Active
+                            </strong>
+                        </div>
+
+                        <div className="info-row">
+                            <span>Registered On</span>
+                            <strong>15 Jan 2026</strong>
+                        </div>
+
+                        <div className="info-row">
+                            <span>Last Login</span>
+                            <strong>Today</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
         </section>
     );
 }
