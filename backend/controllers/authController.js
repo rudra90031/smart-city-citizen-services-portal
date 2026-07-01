@@ -80,6 +80,8 @@ const loginUser = async (req, res) => {
                 id: user._id,
                 name: user.name,
                 email: user.email,
+                mobile: user.mobile,
+                profilePic: user.profilePic,
                 role: user.role,
             },
         });
@@ -109,7 +111,7 @@ const getProfile = async (req, res) => {
 };
 
 module.exports = {
-  registerUser,
-  loginUser,
-  getProfile,
+    registerUser,
+    loginUser,
+    getProfile,
 };

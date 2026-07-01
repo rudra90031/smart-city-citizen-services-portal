@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { getComplaints } from "../services/authService";
+import { useNavigate } from "react-router-dom";
 function Dashboard() {
   const [showMenu, setShowMenu] = useState(false);
   const [userName, setUserName] = useState("");
   const [complaints, setComplaints] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
 
     const user = JSON.parse(
@@ -57,13 +59,79 @@ function Dashboard() {
               ✕
             </button>
 
-            <h2>Dashboard</h2>
-            <h2>Complaints</h2>
-            <h2>Certificates</h2>
-            <h2>Bills</h2>
-            <h2>Profile</h2>
-            <h2>Admin</h2>
-            <h2>Logout</h2>
+            <h2
+              onClick={() => {
+                document.getElementById("dashboard")?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+                setShowMenu(false);
+              }}
+            >
+              Dashboard
+            </h2>
+
+            <h2
+              onClick={() => {
+                document.getElementById("complaints")?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+                setShowMenu(false);
+              }}
+            >
+              Complaints
+            </h2>
+
+            <h2
+              onClick={() => {
+                document.getElementById("certificates")?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+                setShowMenu(false);
+              }}
+            >
+              Certificates
+            </h2>
+
+            <h2
+              onClick={() => {
+                document.getElementById("bills")?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+                setShowMenu(false);
+              }}
+            >
+              Bills
+            </h2>
+
+            <h2
+              onClick={() => {
+                document
+                  .getElementById("profile")
+                  ?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+
+                setShowMenu(false);
+              }}
+            >
+              Profile
+            </h2>
+
+            <h2
+              onClick={() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+
+                navigate("/");
+              }}
+            >
+              Logout
+            </h2>
 
           </div>
         </>

@@ -39,8 +39,9 @@ function AuthSection() {
         try {
 
             const response = await loginUser(loginData);
-            console.log(response);
 
+            console.log("LOGIN RESPONSE:", response);
+            console.log("USER:", response.user);
             localStorage.setItem("token", response.token);
             localStorage.setItem(
                 "user",

@@ -5,6 +5,7 @@ import Portal from "./pages/Portal";
 import LodgeComplaint from "./pages/LodgeComplaint";
 import TrackComplaint from "./pages/TrackComplaint";
 import Certificates from "./pages/Certificates";
+
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminComplaints from "./pages/AdminComplaints";
 import AdminComplaintDetails from "./pages/AdminComplaintDetails";
@@ -12,6 +13,7 @@ import AdminCertificates from "./pages/AdminCertificates";
 import AdminCertificateDetails from "./pages/AdminCertificateDetails";
 import AdminBills from "./pages/AdminBills";
 import AdminGISMap from "./pages/AdminGISMap";
+import AdminNotifications from "./pages/AdminNotifications";
 function App() {
   return (
     <BrowserRouter>
@@ -27,6 +29,7 @@ function App() {
           path="/certificates"
           element={<Certificates />}
         />
+
         <Route
           path="/admin/dashboard"
           element={<AdminDashboard />}
@@ -47,6 +50,10 @@ function App() {
         <Route
           path="/admin/gis"
           element={<AdminGISMap />}
+        />
+        <Route
+          path="/admin/notifications"
+          element={<AdminNotifications />}
         />
         <Route
           path="/admin/certificates/:id"

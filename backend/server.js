@@ -8,6 +8,7 @@ const { protect } = require("./middleware/authMiddleware");
 const complaintRoutes = require("./routes/complaintRoutes");
 const certificateRoutes = require("./routes/certificateRoutes");
 const billRoutes = require("./routes/billRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
 
 const path = require("path");
 
@@ -34,6 +35,10 @@ app.get("/api/profile", protect, (req, res) => {
 app.use(
   "/api/certificates",
   certificateRoutes
+);
+app.use(
+  "/api/notifications",
+  notificationRoutes
 );
 app.use(
   "/uploads",

@@ -1,0 +1,351 @@
+/* ==========================================================
+   PAGE
+========================================================== */
+
+.notification-container{
+
+    margin-left:260px;   /* Sidebar width */
+
+    width:calc(100% - 260px);
+
+    min-height:100vh;
+
+    padding:30px;
+
+    background:#eef4ff;
+
+    box-sizing:border-box;
+
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.notification-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+}
+
+.notification-top h1{
+
+    font-family:
+        Impact,
+        Haettenschweiler,
+        "Arial Narrow Bold",
+        sans-serif;
+
+    font-size:52px;
+
+    font-weight:400;
+
+    color:#111;
+
+    margin:0;
+
+    letter-spacing:.5px;
+
+}
+
+.notification-top p{
+
+    margin-top:6px;
+
+    color:#6d6d6d;
+
+    font-size:15px;
+
+}
+
+/* ==========================================================
+   TOTAL SENT CARD
+========================================================== */
+
+.notification-count{
+
+    width:170px;
+
+    height:95px;
+
+    background:#ff6600;
+
+    border-radius:6px;
+
+    color:#fff;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.notification-count h2{
+
+    margin:0;
+
+    font-size:34px;
+
+    font-weight:700;
+
+}
+
+.notification-count span{
+
+    font-size:13px;
+
+}
+
+/* ==========================================================
+   COMPOSE CARD
+========================================================== */
+
+.notification-card{
+
+    background:#fff;
+
+    border:1px solid #ddd;
+
+    border-radius:6px;
+
+    padding:24px;
+
+}
+
+.notification-card h3{
+
+    margin:0 0 22px;
+
+    font-family:
+        Impact,
+        Haettenschweiler,
+        "Arial Narrow Bold",
+        sans-serif;
+
+    font-size:28px;
+
+    font-weight:400;
+
+}
+
+.notification-card label{
+
+    display:block;
+
+    margin-top:18px;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+    color:#333;
+
+}
+
+.notification-card input,
+
+.notification-card select,
+
+.notification-card textarea{
+
+    width:100%;
+
+    border:1px solid #d8d8d8;
+
+    border-radius:4px;
+
+    padding:12px 14px;
+
+    font-size:15px;
+
+    outline:none;
+
+    box-sizing:border-box;
+
+    transition:.2s;
+
+}
+
+.notification-card textarea{
+
+    resize:none;
+
+}
+
+.notification-card input:focus,
+
+.notification-card select:focus,
+
+.notification-card textarea:focus{
+
+    border-color:#ff6600;
+
+}
+
+/* ==========================================================
+   BUTTON
+========================================================== */
+
+.send-btn{
+
+    margin-top:25px;
+
+    width:210px;
+
+    height:48px;
+
+    border:none;
+
+    background:#111;
+
+    color:#fff;
+
+    cursor:pointer;
+
+    border-radius:4px;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    transition:.25s;
+
+}
+
+.send-btn:hover{
+
+    background:#ff6600;
+
+}
+
+/* ==========================================================
+   RECENT CARD
+========================================================== */
+
+.recent-card{
+
+    margin-top:28px;
+
+    background:#fff;
+
+    border:1px solid #ddd;
+
+    border-radius:6px;
+
+    overflow:hidden;
+
+}
+
+.recent-card h3{
+
+    margin:0;
+
+    padding:18px 22px;
+
+    border-bottom:1px solid #eee;
+
+    font-family:
+        Impact,
+        Haettenschweiler,
+        "Arial Narrow Bold",
+        sans-serif;
+
+    font-size:28px;
+
+    font-weight:400;
+
+}
+
+/* ==========================================================
+   RECENT ITEM
+========================================================== */
+
+.recent-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 22px;
+
+    border-bottom:1px solid #eee;
+
+    transition:.2s;
+
+}
+
+.recent-item:last-child{
+
+    border-bottom:none;
+
+}
+
+.recent-item:hover{
+
+    background:#fafafa;
+
+}
+
+.recent-item h4{
+
+    margin:0;
+
+    color:#222;
+
+    font-size:16px;
+
+}
+
+.recent-item p{
+
+    margin-top:6px;
+
+    color:#777;
+
+    font-size:14px;
+
+}
+
+.recent-item span{
+
+    color:#888;
+
+    font-size:13px;
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:900px){
+
+    .notification-top{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:18px;
+
+    }
+
+    .notification-count{
+
+        width:100%;
+
+    }
+
+}
