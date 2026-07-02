@@ -266,65 +266,6 @@
 
 }
 
-/* ==========================================================
-   RECENT ITEM
-========================================================== */
-
-.recent-item{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:18px 22px;
-
-    border-bottom:1px solid #eee;
-
-    transition:.2s;
-
-}
-
-.recent-item:last-child{
-
-    border-bottom:none;
-
-}
-
-.recent-item:hover{
-
-    background:#fafafa;
-
-}
-
-.recent-item h4{
-
-    margin:0;
-
-    color:#222;
-
-    font-size:16px;
-
-}
-
-.recent-item p{
-
-    margin-top:6px;
-
-    color:#777;
-
-    font-size:14px;
-
-}
-
-.recent-item span{
-
-    color:#888;
-
-    font-size:13px;
-
-}
 
 /* ==========================================================
    RESPONSIVE

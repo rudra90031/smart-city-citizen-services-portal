@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminNotifications.css";
 
@@ -12,31 +13,38 @@ function AdminNotifications() {
 
     const [message, setMessage] = useState("");
 
-    const recentNotifications = [
+    const handleSend = async () => {
 
-        {
-            title: "Water Supply Maintenance",
-            target: "All Users",
-            time: "Today • 09:30 AM"
-        },
+        try {
 
-        {
-            title: "Holiday Notice",
-            target: "All Users",
-            time: "Yesterday"
-        },
+            await axios.post(
 
-        {
-            title: "Complaint Status Update",
-            target: "rudratest3@gmail.com",
-            time: "2 Days Ago"
+                "http://localhost:5000/api/email/send",
+
+                {
+                    recipient,
+                    email,
+                    subject,
+                    message
+                }
+
+            );
+
+            alert("Notification Sent");
+
+            setSubject("");
+
+            setMessage("");
+
+            setEmail("");
+
         }
 
-    ];
+        catch (err) {
 
-    const handleSend = () => {
+            console.log(err);
 
-        alert("Backend will send email here.");
+        }
 
     };
 
@@ -121,7 +129,7 @@ function AdminNotifications() {
 
                                     value={email}
 
-                                    onChange={(e)=>setEmail(e.target.value)}
+                                    onChange={(e) => setEmail(e.target.value)}
 
                                 />
 
@@ -145,7 +153,7 @@ function AdminNotifications() {
 
                         value={subject}
 
-                        onChange={(e)=>setSubject(e.target.value)}
+                        onChange={(e) => setSubject(e.target.value)}
 
                     />
 
@@ -164,7 +172,7 @@ function AdminNotifications() {
 
                         value={message}
 
-                        onChange={(e)=>setMessage(e.target.value)}
+                        onChange={(e) => setMessage(e.target.value)}
 
                     ></textarea>
 
@@ -177,55 +185,6 @@ function AdminNotifications() {
                         Send Email
 
                     </button>
-
-                </div>
-
-
-
-                <div className="recent-card">
-
-                    <h3>
-
-                        Recent Notifications
-
-                    </h3>
-
-                    {
-
-                        recentNotifications.map((item,index)=>(
-
-                            <div
-                                className="recent-item"
-                                key={index}
-                            >
-
-                                <div>
-
-                                    <h4>
-
-                                        {item.title}
-
-                                    </h4>
-
-                                    <p>
-
-                                        {item.target}
-
-                                    </p>
-
-                                </div>
-
-                                <span>
-
-                                    {item.time}
-
-                                </span>
-
-                            </div>
-
-                        ))
-
-                    }
 
                 </div>
 

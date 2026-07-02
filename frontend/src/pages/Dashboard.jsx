@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { getComplaints } from "../services/authService";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 function Dashboard() {
   const [showMenu, setShowMenu] = useState(false);
   const [userName, setUserName] = useState("");
   const [complaints, setComplaints] = useState([]);
+  const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
 
@@ -31,6 +33,34 @@ function Dashboard() {
     };
 
     fetchComplaints();
+
+    const fetchNotifications = async () => {
+
+    try {
+
+        const user = JSON.parse(
+            localStorage.getItem("user")
+        );
+
+        const res = await axios.get(
+
+            `http://localhost:5000/api/notifications/${user.id}`
+
+        );
+
+        setNotifications(res.data);
+
+    }
+
+    catch (err) {
+
+        console.log(err);
+
+    }
+
+};
+
+fetchNotifications();
 
   }, []);
   console.log("STATE:", complaints);
@@ -247,39 +277,53 @@ function Dashboard() {
 
             <div className="notifications-list">
 
-              <div className="notification-item">
-                Certificate Approved
-              </div>
+    {
 
-              <div className="notification-item">
-                Water Bill Due in 3 Days
-              </div>
+        notifications.length === 0 ?
 
-              <div className="notification-item">
-                Complaint #102 Status Updated
-              </div>
+        (
 
-              <div className="notification-item">
-                Property Tax Reminder
-              </div>
+            <div className="notification-item">
 
-              <div className="notification-item">
-                New City Announcement
-              </div>
-
-              <div className="notification-item">
-                Complaint Resolved Successfully
-              </div>
-
-              <div className="notification-item">
-                Electricity Bill Generated
-              </div>
-
-              <div className="notification-item">
-                New Service Available
-              </div>
+                No Notifications Yet
 
             </div>
+
+        )
+
+        :
+
+        notifications.map((notification) => (
+
+            <div
+
+                key={notification._id}
+
+                className="notification-item"
+
+            >
+
+                <strong>
+
+                    {notification.title}
+
+                </strong>
+
+                <br />
+
+                <span>
+
+                    {notification.message}
+
+                </span>
+
+            </div>
+
+        ))
+
+    }
+
+</div>
 
           </div>
 

@@ -1,130 +1,72 @@
-const Notification=require("../models/Notification");
-const User=require("../models/User");
-const nodemailer=require("nodemailer");
+const Notification = require("../models/Notification");
 
-const transporter=nodemailer.createTransport({
+const getUserNotifications = async(req,res)=>{
 
-    service:"gmail",
+    try{
 
-    auth:{
-        user:process.env.EMAIL,
-        pass:process.env.EMAIL_PASSWORD
+        const notifications = await Notification.find({
+
+            userId:req.params.userId
+
+        })
+
+        .sort({createdAt:-1});
+
+        res.json(notifications);
+
     }
 
-});
+    catch(err){
 
-const sendNotification=async(req,res)=>{
+        res.status(500).json({
 
-try{
+            message:err.message
 
-const{
+        });
 
-recipient,
-email,
-subject,
-message
-
-}=req.body;
-
-
-if(recipient==="all"){
-
-const users=await User.find();
-
-for(const user of users){
-
-await transporter.sendMail({
-
-from:process.env.EMAIL,
-
-to:user.email,
-
-subject,
-
-text:message
-
-});
-
-}
-
-await Notification.create({
-
-recipient:"All Users",
-
-subject,
-
-message,
-
-sentTo:"all"
-
-});
-
-}
-
-else{
-
-await transporter.sendMail({
-
-from:process.env.EMAIL,
-
-to:email,
-
-subject,
-
-text:message
-
-});
-
-await Notification.create({
-
-recipient:email,
-
-subject,
-
-message,
-
-sentTo:"single"
-
-});
-
-}
-
-res.json({
-
-message:"Notification Sent"
-
-});
-
-}
-
-catch(err){
-
-console.log(err);
-
-res.status(500).json({
-
-message:"Server Error"
-
-});
-
-}
+    }
 
 };
 
-const getNotifications=async(req,res)=>{
+const markAsRead = async(req,res)=>{
 
-const data=await Notification
-.find()
-.sort({createdAt:-1});
+    try{
 
-res.json(data);
+        await Notification.findByIdAndUpdate(
+
+            req.params.id,
+
+            {
+
+                isRead:true
+
+            }
+
+        );
+
+        res.json({
+
+            message:"Notification marked as read"
+
+        });
+
+    }
+
+    catch(err){
+
+        res.status(500).json({
+
+            message:err.message
+
+        });
+
+    }
 
 };
-
 module.exports={
 
-sendNotification,
+    getUserNotifications,
 
-getNotifications
+    markAsRead
 
 };

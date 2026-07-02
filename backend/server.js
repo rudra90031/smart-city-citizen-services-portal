@@ -8,8 +8,8 @@ const { protect } = require("./middleware/authMiddleware");
 const complaintRoutes = require("./routes/complaintRoutes");
 const certificateRoutes = require("./routes/certificateRoutes");
 const billRoutes = require("./routes/billRoutes");
-const notificationRoutes = require("./routes/notificationRoutes");
-
+const emailRoutes = require("./routes/emailRoutes");
+const notificationRoutes=require("./routes/notificationRoutes");
 const path = require("path");
 
 dotenv.config();
@@ -33,13 +33,19 @@ app.get("/api/profile", protect, (req, res) => {
   });
 });
 app.use(
-  "/api/certificates",
-  certificateRoutes
+    "/api/certificates",
+    certificateRoutes
 );
+app.use("/api/email", emailRoutes);
+
 app.use(
-  "/api/notifications",
-  notificationRoutes
+
+    "/api/notifications",
+
+    notificationRoutes
+
 );
+
 app.use(
   "/uploads",
   express.static(

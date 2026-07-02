@@ -1,16 +1,17 @@
-const express=require("express");
+const express = require("express");
 
-const router=express.Router();
+const router = express.Router();
 
-const{
+const {
 
-sendNotification,
-getNotifications
+    getUserNotifications,
 
-}=require("../controllers/notificationController");
+    markAsRead
 
-router.post("/send",sendNotification);
+} = require("../controllers/notificationController");
 
-router.get("/",getNotifications);
+router.get("/:userId", getUserNotifications);
 
-module.exports=router;
+router.put("/:id/read", markAsRead);
+
+module.exports = router;
