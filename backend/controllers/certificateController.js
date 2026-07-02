@@ -1,8 +1,9 @@
 const Certificate = require("../models/Certificate");
-
+const Notification = require("../models/Notification");
 const createCertificate = async (req, res) => {
 
     try {
+
         console.log("REQ BODY =", req.body);
         console.log("REQ FILES =", req.files);
 
@@ -10,26 +11,47 @@ const createCertificate = async (req, res) => {
             "CERT-" + Date.now().toString().slice(-6);
 
         const certificate = await Certificate.create({
+
             user: req.user.id,
+
             certificateType: req.body.certificateType,
+
             purpose: req.body.purpose,
+
             address: req.body.address,
+
             aadhaarFile:
                 req.files?.aadhaarFile?.[0]?.filename || "",
 
             supportingFile:
                 req.files?.supportingFile?.[0]?.filename || "",
+
             applicationId,
+
+        });
+
+        await Notification.create({
+
+            userId: certificate.user,
+
+            title: "Certificate Application Submitted",
+
+            message: `Your ${certificate.certificateType} application (${certificate.applicationId}) has been submitted successfully.`,
+
+            type: "certificate"
+
         });
 
         res.status(201).json(certificate);
 
     } catch (error) {
+
         console.log(error);
 
         res.status(500).json({
             message: error.message,
         });
+
     }
 
 };
@@ -92,14 +114,24 @@ const updateCertificateStatus = async (req, res) => {
     try {
         const { status, adminRemarks } = req.body;
 
-        const certificate = await Certificate.findByIdAndUpdate(
-            req.params.id,
-            {
-                status,
-                adminRemarks,
-            },
-            { new: true }
-        );
+        const certificate = await Certificate.findById(req.params.id);
+
+certificate.status = status;
+certificate.adminRemarks = adminRemarks;
+
+await certificate.save();
+
+await Notification.create({
+
+    userId: certificate.user,
+
+    title: `Certificate ${certificate.status}`,
+
+    message: `Your ${certificate.certificateType} application is now ${certificate.status}.`,
+
+    type: "certificate"
+
+});
 
         res.status(200).json(certificate);
     } catch (error) {

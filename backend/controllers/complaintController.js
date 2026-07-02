@@ -1,4 +1,5 @@
 const Complaint = require("../models/Complaint");
+const Notification = require("../models/Notification");
 const XLSX = require("xlsx");
 
 const createComplaint = async (req, res) => {
@@ -33,6 +34,12 @@ const createComplaint = async (req, res) => {
       `SC-${new Date().getFullYear()}-${String(count).padStart(4, "0")}`;
 
     await complaint.save();
+    await Notification.create({
+    userId: complaint.user,
+    title: "Complaint Submitted",
+    message: `Your complaint (${complaint.complaintId}) has been submitted successfully.`,
+    type: "complaint"
+});
 
     res.status(201).json({
       message: "Complaint Submitted Successfully",
@@ -126,6 +133,45 @@ const updateComplaintStatus = async (req, res) => {
     complaint.status = req.body.status;
 
     await complaint.save();
+
+const status = complaint.status;
+
+let message = "";
+
+switch (status) {
+
+    case "Pending":
+        message = `Your complaint (${complaint.complaintId}) is waiting for review.`;
+        break;
+
+    case "In Progress":
+        message = `Your complaint (${complaint.complaintId}) is currently being processed.`;
+        break;
+
+    case "Resolved":
+        message = `Your complaint (${complaint.complaintId}) has been resolved successfully.`;
+        break;
+
+    case "Rejected":
+        message = `Your complaint (${complaint.complaintId}) has been rejected.`;
+        break;
+
+    default:
+        message = `Your complaint (${complaint.complaintId}) status has been updated to ${status}.`;
+
+}
+
+await Notification.create({
+
+    userId: complaint.user,
+
+    title: `Complaint ${status}`,
+
+    message,
+
+    type: "complaint"
+
+});
 
     res.status(200).json({
       message: "Status Updated",

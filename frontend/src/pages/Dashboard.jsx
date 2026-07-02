@@ -38,14 +38,10 @@ function Dashboard() {
 
     try {
 
-        const user = JSON.parse(
-            localStorage.getItem("user")
-        );
+        const user = JSON.parse(localStorage.getItem("user"));
 
         const res = await axios.get(
-
             `http://localhost:5000/api/notifications/${user.id}`
-
         );
 
         setNotifications(res.data);
@@ -62,7 +58,32 @@ function Dashboard() {
 
 fetchNotifications();
 
+
   }, []);
+
+  const markAsRead = async (id) => {
+
+    try {
+
+        await axios.put(
+            `http://localhost:5000/api/notifications/${id}/read`
+        );
+
+        setNotifications((prev) =>
+            prev.map((item) =>
+                item._id === id
+                    ? { ...item, isRead: true }
+                    : item
+            )
+        );
+
+    } catch (err) {
+
+        console.log(err);
+
+    }
+
+};
   console.log("STATE:", complaints);
   return (
     <>
@@ -295,31 +316,21 @@ fetchNotifications();
 
         notifications.map((notification) => (
 
-            <div
+    <div
+        key={notification._id}
+        className={`notification-item ${notification.isRead ? "" : "unread"}`}
+        onClick={() => markAsRead(notification._id)}
+    >
 
-                key={notification._id}
+        <strong>{notification.title}</strong>
 
-                className="notification-item"
+        <br />
 
-            >
+        <span>{notification.message}</span>
 
-                <strong>
+    </div>
 
-                    {notification.title}
-
-                </strong>
-
-                <br />
-
-                <span>
-
-                    {notification.message}
-
-                </span>
-
-            </div>
-
-        ))
+))
 
     }
 

@@ -563,6 +563,20 @@ ul {
   padding: 25px;
 }
 
+.notification-item.unread{
+    border-left:4px solid #2563eb;
+    background:#eef6ff;
+    cursor:pointer;
+}
+
+.notification-item.unread strong{
+    color:#2563eb;
+}
+
+.notification-item{
+    cursor:pointer;
+}
+
 .card-header {
   display: flex;
 

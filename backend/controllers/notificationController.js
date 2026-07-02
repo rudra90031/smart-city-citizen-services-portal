@@ -1,26 +1,24 @@
 const Notification = require("../models/Notification");
 
-const getUserNotifications = async(req,res)=>{
+const getUserNotifications = async (req, res) => {
 
-    try{
+    try {
 
         const notifications = await Notification.find({
 
-            userId:req.params.userId
+            userId: req.params.userId
 
-        })
+        }).sort({ createdAt: -1 });
 
-        .sort({createdAt:-1});
-
-        res.json(notifications);
+        res.status(200).json(notifications);
 
     }
 
-    catch(err){
+    catch (err) {
 
         res.status(500).json({
 
-            message:err.message
+            message: err.message
 
         });
 
@@ -28,9 +26,9 @@ const getUserNotifications = async(req,res)=>{
 
 };
 
-const markAsRead = async(req,res)=>{
+const markAsRead = async (req, res) => {
 
-    try{
+    try {
 
         await Notification.findByIdAndUpdate(
 
@@ -38,7 +36,7 @@ const markAsRead = async(req,res)=>{
 
             {
 
-                isRead:true
+                isRead: true
 
             }
 
@@ -46,24 +44,25 @@ const markAsRead = async(req,res)=>{
 
         res.json({
 
-            message:"Notification marked as read"
+            message: "Notification marked as read"
 
         });
 
     }
 
-    catch(err){
+    catch (err) {
 
         res.status(500).json({
 
-            message:err.message
+            message: err.message
 
         });
 
     }
 
 };
-module.exports={
+
+module.exports = {
 
     getUserNotifications,
 

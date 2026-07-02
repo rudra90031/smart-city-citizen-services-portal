@@ -1,5 +1,6 @@
 const Bill = require("../models/Bill");
 const User = require("../models/User");
+const Notification = require("../models/Notification");
 
 exports.getBills = async (req, res) => {
     try {
@@ -62,6 +63,18 @@ exports.createBill = async (req, res) => {
             user: foundUser._id
         });
 
+        await Notification.create({
+
+    userId: foundUser._id,
+
+    title: "New Utility Bill Generated",
+
+    message: `A new ${type} bill (${bill.billId}) of ₹${amount} has been generated.`,
+
+    type: "bill"
+
+});
+
         res.status(201).json(bill);
 
     } catch (error) {
@@ -83,6 +96,18 @@ exports.updateBill = async (req, res) => {
             { new: true }
         );
 
+        await Notification.create({
+
+    userId: bill.user,
+
+    title: "Bill Updated",
+
+    message: `Your bill (${bill.billId}) has been updated.`,
+
+    type: "bill"
+
+});
+
         res.status(200).json(bill);
     } catch (error) {
         res.status(500).json(error);
@@ -103,6 +128,18 @@ exports.payBill = async (req, res) => {
         bill.isPaid = true;
 
         await bill.save();
+
+        await Notification.create({
+
+    userId: bill.user,
+
+    title: "Bill Payment Successful",
+
+    message: `Your payment for bill (${bill.billId}) has been completed successfully.`,
+
+    type: "bill"
+
+});
 
         res.status(200).json({
             message: "Payment Successful",
