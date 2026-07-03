@@ -36,27 +36,27 @@ function Dashboard() {
 
     const fetchNotifications = async () => {
 
-    try {
+      try {
 
         const user = JSON.parse(localStorage.getItem("user"));
 
         const res = await axios.get(
-            `http://localhost:5000/api/notifications/${user.id}`
+          `http://localhost:5000/api/notifications/${user.id}`
         );
 
         setNotifications(res.data);
 
-    }
+      }
 
-    catch (err) {
+      catch (err) {
 
         console.log(err);
 
-    }
+      }
 
-};
+    };
 
-fetchNotifications();
+    fetchNotifications();
 
 
   }, []);
@@ -65,25 +65,25 @@ fetchNotifications();
 
     try {
 
-        await axios.put(
-            `http://localhost:5000/api/notifications/${id}/read`
-        );
+      await axios.put(
+        `http://localhost:5000/api/notifications/${id}/read`
+      );
 
-        setNotifications((prev) =>
-            prev.map((item) =>
-                item._id === id
-                    ? { ...item, isRead: true }
-                    : item
-            )
-        );
+      setNotifications((prev) =>
+        prev.map((item) =>
+          item._id === id
+            ? { ...item, isRead: true }
+            : item
+        )
+      );
 
     } catch (err) {
 
-        console.log(err);
+      console.log(err);
 
     }
 
-};
+  };
   console.log("STATE:", complaints);
   return (
     <>
@@ -298,43 +298,50 @@ fetchNotifications();
 
             <div className="notifications-list">
 
-    {
+              {notifications.length === 0 ? (
 
-        notifications.length === 0 ?
+                <div className="notification-empty">
+                  No Notifications Yet
+                </div>
 
-        (
+              ) : (
 
-            <div className="notification-item">
+                notifications.map((notification) => (
 
-                No Notifications Yet
+                  <div
+                    key={notification._id}
+                    className="notification-row"
+                  >
+
+                    <div className="notification-left">
+
+                      <span className="notification-dot"></span>
+
+                      <span className="notification-title">
+                        {notification.title}
+                      </span>
+
+                    </div>
+
+                    <span className="notification-time">
+
+                      {new Date(notification.createdAt).toLocaleString("en-IN", {
+                        day: "numeric",
+                        month: "numeric",
+                        year: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit",
+                      })}
+
+                    </span>
+
+                  </div>
+
+                ))
+
+              )}
 
             </div>
-
-        )
-
-        :
-
-        notifications.map((notification) => (
-
-    <div
-        key={notification._id}
-        className={`notification-item ${notification.isRead ? "" : "unread"}`}
-        onClick={() => markAsRead(notification._id)}
-    >
-
-        <strong>{notification.title}</strong>
-
-        <br />
-
-        <span>{notification.message}</span>
-
-    </div>
-
-))
-
-    }
-
-</div>
 
           </div>
 

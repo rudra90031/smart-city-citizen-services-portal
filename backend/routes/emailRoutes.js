@@ -11,4 +11,4 @@ router.post("/send", sendNotification);
 
 router.get("/", getNotifications);
 
-module.exports = router;
+             module.exports = router;

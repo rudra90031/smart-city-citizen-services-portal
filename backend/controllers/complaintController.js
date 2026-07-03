@@ -19,7 +19,29 @@ const createComplaint = async (req, res) => {
 
     const parsedLocation = JSON.parse(location);
 
+    const lastComplaint = await Complaint.findOne({
+      complaintId: { $exists: true, $ne: "" }
+    })
+      .sort({ complaintId: -1 })
+      .select("complaintId");
+
+    let nextNumber = 1;
+
+    if (lastComplaint?.complaintId) {
+      const parts = lastComplaint.complaintId.split("-");
+      const lastNumber = parseInt(parts[2], 10);
+
+      if (!isNaN(lastNumber)) {
+        nextNumber = lastNumber + 1;
+      }
+    }
+
+    const complaintId = `SC-${new Date().getFullYear()}-${String(nextNumber).padStart(4, "0")}`;
+    console.log("Last Complaint:", lastComplaint);
+    console.log("Generated Complaint ID:", complaintId);
+
     const complaint = await Complaint.create({
+      complaintId,
       user: req.user.id,
       title,
       description,
@@ -28,18 +50,13 @@ const createComplaint = async (req, res) => {
       image: req.file ? req.file.filename : "",
     });
 
-    const count = await Complaint.countDocuments();
 
-    complaint.complaintId =
-      `SC-${new Date().getFullYear()}-${String(count).padStart(4, "0")}`;
-
-    await complaint.save();
     await Notification.create({
-    userId: complaint.user,
-    title: "Complaint Submitted",
-    message: `Your complaint (${complaint.complaintId}) has been submitted successfully.`,
-    type: "complaint"
-});
+      userId: complaint.user,
+      title: `Complaint Submitted (${complaint.complaintId})`,
+      message: "",
+      type: "complaint"
+    });
 
     res.status(201).json({
       message: "Complaint Submitted Successfully",
@@ -134,44 +151,18 @@ const updateComplaintStatus = async (req, res) => {
 
     await complaint.save();
 
-const status = complaint.status;
+    const status = complaint.status;
 
-let message = "";
+    await Notification.create({
 
-switch (status) {
+      userId: complaint.user,
 
-    case "Pending":
-        message = `Your complaint (${complaint.complaintId}) is waiting for review.`;
-        break;
+      title: `Complaint ${status} (${complaint.complaintId})`,
+      message: "",
 
-    case "In Progress":
-        message = `Your complaint (${complaint.complaintId}) is currently being processed.`;
-        break;
+      type: "complaint"
 
-    case "Resolved":
-        message = `Your complaint (${complaint.complaintId}) has been resolved successfully.`;
-        break;
-
-    case "Rejected":
-        message = `Your complaint (${complaint.complaintId}) has been rejected.`;
-        break;
-
-    default:
-        message = `Your complaint (${complaint.complaintId}) status has been updated to ${status}.`;
-
-}
-
-await Notification.create({
-
-    userId: complaint.user,
-
-    title: `Complaint ${status}`,
-
-    message,
-
-    type: "complaint"
-
-});
+    });
 
     res.status(200).json({
       message: "Status Updated",
@@ -180,10 +171,15 @@ await Notification.create({
 
   } catch (error) {
 
-    res.status(500).json({
-      message: "Server Error"
-    });
+    console.log("========= UPDATE ERROR =========");
+    console.log(error);
+    console.log(error.message);
+    console.log(error.stack);
+    console.log("===============================");
 
+    res.status(500).json({
+      message: error.message
+    });
   }
 };
 const getComplaintByComplaintId = async (
@@ -197,6 +193,8 @@ const getComplaintByComplaintId = async (
         complaintId:
           req.params.complaintId,
       });
+
+      console.log("All IDs:", await Complaint.find({}, "complaintId").sort({ complaintId: 1 }));
 
     if (!complaint) {
       return res.status(404).json({

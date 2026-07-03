@@ -93,12 +93,12 @@ function AdminSidebar() {
                 <div className="admin-profile">
 
                     <div className="profile-circle">
-                        A
+                    R
                     </div>
 
                     <div>
-                        <h4>Admin User</h4>
-                        <p>Crazy Administrator</p>
+                        <h4>Rudra Pratap Singh</h4>
+                        <p>admin@smartcity.gov.in</p>
                     </div>
 
                 </div>

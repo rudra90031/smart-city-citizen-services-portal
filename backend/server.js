@@ -10,6 +10,7 @@ const certificateRoutes = require("./routes/certificateRoutes");
 const billRoutes = require("./routes/billRoutes");
 const emailRoutes = require("./routes/emailRoutes");
 const notificationRoutes=require("./routes/notificationRoutes");
+const adminDashboardRoutes = require("./routes/adminDashboardRoutes");
 const path = require("path");
 
 dotenv.config();
@@ -44,6 +45,11 @@ app.use(
 
     notificationRoutes
 
+);
+
+app.use(
+    "/api/admin/dashboard",
+    adminDashboardRoutes
 );
 
 app.use(

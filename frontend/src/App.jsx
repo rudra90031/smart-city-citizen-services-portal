@@ -14,6 +14,7 @@ import AdminCertificateDetails from "./pages/AdminCertificateDetails";
 import AdminBills from "./pages/AdminBills";
 import AdminGISMap from "./pages/AdminGISMap";
 import AdminNotifications from "./pages/AdminNotifications";
+import AdminSettings from "./pages/AdminSettings";
 function App() {
   return (
     <BrowserRouter>
@@ -54,6 +55,10 @@ function App() {
         <Route
           path="/admin/notifications"
           element={<AdminNotifications />}
+        />
+        <Route
+          path="/admin/settings"
+          element={<AdminSettings />}
         />
         <Route
           path="/admin/certificates/:id"

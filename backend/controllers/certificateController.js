@@ -34,9 +34,8 @@ const createCertificate = async (req, res) => {
 
             userId: certificate.user,
 
-            title: "Certificate Application Submitted",
-
-            message: `Your ${certificate.certificateType} application (${certificate.applicationId}) has been submitted successfully.`,
+            title: `Certificate Submitted (${certificate.applicationId})`,
+            message: "",
 
             type: "certificate"
 
@@ -101,7 +100,7 @@ const getCertificateById = async (req, res) => {
     try {
         const certificate = await Certificate.findById(req.params.id)
             .populate("user", "name email mobile");
-            console.log("USER DATA:", certificate.user);
+        console.log("USER DATA:", certificate.user);
 
         res.status(200).json(certificate);
     } catch (error) {
@@ -116,22 +115,21 @@ const updateCertificateStatus = async (req, res) => {
 
         const certificate = await Certificate.findById(req.params.id);
 
-certificate.status = status;
-certificate.adminRemarks = adminRemarks;
+        certificate.status = status;
+        certificate.adminRemarks = adminRemarks;
 
-await certificate.save();
+        await certificate.save();
 
-await Notification.create({
+        await Notification.create({
 
-    userId: certificate.user,
+            userId: certificate.user,
 
-    title: `Certificate ${certificate.status}`,
+            title: `Certificate ${certificate.status} (${certificate.applicationId})`,
+            message: "",
 
-    message: `Your ${certificate.certificateType} application is now ${certificate.status}.`,
+            type: "certificate"
 
-    type: "certificate"
-
-});
+        });
 
         res.status(200).json(certificate);
     } catch (error) {

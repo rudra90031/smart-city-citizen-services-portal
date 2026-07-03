@@ -4,6 +4,7 @@ import { loginUser, registerUser } from "../services/authService";
 
 function AuthSection() {
     const [isLogin, setIsLogin] = useState(true);
+    const [isAdminLogin, setIsAdminLogin] = useState(false);
     const navigate = useNavigate();
 
     const [loginData, setLoginData] = useState({
@@ -102,7 +103,7 @@ function AuthSection() {
 
             <div className="auth-right">
 
-                {isLogin ? (
+                {isLogin && !isAdminLogin ? (
                     <>
                         <h2>Welcome Back</h2>
 
@@ -142,8 +143,19 @@ function AuthSection() {
                                 Register
                             </span>
                         </p>
+                        <p className="admin-login-text">
+                            Administrator?{" "}
+                            <span
+                                onClick={() => {
+                                    setIsAdminLogin(true);
+                                    setIsLogin(true);
+                                }}
+                            >
+                                Login Here
+                            </span>
+                        </p>
                     </>
-                ) : (
+                ) : !isAdminLogin ? (
                     <>
                         <h2>Create Account</h2>
 
@@ -205,6 +217,60 @@ function AuthSection() {
                                 onClick={() => setIsLogin(true)}
                             >
                                 Login
+                            </span>
+                        </p>
+                    </>
+                ) : (
+                    <>
+                        <h2>Administrator Login</h2>
+
+                        <input
+                            type="email"
+                            placeholder="Administrator Email"
+                            value={loginData.email}
+                            onChange={(e) =>
+                                setLoginData({
+                                    ...loginData,
+                                    email: e.target.value,
+                                })
+                            }
+                        />
+
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={loginData.password}
+                            onChange={(e) =>
+                                setLoginData({
+                                    ...loginData,
+                                    password: e.target.value,
+                                })
+                            }
+                        />
+
+                        <button>
+                            Login
+                        </button>
+
+                        <p
+                            style={{
+                                fontSize: "14px",
+                                color: "#6b7280",
+                                marginTop: "18px",
+                            }}
+                        >
+                            Administrator credentials are provided by the organization.
+                        </p>
+
+                        <p>
+                            Citizen?{" "}
+                            <span
+                                onClick={() => {
+                                    setIsAdminLogin(false);
+                                    setIsLogin(true);
+                                }}
+                            >
+                                Login Here
                             </span>
                         </p>
                     </>

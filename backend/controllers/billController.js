@@ -65,15 +65,14 @@ exports.createBill = async (req, res) => {
 
         await Notification.create({
 
-    userId: foundUser._id,
+            userId: foundUser._id,
 
-    title: "New Utility Bill Generated",
+            title: `New Utility Bill (${bill.billId})`,
+            message: "",
 
-    message: `A new ${type} bill (${bill.billId}) of ₹${amount} has been generated.`,
+            type: "bill"
 
-    type: "bill"
-
-});
+        });
 
         res.status(201).json(bill);
 
@@ -98,15 +97,14 @@ exports.updateBill = async (req, res) => {
 
         await Notification.create({
 
-    userId: bill.user,
+            userId: bill.user,
 
-    title: "Bill Updated",
+            title: `Bill Updated (${bill.billId})`,
+            message: "",
 
-    message: `Your bill (${bill.billId}) has been updated.`,
+            type: "bill"
 
-    type: "bill"
-
-});
+        });
 
         res.status(200).json(bill);
     } catch (error) {
@@ -131,15 +129,14 @@ exports.payBill = async (req, res) => {
 
         await Notification.create({
 
-    userId: bill.user,
+            userId: bill.user,
 
-    title: "Bill Payment Successful",
+            title: `Bill Paid (${bill.billId})`,
+            message: "",
 
-    message: `Your payment for bill (${bill.billId}) has been completed successfully.`,
+            type: "bill"
 
-    type: "bill"
-
-});
+        });
 
         res.status(200).json({
             message: "Payment Successful",
