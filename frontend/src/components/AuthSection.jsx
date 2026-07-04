@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser, registerUser } from "../services/authService";
-
+import {
+    loginUser,
+    registerUser,
+    loginAdmin
+} from "../services/authService";
 function AuthSection() {
     const [isLogin, setIsLogin] = useState(true);
     const [isAdminLogin, setIsAdminLogin] = useState(false);
@@ -60,6 +63,44 @@ function AuthSection() {
             console.log(error);
 
         }
+    };
+
+    const handleAdminLogin = async () => {
+
+        try {
+
+            const response = await loginAdmin(loginData);
+
+            console.log("ADMIN LOGIN:", response);
+
+            localStorage.setItem(
+                "adminToken",
+                response.token
+            );
+
+            localStorage.setItem(
+                "admin",
+                JSON.stringify(response.admin)
+            );
+
+            window.location.href = "/admin/dashboard";
+
+        }
+
+        catch (error) {
+
+            console.log(error);
+
+            alert(
+
+                error.response?.data?.message ||
+
+                "Admin Login Failed"
+
+            );
+
+        }
+
     };
 
     return (
@@ -248,7 +289,7 @@ function AuthSection() {
                             }
                         />
 
-                        <button>
+                        <button onClick={handleAdminLogin}>
                             Login
                         </button>
 

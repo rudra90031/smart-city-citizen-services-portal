@@ -15,7 +15,7 @@ function AdminComplaintDetails() {
     }, []);
     const updateStatus = async () => {
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("adminToken");
 
             await axios.put(
                 `http://localhost:5000/api/complaints/admin/${id}/status`,
@@ -42,10 +42,12 @@ function AdminComplaintDetails() {
         try {
             setLoading(true);
 
-            const token = localStorage.getItem("token");
+            
+            const token = localStorage.getItem("adminToken");
+            console.log("Admin Token:", token);
 
             const res = await axios.get(
-                `http://localhost:5000/api/complaints/${id}`,
+                `http://localhost:5000/api/complaints/admin/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -54,6 +56,7 @@ function AdminComplaintDetails() {
             );
 
             setComplaint(res.data);
+            console.log("API Response:", res.data);
             setStatus(res.data.status);
         } catch (error) {
             console.error(error);

@@ -100,6 +100,7 @@ const getComplaintById = async (req, res) => {
     const complaint = await Complaint.findById(
       req.params.id
     ).populate("user", "name email mobile");
+    console.log("Complaint Sent:", complaint);
 
     if (!complaint) {
       return res.status(404).json({

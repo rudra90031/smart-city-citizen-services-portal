@@ -33,7 +33,7 @@
 }
 
 .details-card h3{
-    margin-bottom:16px;
+    margin-bottom:13px;
 }
 
 .info-row{
@@ -48,7 +48,8 @@
 }
 
 .info-row p{
-    font-size:16px;
+    font-size:14px;
+    margin-left: 20px;
 }
 
 .evidence-box{

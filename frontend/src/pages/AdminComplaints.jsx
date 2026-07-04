@@ -67,7 +67,7 @@ function AdminComplaints() {
   const fetchComplaints = async () => {
     try {
 
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
 
       const res = await axios.get(
         "http://localhost:5000/api/complaints/admin/all",
@@ -86,7 +86,7 @@ function AdminComplaints() {
   };
   const exportExcel = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
 
       const response = await axios.get(
         "http://localhost:5000/api/complaints/admin/export-excel",

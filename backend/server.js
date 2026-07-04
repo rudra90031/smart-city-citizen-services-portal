@@ -11,6 +11,7 @@ const billRoutes = require("./routes/billRoutes");
 const emailRoutes = require("./routes/emailRoutes");
 const notificationRoutes=require("./routes/notificationRoutes");
 const adminDashboardRoutes = require("./routes/adminDashboardRoutes");
+const adminAuthRoutes = require("./routes/adminAuthRoutes");
 const path = require("path");
 
 dotenv.config();
@@ -45,6 +46,10 @@ app.use(
 
     notificationRoutes
 
+);
+app.use(
+    "/api/admin",
+    adminAuthRoutes
 );
 
 app.use(

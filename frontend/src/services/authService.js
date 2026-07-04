@@ -19,6 +19,22 @@ export const loginUser = async (userData) => {
 
   return response.data;
 };
+
+const ADMIN_API_URL = "http://localhost:5000/api/admin";
+
+export const loginAdmin = async (loginData) => {
+
+  const response = await axios.post(
+
+    `${ADMIN_API_URL}/login`,
+
+    loginData
+
+  );
+
+  return response.data;
+
+};
 export const getComplaints = async () => {
 
   const token = localStorage.getItem("token");
