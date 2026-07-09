@@ -21,7 +21,7 @@ function AdminCertificateDetails() {
 
     const fetchCertificate = async () => {
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("adminToken");
 
             const res = await axios.get(
                 `http://localhost:5000/api/certificates/${id}`,
@@ -42,7 +42,7 @@ function AdminCertificateDetails() {
     };
     const handleStatusUpdate = async () => {
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("adminToken");
 
             await axios.put(
                 `http://localhost:5000/api/certificates/${id}/status`,

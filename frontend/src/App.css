@@ -684,34 +684,28 @@ ul {
   border-bottom: 1px solid #eee;
 }
 
-.status {
-  padding: 6px 12px;
-
-  border-radius: 999px;
-
-  font-size: 12px;
-
-  font-weight: 600;
+.complaint-status {
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-.pending {
-  background: #fff3cd;
+.complaint-status.pending {
   color: #d97706;
 }
 
-.resolved {
-  background: #dcfce7;
-  color: #16a34a;
+.complaint-status.in-progress {
+  color: #ffb020;
 }
 
-.progress {
-  background: #dbeafe;
-  color: #2563eb;
+.complaint-status.resolved {
+  color: #35c759;
 }
 
-.review {
-  background: #ede9fe;
-  color: #7c3aed;
+.complaint-status.rejected {
+  color: #ff4d4f;
 }
 
 .notifications-list {
@@ -784,15 +778,6 @@ ul {
   padding: 20px;
   text-align: center;
   color: #888;
-}
-
-.complaints-hero {
-  background: #5e7ce2;
-  min-height: 35vh;
-  padding: 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .complaints-hero {

@@ -39,7 +39,7 @@ body {
     margin-left:280px;
     height:100vh;
     padding:20px 28px;
-    background:#eef4ff;
+    background:#f6f6f4;
     overflow:hidden;
     box-sizing:border-box;
 }
@@ -610,7 +610,12 @@ body {
     padding:18px;
     padding-bottom:20px;
 
-    scrollbar-width:thin;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+}
+
+.details-content::-webkit-scrollbar{
+    display:none;
 }
 
 .details-heading {

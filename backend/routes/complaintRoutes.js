@@ -1,5 +1,4 @@
 const express = require("express");
-console.log("Complaint Routes Loaded");
 const router = express.Router();
 const upload = require("../middleware/uploadMiddleware");
 
@@ -15,11 +14,6 @@ const {
 
 const { protect } = require("../middleware/authMiddleware");
 const adminAuth = require("../middleware/adminAuth");
-router.get("/admin/test", (req, res) => {
-  res.json({
-    message: "Admin Route Working"
-  });
-});
 router.post("/", protect, upload.single("image"), createComplaint);
 router.get("/", protect, getComplaints);
 

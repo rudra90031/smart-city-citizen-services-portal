@@ -9,7 +9,7 @@ function AdminCertificates() {
     const navigate = useNavigate();
     const fetchCertificates = async () => {
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("adminToken");
 
             const res = await axios.get(
                 "http://localhost:5000/api/certificates/admin/all",

@@ -40,7 +40,7 @@
 
     background: #fff;
 
-    border-radius: 22px;
+    border-radius: 15px;
 
     padding: 18px;
 
@@ -232,14 +232,10 @@
 
 }
 
-.info-row strong{
-
-    font-size:15px;
-
-    font-weight:600;
-
-    color:#111111;
-
+.account-card .info-row strong {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111111;
 }
 
 .active-status {

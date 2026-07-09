@@ -7,6 +7,8 @@ function Dashboard() {
   const [userName, setUserName] = useState("");
   const [complaints, setComplaints] = useState([]);
   const [notifications, setNotifications] = useState([]);
+  const [certificates, setCertificates] = useState([]);
+  const [bills, setBills] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
 
@@ -34,6 +36,33 @@ function Dashboard() {
 
     fetchComplaints();
 
+    const fetchCertificates = async () => {
+
+      try {
+
+        const token = localStorage.getItem("token");
+
+        const res = await axios.get(
+          "http://localhost:5000/api/certificates",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setCertificates(res.data);
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+
+    };
+
+    fetchCertificates();
+
     const fetchNotifications = async () => {
 
       try {
@@ -57,6 +86,32 @@ function Dashboard() {
     };
 
     fetchNotifications();
+
+    const fetchBills = async () => {
+
+      try {
+
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        const res = await axios.get(
+          "http://localhost:5000/api/bills"
+        );
+
+        const userBills = res.data.filter(
+          (bill) => bill.user?._id === user.id
+        );
+
+        setBills(userBills);
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+
+    };
+
+    fetchBills();
 
 
   }, []);
@@ -224,12 +279,18 @@ function Dashboard() {
           </div>
 
           <div>
-            <h2>18</h2>
+            <h2>{certificates.length}</h2>
             <p>Certificates Applied</p>
           </div>
 
           <div>
-            <h2>12</h2>
+            <h2>
+              {
+                bills.filter(
+                  (bill) => bill.isPaid
+                ).length
+              }
+            </h2>
             <p>Bills Paid</p>
           </div>
 
@@ -278,9 +339,13 @@ function Dashboard() {
 
                   </div>
 
-                  <span className="status pending">
+                  <div
+                    className={`complaint-status ${complaint.status
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}`}
+                  >
                     {complaint.status}
-                  </span>
+                  </div>
                 </div>
               ))}
 
@@ -315,7 +380,9 @@ function Dashboard() {
 
                     <div className="notification-left">
 
-                      <span className="notification-dot"></span>
+                      {!notification.isRead && (
+                        <span className="notification-dot"></span>
+                      )}
 
                       <span className="notification-title">
                         {notification.title}

@@ -18,40 +18,7 @@ import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminGISMap.css";
 
 
-const updateComplaintStatus = async (newStatus) => {
-    if (!selectedComplaint) return;
 
-    try {
-        const token = localStorage.getItem("token");
-
-        const { data } = await axios.put(
-            `http://localhost:5000/api/complaints/admin/${selectedComplaint._id}/status`,
-            {
-                status: newStatus,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
-
-        setComplaints((prev) =>
-            prev.map((c) =>
-                c._id === selectedComplaint._id
-                    ? data.complaint
-                    : c
-            )
-        );
-
-        setSelectedComplaint(data.complaint);
-
-        await fetchComplaints();
-    } catch (err) {
-        console.log(err);
-        alert("Status update failed");
-    }
-};
 
 const redIcon = new L.Icon({
     iconUrl:
@@ -137,6 +104,39 @@ function AdminGISMap() {
     const [categoryFilter, setCategoryFilter] = useState("All");
     const [focusLocation, setFocusLocation] = useState(null);
 
+    const updateComplaintStatus = async (newStatus) => {
+        if (!selectedComplaint) return;
+
+        try {
+            const token = localStorage.getItem("adminToken");
+
+            const { data } = await axios.put(
+                `http://localhost:5000/api/complaints/admin/${selectedComplaint._id}/status`,
+                {
+                    status: newStatus,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            setComplaints((prev) =>
+                prev.map((c) =>
+                    c._id === data.complaint._id ? data.complaint : c
+                )
+            );
+
+            setSelectedComplaint(data.complaint);
+
+            await fetchComplaints();
+        } catch (err) {
+            console.log(err);
+            alert("Status update failed");
+        }
+    };
+
 
     useEffect(() => {
 
@@ -149,7 +149,7 @@ function AdminGISMap() {
 
         try {
 
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("adminToken");
 
             const res = await axios.get(
                 "http://localhost:5000/api/complaints/admin/all",

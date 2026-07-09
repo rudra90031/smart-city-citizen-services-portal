@@ -4,7 +4,7 @@
 
 .notification-container{
 
-    margin-left:260px;   /* Sidebar width */
+    margin-left:300px;   /* Sidebar width */
 
     width:calc(100% - 260px);
 
@@ -12,7 +12,7 @@
 
     padding:30px;
 
-    background:#eef4ff;
+    background:#f6f6f4;
 
     box-sizing:border-box;
 

@@ -44,7 +44,7 @@ function AdminComplaintDetails() {
 
             
             const token = localStorage.getItem("adminToken");
-            console.log("Admin Token:", token);
+            
 
             const res = await axios.get(
                 `http://localhost:5000/api/complaints/admin/${id}`,
@@ -56,7 +56,7 @@ function AdminComplaintDetails() {
             );
 
             setComplaint(res.data);
-            console.log("API Response:", res.data);
+            
             setStatus(res.data.status);
         } catch (error) {
             console.error(error);
@@ -65,7 +65,7 @@ function AdminComplaintDetails() {
         }
     };
 
-    console.log(complaint);
+    
 
 
 
