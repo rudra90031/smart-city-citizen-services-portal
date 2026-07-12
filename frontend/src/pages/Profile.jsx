@@ -115,7 +115,7 @@ function Profile() {
 
     return (
 
-        <div className="profile-page">
+        <div id="profile" className="profile-page">
 
             <section className="profile-section">
 

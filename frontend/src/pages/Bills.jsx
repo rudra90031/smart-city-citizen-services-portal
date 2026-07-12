@@ -74,7 +74,7 @@ function Bills() {
     };
 
     return (
-        <section className="bills-wave-section">
+        <section id="bills" className="bills-wave-section">
 
             <AnimatedWave />
 

@@ -1,7 +1,141 @@
+import { useEffect, useState } from "react";
 import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminSettings.css";
 
+import {
+    getAdminProfile,
+    updateAdminProfile,
+    changeAdminPassword,
+} from "../services/authService";
+
 function AdminSettings() {
+
+    const [profile, setProfile] = useState({
+        name: "",
+        email: "",
+        phone: "",
+    });
+
+    const [passwordData, setPasswordData] = useState({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+    });
+
+    useEffect(() => {
+
+        loadProfile();
+
+    }, []);
+
+    const loadProfile = async () => {
+
+        try {
+
+            const data = await getAdminProfile();
+            console.log("PROFILE API RESPONSE:", data);
+
+            setProfile({
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+            });
+
+        }
+
+        catch (err) {
+
+            console.log(err);
+
+        }
+
+    };
+
+    const handleProfileChange = (e) => {
+
+        setProfile({
+
+            ...profile,
+
+            [e.target.name]: e.target.value,
+
+        });
+
+    };
+
+    const saveProfile = async () => {
+
+        try {
+
+            await updateAdminProfile(profile);
+
+            alert("Profile Updated Successfully");
+
+        }
+
+        catch (err) {
+
+            alert("Update Failed");
+
+        }
+
+    };
+    const handlePasswordChange = (e) => {
+
+        setPasswordData({
+
+            ...passwordData,
+
+            [e.target.name]: e.target.value,
+
+        });
+
+    };
+    const updatePassword = async () => {
+
+        if (passwordData.newPassword !== passwordData.confirmPassword) {
+
+            return alert("Passwords do not match");
+
+        }
+
+        try {
+
+            await changeAdminPassword({
+
+                currentPassword: passwordData.currentPassword,
+
+                newPassword: passwordData.newPassword,
+
+            });
+
+            alert("Password Updated");
+
+            setPasswordData({
+
+                currentPassword: "",
+
+                newPassword: "",
+
+                confirmPassword: "",
+
+            });
+
+        }
+
+        catch (err) {
+
+            alert(
+
+                err.response?.data?.message ||
+
+                "Password Update Failed"
+
+            );
+
+        }
+
+    };
 
     return (
 
@@ -38,20 +172,38 @@ function AdminSettings() {
 
                                 <div className="field">
                                     <label>Full Name</label>
-                                    <input type="text" />
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={profile.name}
+                                        onChange={handleProfileChange}
+                                    />
                                 </div>
 
                                 <div className="field">
                                     <label>Email</label>
-                                    <input type="email" />
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={profile.email}
+                                        onChange={handleProfileChange}
+                                    />
                                 </div>
 
                                 <div className="field">
                                     <label>Phone</label>
-                                    <input type="text" />
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        value={profile.phone}
+                                        onChange={handleProfileChange}
+                                    />
                                 </div>
 
-                                <button className="primary-btn">
+                                <button
+                                    className="primary-btn"
+                                    onClick={saveProfile}
+                                >
                                     Save Changes
                                 </button>
 
@@ -73,7 +225,9 @@ function AdminSettings() {
 
                             <input
                                 type="password"
-                                placeholder="Current Password"
+                                name="currentPassword"
+                                value={passwordData.currentPassword}
+                                onChange={handlePasswordChange}
                             />
 
                         </div>
@@ -84,7 +238,9 @@ function AdminSettings() {
 
                             <input
                                 type="password"
-                                placeholder="New Password"
+                                name="newPassword"
+                                value={passwordData.newPassword}
+                                onChange={handlePasswordChange}
                             />
 
                         </div>
@@ -95,12 +251,17 @@ function AdminSettings() {
 
                             <input
                                 type="password"
-                                placeholder="Confirm Password"
+                                name="confirmPassword"
+                                value={passwordData.confirmPassword}
+                                onChange={handlePasswordChange}
                             />
 
                         </div>
 
-                        <button className="primary-btn">
+                        <button
+                            className="primary-btn update-btn"
+                            onClick={updatePassword}
+                        >
                             Update Password
                         </button>
 

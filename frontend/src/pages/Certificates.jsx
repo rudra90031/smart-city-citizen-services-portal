@@ -134,7 +134,7 @@ function Certificates() {
             alert("Submission Failed");
         }
     };
-    return (<div className="certificate-wrapper">
+    return (<div id="certificates" className="certificate-wrapper">
 
         ```
         <div className="certificate-hero">

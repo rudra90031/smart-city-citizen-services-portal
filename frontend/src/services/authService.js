@@ -35,6 +35,56 @@ export const loginAdmin = async (loginData) => {
   return response.data;
 
 };
+
+export const getAdminProfile = async () => {
+
+  const token = localStorage.getItem("adminToken");
+
+  const response = await axios.get(
+    "http://localhost:5000/api/admin/profile",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+export const updateAdminProfile = async (data) => {
+
+  const token = localStorage.getItem("adminToken");
+
+  const response = await axios.put(
+    "http://localhost:5000/api/admin/profile",
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+export const changeAdminPassword = async (data) => {
+
+  const token = localStorage.getItem("adminToken");
+
+  const response = await axios.put(
+    "http://localhost:5000/api/admin/change-password",
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data;
+};
 export const getComplaints = async () => {
 
   const token = localStorage.getItem("token");

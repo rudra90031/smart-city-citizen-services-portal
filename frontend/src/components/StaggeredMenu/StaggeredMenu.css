@@ -1,8 +1,8 @@
-.staggered-menu-wrapper{
-    position:fixed;
-    inset:0;
-    z-index:9999;
-    pointer-events:none;
+.staggered-menu-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
 }
 
 .staggered-menu-wrapper.fixed-wrapper {
@@ -15,25 +15,25 @@
   overflow: hidden;
 }
 
-.staggered-menu-header{
-    position:fixed;
+.staggered-menu-header {
+  position: fixed;
 
-    top:28px;
+  top: 28px;
 
-    right:30px;
+  right: 30px;
 
-    left:auto;
+  left: auto;
 
-    width:auto;
+  width: auto;
 
-    padding:0;
+  padding: 0;
 
-    z-index:99999;
+  z-index: 99999;
 
-    pointer-events:none;
+  pointer-events: none;
 }
 
-.staggered-menu-header > * {
+.staggered-menu-header>* {
   pointer-events: auto;
 }
 
@@ -50,27 +50,27 @@
   object-fit: contain;
 }
 
-.sm-toggle{
+.sm-toggle {
 
-    pointer-events:auto;
+  pointer-events: auto;
 
-    background:transparent;
+  background: transparent;
 
-    border:none;
+  border: none;
 
-    color:#111;
+  color: #111;
 
-    cursor:pointer;
+  cursor: pointer;
 
-    font-size:18px;
+  font-size: 18px;
 
-    font-weight:500;
+  font-weight: 500;
 
-    display:flex;
+  display: flex;
 
-    align-items:center;
+  align-items: center;
 
-    gap:10px;
+  gap: 10px;
 }
 
 .sm-toggle:focus-visible {
@@ -138,27 +138,29 @@
   display: none !important;
 }
 
-.staggered-menu-panel{
+.staggered-menu-panel {
 
-    position:fixed;
+  position: fixed;
+  pointer-events: auto;
+  z-index: 10000;
 
-    top:0;
-    left:0;
+  top: 0;
+  left: 0;
 
-    width:420px;
+  width: 420px;
 
-    height:100vh;
+  height: 100vh;
 
-    background:#fff;
+  background: #fff;
 
-    padding:120px 35px 35px;
+  padding: 120px 35px 35px;
 
-    overflow-y:auto;
+  overflow-y: auto;
 
-    box-shadow:
-    0 0 60px rgba(0,0,0,.08);
+  box-shadow:
+    0 0 60px rgba(0, 0, 0, .08);
 
-    z-index:9998;
+  z-index: 9998;
 }
 
 [data-position='left'] .staggered-menu-panel {
@@ -290,6 +292,7 @@
   font-weight: 600;
   font-size: 3rem;
   cursor: pointer;
+  pointer-events: auto;
   line-height: 1;
   letter-spacing: -2px;
   text-transform: uppercase;
@@ -338,33 +341,36 @@
   content: counter(smItem, decimal-leading-zero);
   position: absolute;
   top: 8px;
-  right: 0px;   /* sirf ye line change hui */
+  right: 0px;
+  /* sirf ye line change hui */
   font-size: 18px;
   font-weight: 400;
   color: var(--sm-accent, #5227ff);
   letter-spacing: 0;
   pointer-events: none;
   user-select: none;
-  opacity: 1;     /* ye bhi important hai */
-}
-.staggered-menu-panel::-webkit-scrollbar{
-    display:none;
+  opacity: 1;
+  /* ye bhi important hai */
 }
 
-.staggered-menu-panel{
-    scrollbar-width:none;
+.staggered-menu-panel::-webkit-scrollbar {
+  display: none;
 }
 
-.sm-panel-item{
-    background:none;
-    border:none;
-    width:100%;
-    text-align:left;
-    padding:0;
+.staggered-menu-panel {
+  scrollbar-width: none;
 }
 
-.sm-panel-itemLabel{
-    pointer-events:none;
+.sm-panel-item {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+}
+
+.sm-panel-itemLabel {
+  pointer-events: none;
 }
 
 

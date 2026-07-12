@@ -3,7 +3,7 @@ function Complaints() {
   const navigate = useNavigate();
   return (
     <>
-      <section className="complaints-hero">
+      <section id="complaints" className="complaints-hero">
 
         <div className="complaints-content">
 

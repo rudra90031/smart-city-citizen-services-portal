@@ -16,13 +16,19 @@ const adminAuth = async (req, res, next) => {
         }
 
         token = token.split(" ")[1];
+        console.log("TOKEN:", token);
 
         const decoded = jwt.verify(
             token,
             process.env.JWT_SECRET
         );
 
+        console.log("DECODED:", decoded);
+
+        
+
         const admin = await Admin.findById(decoded.id).select("-password");
+        console.log("ADMIN:", admin);
 
         if (!admin) {
 
@@ -40,8 +46,11 @@ const adminAuth = async (req, res, next) => {
 
     catch (error) {
 
+        console.log("ADMIN AUTH ERROR:", error);
+
         res.status(401).json({
-            message: "Unauthorized"
+            message: "Unauthorized",
+            error: error.message,
         });
 
     }

@@ -1,5 +1,4 @@
-import { NavLink } from "react-router-dom";
-
+import { NavLink, useNavigate } from "react-router-dom";
 import {
     FiGrid,
     FiFileText,
@@ -13,6 +12,12 @@ import {
 import "../assets/styles/adminSidebar.css";
 
 function AdminSidebar() {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("adminToken");
+        navigate("/admin/login");
+    };
     return (
         <div className="admin-sidebar">
 
@@ -85,7 +90,10 @@ function AdminSidebar() {
 
             <div className="sidebar-footer">
 
-                <button className="logout-btn">
+                <button
+                    className="logout-btn"
+                    onClick={handleLogout}
+                >
                     <FiLogOut />
                     Logout
                 </button>
@@ -93,7 +101,7 @@ function AdminSidebar() {
                 <div className="admin-profile">
 
                     <div className="profile-circle">
-                    R
+                        R
                     </div>
 
                     <div>
