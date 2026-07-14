@@ -8,6 +8,8 @@ function AdminBills() {
     const [showCreate, setShowCreate] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [editMode, setEditMode] = useState(false);
+    const billsPerPage = 7;
+    const [currentPage, setCurrentPage] = useState(1);
 
 
 
@@ -49,9 +51,16 @@ function AdminBills() {
             return;
         }
         try {
+            const token = localStorage.getItem("adminToken");
+
             const res = await axios.put(
                 `http://localhost:5000/api/bills/${selectedBill._id}`,
-                selectedBill
+                selectedBill,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             );
 
             const updatedBills = billsData.map((bill) =>
@@ -70,8 +79,15 @@ function AdminBills() {
 
     const fetchBills = async () => {
         try {
+            const token = localStorage.getItem("adminToken");
+
             const res = await axios.get(
-                "http://localhost:5000/api/bills"
+                "http://localhost:5000/api/bills",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             );
             setBillsData(res.data);
         } catch (err) {
@@ -81,6 +97,12 @@ function AdminBills() {
     useEffect(() => {
         fetchBills();
     }, []);
+
+    useEffect(() => {
+
+        setCurrentPage(1);
+
+    }, [searchTerm]);
 
     const [newBill, setNewBill] = useState({
         citizen: "",
@@ -95,6 +117,15 @@ function AdminBills() {
         (bill.citizen || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
         (bill.billId || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
         (bill.mobile || "").includes(searchTerm)
+    );
+    const totalPages = Math.ceil(filteredBills.length / billsPerPage);
+
+    const indexOfLastBill = currentPage * billsPerPage;
+    const indexOfFirstBill = indexOfLastBill - billsPerPage;
+
+    const currentBills = filteredBills.slice(
+        indexOfFirstBill,
+        indexOfLastBill
     );
 
     return (
@@ -160,50 +191,80 @@ function AdminBills() {
 
                     <div className="bill-content">
 
-                        <div className="bill-list">
+                        <div className="bill-left">
 
-                            {filteredBills.map((bill) => (
-                                <div
-                                    key={bill._id || bill.id}
-                                    className="bill-row-admin"
-                                    onClick={() => {
-                                        setSelectedBill(bill);
-                                        setShowCreate(false);
-                                    }}
-                                >
-                                    <div className="bill-col citizen-col">
-                                        <h3>{bill.citizen}</h3>
-                                        <span>{bill.billId || bill.id}</span>
-                                    </div>
+                            <div className="bill-list">
 
-                                    <div className="bill-col">
-                                        {bill.type}
-                                    </div>
-
-                                    <div className="bill-col">
-                                        ₹{bill.amount + calculateLateFee(bill.dueDate, bill.isPaid)}
-                                    </div>
-
-                                    <div className="bill-col">
-                                        {new Date(bill.dueDate).toLocaleDateString("en-IN", {
-                                            day: "2-digit",
-                                            month: "short",
-                                            year: "numeric",
-                                        })}
-                                    </div>
-
+                                {currentBills.map((bill) => (
                                     <div
-                                        className={`bill-col status-${getBillStatus(
-                                            bill.dueDate,
-                                            bill.isPaid
-                                        ).toLowerCase()}`}
+                                        key={bill._id || bill.id}
+                                        className="bill-row-admin"
+                                        onClick={() => {
+                                            setSelectedBill(bill);
+                                            setShowCreate(false);
+                                        }}
                                     >
-                                        {getBillStatus(bill.dueDate, bill.isPaid)}
-                                    </div>
-                                </div>
-                            ))}
+                                        <div className="bill-col citizen-col">
+                                            <h3>{bill.citizen}</h3>
+                                            <span>{bill.billId || bill.id}</span>
+                                        </div>
 
+                                        <div className="bill-col">
+                                            {bill.type}
+                                        </div>
+
+                                        <div className="bill-col">
+                                            ₹{bill.amount + calculateLateFee(bill.dueDate, bill.isPaid)}
+                                        </div>
+
+                                        <div className="bill-col">
+                                            {new Date(bill.dueDate).toLocaleDateString("en-IN", {
+                                                day: "2-digit",
+                                                month: "short",
+                                                year: "numeric",
+                                            })}
+                                        </div>
+
+                                        <div
+                                            className={`bill-col status-${getBillStatus(
+                                                bill.dueDate,
+                                                bill.isPaid
+                                            ).toLowerCase()}`}
+                                        >
+                                            {getBillStatus(bill.dueDate, bill.isPaid)}
+                                        </div>
+                                    </div>
+                                ))}
+
+                            </div>
+                            <div className="pagination">
+
+                                {
+                                    [...Array(totalPages)].map((_, index) => (
+
+                                        <button
+                                            key={index}
+                                            className={
+                                                currentPage === index + 1
+                                                    ? "page-btn active-page"
+                                                    : "page-btn"
+                                            }
+
+                                            onClick={() =>
+                                                setCurrentPage(index + 1)
+                                            }
+                                        >
+
+                                            {index + 1}
+
+                                        </button>
+
+                                    ))
+                                }
+
+                            </div>
                         </div>
+
 
                         <div className="bill-details">
 
@@ -261,9 +322,16 @@ function AdminBills() {
                                         <button
                                             onClick={async () => {
                                                 try {
+                                                    const token = localStorage.getItem("adminToken");
+
                                                     const res = await axios.post(
                                                         "http://localhost:5000/api/bills",
-                                                        newBill
+                                                        newBill,
+                                                        {
+                                                            headers: {
+                                                                Authorization: `Bearer ${token}`,
+                                                            },
+                                                        }
                                                     );
 
                                                     setBillsData([res.data, ...billsData]);
@@ -457,11 +525,18 @@ function AdminBills() {
                                         <button
                                             onClick={async () => {
                                                 try {
+                                                    const token = localStorage.getItem("adminToken");
+
                                                     const res = await axios.put(
                                                         `http://localhost:5000/api/bills/${selectedBill._id}`,
                                                         {
                                                             ...selectedBill,
                                                             isPaid: true,
+                                                        },
+                                                        {
+                                                            headers: {
+                                                                Authorization: `Bearer ${token}`,
+                                                            },
                                                         }
                                                     );
 
@@ -482,8 +557,15 @@ function AdminBills() {
                                         <button
                                             onClick={async () => {
                                                 try {
+                                                    const token = localStorage.getItem("adminToken");
+
                                                     await axios.delete(
-                                                        `http://localhost:5000/api/bills/${selectedBill._id}`
+                                                        `http://localhost:5000/api/bills/${selectedBill._id}`,
+                                                        {
+                                                            headers: {
+                                                                Authorization: `Bearer ${token}`,
+                                                            },
+                                                        }
                                                     );
 
                                                     setBillsData(

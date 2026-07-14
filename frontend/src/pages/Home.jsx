@@ -27,33 +27,54 @@ function Home() {
                 </div>
                 <section className="services" id="services">
 
-                    <div className="services-strip">
+                    <div className="marquee">
 
-                        <div className="service-item">
-                            SERVICES
+                        <div className="services-strip">
+
+                            <div className="service-item">SERVICES</div>
+                            <div className="service-item">Complaints ↗</div>
+                            <div className="service-item">Certificates ↗</div>
+                            <div className="service-item">Bills ↗</div>
+                            <div className="service-item">Emergency ↗</div>
+                            <div className="service-item">Tracking ↗</div>
+
                         </div>
 
-                        <div className="service-item">
-                            Complaints ↗
+                        <div className="services-strip">
+
+                            <div className="service-item">SERVICES</div>
+                            <div className="service-item">Complaints ↗</div>
+                            <div className="service-item">Certificates ↗</div>
+                            <div className="service-item">Bills ↗</div>
+                            <div className="service-item">Emergency ↗</div>
+                            <div className="service-item">Tracking ↗</div>
+
                         </div>
 
-                        <div className="service-item">
-                            Certificates ↗
+                        <div className="services-strip">
+
+                            <div className="service-item">SERVICES</div>
+                            <div className="service-item">Complaints ↗</div>
+                            <div className="service-item">Certificates ↗</div>
+                            <div className="service-item">Bills ↗</div>
+                            <div className="service-item">Emergency ↗</div>
+                            <div className="service-item">Tracking ↗</div>
+
                         </div>
 
-                        <div className="service-item">
-                            Bills ↗
-                        </div>
+                        <div className="services-strip">
 
-                        <div className="service-item">
-                            Emergency ↗
-                        </div>
+                            <div className="service-item">SERVICES</div>
+                            <div className="service-item">Complaints ↗</div>
+                            <div className="service-item">Certificates ↗</div>
+                            <div className="service-item">Bills ↗</div>
+                            <div className="service-item">Emergency ↗</div>
+                            <div className="service-item">Tracking ↗</div>
 
-                        <div className="service-item">
-                            Tracking ↗
                         </div>
 
                     </div>
+
                 </section>
             </section>
 

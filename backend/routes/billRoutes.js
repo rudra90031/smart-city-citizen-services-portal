@@ -1,7 +1,9 @@
+const adminAuth = require("../middleware/adminAuth");
 const express = require("express");
-
+const { protect } = require("../middleware/authMiddleware");
 const {
     getBills,
+    getMyBills,
     createBill,
     updateBill,
     deleteBill,
@@ -10,13 +12,11 @@ const {
 
 const router = express.Router();
 
-router.get("/", getBills);
+router.get("/", adminAuth, getBills);
+router.get("/my", protect, getMyBills);
+router.post("/", adminAuth, createBill);
 
-router.post("/", createBill);
-
-router.put("/:id", updateBill);
-
-router.delete("/:id", deleteBill);
-router.put("/:id/pay", payBill);
-
+router.put("/:id", adminAuth, updateBill);
+router.delete("/:id", adminAuth, deleteBill);
+router.put("/:id/pay", protect, payBill);
 module.exports = router;

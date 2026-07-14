@@ -1,5 +1,21 @@
 import axios from "axios";
 
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+
+    if (error.response?.status === 401) {
+
+      localStorage.removeItem("adminToken");
+      localStorage.removeItem("admin");
+
+      // window.location.href = "/";
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 const API_URL = "http://localhost:5000/api/auth";
 
 export const registerUser = async (userData) => {

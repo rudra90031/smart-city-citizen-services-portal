@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import Home from "./pages/Home";
 import Portal from "./pages/Portal";
 import LodgeComplaint from "./pages/LodgeComplaint";
@@ -33,36 +33,75 @@ function App() {
 
         <Route
           path="/admin/dashboard"
-          element={<AdminDashboard />}
+          element={
+            <AdminProtectedRoute>
+              <AdminDashboard />
+            </AdminProtectedRoute>
+          }
         />
-        <Route path="/admin/complaints" element={<AdminComplaints />} />
+        <Route
+          path="/admin/complaints"
+          element={
+            <AdminProtectedRoute>
+              <AdminComplaints />
+            </AdminProtectedRoute>
+          }
+        />
         <Route
           path="/admin/complaints/:id"
-          element={<AdminComplaintDetails />}
+          element={
+            <AdminProtectedRoute>
+              <AdminComplaintDetails />
+            </AdminProtectedRoute>
+          }
         />
         <Route
           path="/admin/certificates"
-          element={<AdminCertificates />}
+          element={
+            <AdminProtectedRoute>
+              <AdminCertificates />
+            </AdminProtectedRoute>
+          }
         />
         <Route
           path="/admin/bills"
-          element={<AdminBills />}
+          element={
+            <AdminProtectedRoute>
+              <AdminBills />
+            </AdminProtectedRoute>
+          }
         />
         <Route
           path="/admin/gis"
-          element={<AdminGISMap />}
+          element={
+            <AdminProtectedRoute>
+              <AdminGISMap />
+            </AdminProtectedRoute>
+          }
         />
         <Route
           path="/admin/notifications"
-          element={<AdminNotifications />}
+          element={
+            <AdminProtectedRoute>
+              <AdminNotifications />
+            </AdminProtectedRoute>
+          }
         />
         <Route
           path="/admin/settings"
-          element={<AdminSettings />}
+          element={
+            <AdminProtectedRoute>
+              <AdminSettings />
+            </AdminProtectedRoute>
+          }
         />
         <Route
           path="/admin/certificates/:id"
-          element={<AdminCertificateDetails />}
+          element={
+            <AdminProtectedRoute>
+              <AdminCertificateDetails />
+            </AdminProtectedRoute>
+          }
         />
       </Routes>
     </BrowserRouter>

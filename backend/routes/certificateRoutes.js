@@ -1,3 +1,4 @@
+const adminAuth = require("../middleware/adminAuth");
 const express = require("express");
 const router = express.Router();
 
@@ -17,7 +18,11 @@ const {
 } = require("../middleware/authMiddleware");
 
 router.get("/", protect, getCertificates);
-router.get("/admin/all", getAllCertificates);
+router.get(
+    "/admin/all",
+    adminAuth,
+    getAllCertificates
+);
 router.post(
     "/",
     protect,
@@ -32,10 +37,14 @@ router.post(
     },
     createCertificate
 );
-router.get("/:id", protect, getCertificateById);
+router.get(
+    "/:id",
+    adminAuth,
+    getCertificateById
+);
 router.put(
     "/:id/status",
-    protect,
+    adminAuth,
     updateCertificateStatus
 );
 module.exports = router;

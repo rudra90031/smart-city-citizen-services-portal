@@ -16,7 +16,9 @@ function AdminSidebar() {
 
     const handleLogout = () => {
         localStorage.removeItem("adminToken");
-        navigate("/admin/login");
+        localStorage.removeItem("admin");
+
+        navigate("/");
     };
     return (
         <div className="admin-sidebar">

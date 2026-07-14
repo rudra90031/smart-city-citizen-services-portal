@@ -198,9 +198,11 @@
     margin-top:20px;
     background:#fff;
     border-radius:30px;
-    padding:28px;
+    padding:10px 25px;
 }
-
+.system-status h3{
+    margin-bottom: 9px;
+}
 .status-grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);

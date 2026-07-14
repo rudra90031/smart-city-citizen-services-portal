@@ -12,6 +12,24 @@ exports.getBills = async (req, res) => {
     }
 };
 
+exports.getMyBills = async (req, res) => {
+    try {
+
+        const bills = await Bill.find({
+            user: req.user.id
+        }).populate("user", "_id name email mobile");
+
+        res.status(200).json(bills);
+
+    } catch (err) {
+
+        res.status(500).json({
+            message: err.message
+        });
+
+    }
+};
+
 exports.createBill = async (req, res) => {
     try {
 

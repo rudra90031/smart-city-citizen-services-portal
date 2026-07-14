@@ -97,14 +97,18 @@ function Dashboard() {
         const user = JSON.parse(localStorage.getItem("user"));
 
         const res = await axios.get(
-          "http://localhost:5000/api/bills"
+          "http://localhost:5000/api/bills/my",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
 
-        const userBills = res.data.filter(
-          (bill) => bill.user?._id === user.id
-        );
 
-        setBills(userBills);
+        console.log("Bills API Response:", res.data);
+
+        setBills(res.data);
 
       } catch (error) {
 

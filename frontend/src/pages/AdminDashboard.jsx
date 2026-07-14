@@ -34,11 +34,17 @@ function AdminDashboard() {
     useEffect(() => {
 
         const fetchDashboard = async () => {
-
             try {
 
+                const token = localStorage.getItem("adminToken");
+
                 const res = await axios.get(
-                    "http://localhost:5000/api/admin/dashboard"
+                    "http://localhost:5000/api/admin/dashboard",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
                 );
 
                 setStats(res.data);
@@ -46,7 +52,6 @@ function AdminDashboard() {
             } catch (err) {
                 console.log(err);
             }
-
         };
 
         fetchDashboard();

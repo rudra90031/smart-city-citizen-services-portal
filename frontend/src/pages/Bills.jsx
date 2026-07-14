@@ -32,7 +32,11 @@ function Bills() {
         try {
             const user = JSON.parse(localStorage.getItem("user"));
 
-            const res = await axios.get("http://localhost:5000/api/bills");
+            const res = await axios.get("http://localhost:5000/api/bills/my", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            })
 
             console.log("Logged User:", user);
             console.log("Bills API:", res.data);
@@ -64,7 +68,15 @@ function Bills() {
     const payBill = async (billId) => {
         try {
 
-            await axios.put(`http://localhost:5000/api/bills/${billId}/pay`);
+            await axios.put(
+                `http://localhost:5000/api/bills/${billId}/pay`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }
+            );
 
             fetchBills();
 
