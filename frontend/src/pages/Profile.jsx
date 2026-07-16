@@ -19,7 +19,11 @@ function Profile() {
             setName(user.name || "");
             setEmail(user.email || "");
             setPhone(user.mobile || "");
-            setProfilePic(user.profilePic || "");
+            setProfilePic(
+                user.profilePic
+                    ? `http://localhost:5000${user.profilePic}`
+                    : ""
+            );
 
         }
 
@@ -31,27 +35,49 @@ function Profile() {
 
             const user = JSON.parse(localStorage.getItem("user"));
 
+            const formData = new FormData();
+
+            formData.append("name", name);
+            formData.append("email", email);
+            formData.append("phone", phone);
+
+            if (
+                document.getElementById("profilePic").files[0]
+            ) {
+                formData.append(
+                    "profilePic",
+                    document.getElementById("profilePic").files[0]
+                );
+            }
+
             const res = await axios.put(
-
-                `http://localhost:5000/api/users/${user.id}`,
-
+                `http://localhost:5000/api/auth/${user.id}`,
+                formData,
                 {
-
-                    name,
-                    email,
-                    phone,
-                    profilePic
-
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        "Content-Type": "multipart/form-data",
+                    },
                 }
-
             );
 
+            const updatedUser = {
+                ...user,
+                ...res.data,
+            };
+
+            console.log("Response:", JSON.stringify(res.data, null, 2));
+            console.log("Stored User:", JSON.stringify(updatedUser, null, 2));
+
             localStorage.setItem(
-
                 "user",
+                JSON.stringify(updatedUser)
+            );
 
-                JSON.stringify(res.data)
-
+            setProfilePic(
+                updatedUser.profilePic
+                    ? `http://localhost:5000${updatedUser.profilePic}`
+                    : ""
             );
 
             alert("Profile Updated Successfully");
@@ -125,7 +151,10 @@ function Profile() {
 
                         <div className="profile-avatar">
                             {profilePic ? (
-                                <img src={profilePic} alt="Profile" />
+                                <img
+                                    src={profilePic}
+                                    alt="Profile"
+                                />
                             ) : (
                                 name
                                     ? name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()
@@ -275,6 +304,12 @@ function Profile() {
                 </div>
 
             </section>
+            <div className="save-note">
+                <img
+                    src="/images/savestic.png"
+                    alt="Save Profile Pic"
+                />
+            </div>
 
         </div>
 

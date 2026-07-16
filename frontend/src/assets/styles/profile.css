@@ -201,3 +201,18 @@
     color:#d6d6d6;
     font-size:19px;
 }
+.save-note{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;   /* left side */
+    margin-top: -98px;
+    padding-left: 202px;            /* adjust 15-40px as needed */
+}
+
+.save-note img{
+    width: 205px;                  /* 95-120px looks best */
+    height: auto;
+    opacity: .95;
+    pointer-events: none;
+    user-select: none;
+}

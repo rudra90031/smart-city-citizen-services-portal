@@ -8,6 +8,7 @@ import {
     FiLogOut,
     FiCreditCard
 } from "react-icons/fi";
+import logo from "../assets/logo.png";
 
 import "../assets/styles/adminSidebar.css";
 
@@ -25,8 +26,13 @@ function AdminSidebar() {
 
             <div className="sidebar-logo">
 
-                <h2>SMART CITY</h2>
-                <p>ADMIN PORTAL</p>
+                <img
+                    src={logo}
+                    alt="Smart City"
+                    className="sidebar-logo-img"
+                />
+
+                <h2>Smart City</h2>
 
             </div>
 

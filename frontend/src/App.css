@@ -39,16 +39,28 @@ ul {
   border-bottom: 1px solid #e5e7eb;
 }
 
-.logo h2 {
-  font-size: 22px;
-  color: white;
-  margin: 0;
-}
-
 .logo p {
   font-size: 12px;
   color: #666;
   margin: 0;
+}
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-img{
+    width:40px;
+    height:40px;
+    object-fit:contain;
+}
+
+.logo h2{
+    font-size:22px;
+    color:#fff;
+    margin:0;
+    font-weight:700;
 }
 
 .nav-links {
@@ -708,12 +720,17 @@ ul {
   border-bottom: 1px solid #eee;
 }
 
-.complaint-status {
-  font-size: 22px;
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+.complaint-status{
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .complaint-status.pending {

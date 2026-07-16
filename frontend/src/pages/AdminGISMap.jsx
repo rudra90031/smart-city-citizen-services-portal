@@ -545,57 +545,60 @@ function AdminGISMap() {
 
                                 <h3>Hotspot Areas</h3>
 
-                                {
-                                    hotspotAreas.map((item, index) => (
+                                <div className="hotspot-list">
 
-                                        <div
-                                            key={index}
-                                            className={`hotspot-item ${selectedComplaint?.location?.area === item[0]
-                                                ? "active-hotspot"
-                                                : index === 0
-                                                    ? "danger"
-                                                    : index === 1
-                                                        ? "warning"
-                                                        : ""
-                                                }`}
-                                            onClick={() => {
+                                    {
+                                        hotspotAreas.map((item, index) => (
 
-                                                const complaint = complaints.find(
+                                            <div
+                                                key={index}
+                                                className={`hotspot-item ${selectedComplaint?.location?.area === item[0]
+                                                    ? "active-hotspot"
+                                                    : index === 0
+                                                        ? "danger"
+                                                        : index === 1
+                                                            ? "warning"
+                                                            : ""
+                                                    }`}
+                                                onClick={() => {
 
-                                                    c => c.location?.area === item[0]
+                                                    const complaint = complaints.find(
 
-                                                );
+                                                        c => c.location?.area === item[0]
 
-                                                if (complaint) {
+                                                    );
 
-                                                    setSelectedComplaint(complaint);
+                                                    if (complaint) {
 
-                                                    setFocusLocation({
-                                                        lat: Number(complaint.location.latitude),
-                                                        lng: Number(complaint.location.longitude)
-                                                    });
+                                                        setSelectedComplaint(complaint);
 
-                                                }
+                                                        setFocusLocation({
+                                                            lat: Number(complaint.location.latitude),
+                                                            lng: Number(complaint.location.longitude)
+                                                        });
 
-                                            }}
-                                        >
+                                                    }
 
-                                            <span>
+                                                }}
+                                            >
 
-                                                {index + 1}. {item[0]}
+                                                <span>
 
-                                            </span>
+                                                    {index + 1}. {item[0]}
 
-                                            <span>
+                                                </span>
 
-                                                {item[1]} Complaints
+                                                <span>
 
-                                            </span>
+                                                    {item[1]} Complaints
 
-                                        </div>
+                                                </span>
 
-                                    ))
-                                }
+                                            </div>
+
+                                        ))
+                                    }
+                                </div>
 
                             </div>
 
@@ -659,7 +662,6 @@ function AdminGISMap() {
                     </div>
 
                     <div className="details-panel">
-                        <div className="details-content">
 
                             <div className="details-heading">
 
@@ -668,7 +670,7 @@ function AdminGISMap() {
                                 <div className="heading-line"></div>
 
                             </div>
-
+                        <div className="details-content">
 
                             <div className="detail-row">
 

@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 function Navbar() {
     return (
         <nav className="navbar">
             <div className="logo">
+                <img src={logo} alt="Smart City Logo" className="logo-img" />
                 <h2>Smart City</h2>
             </div>
 

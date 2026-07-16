@@ -291,13 +291,18 @@ function Certificates() {
                             </div>
 
                             <div className="application-right">
-                                <span
-                                    className={`status ${cert.status
-                                        .toLowerCase()
-                                        .replace(" ", "-")}`}
-                                >
-                                    {cert.status}
-                                </span>
+                                <div className="status">
+                                    <span
+                                        className={`cert-status-text ${cert.status === "Pending"
+                                                ? "cert-pending-text"
+                                                : cert.status === "Approved"
+                                                    ? "cert-approved-text"
+                                                    : "cert-rejected-text"
+                                            }`}
+                                    >
+                                        {cert.status}
+                                    </span>
+                                </div>
 
                                 {cert.adminRemarks && (
                                     <p className="remarks">

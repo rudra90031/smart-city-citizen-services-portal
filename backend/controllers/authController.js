@@ -110,8 +110,50 @@ const getProfile = async (req, res) => {
     }
 };
 
+const updateProfile = async (req, res) => {
+
+    try {
+
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+            });
+        }
+
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+        user.mobile = req.body.phone || user.mobile;
+
+        if (req.file) {
+            user.profilePic = `/uploads/${req.file.filename}`;
+        }
+
+        await user.save();
+
+        res.status(200).json({
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            mobile: user.mobile,
+            profilePic: user.profilePic,
+            role: user.role,
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: "Server Error",
+        });
+
+    }
+
+};
+
 module.exports = {
     registerUser,
     loginUser,
     getProfile,
+    updateProfile,
 };

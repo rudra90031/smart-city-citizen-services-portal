@@ -128,6 +128,24 @@ function AdminBills() {
         indexOfLastBill
     );
 
+    const totalBills = billsData.length;
+
+    const paidBills = billsData.filter(
+        (bill) => bill.isPaid
+    ).length;
+
+    const pendingBills = billsData.filter(
+        (bill) =>
+            !bill.isPaid &&
+            new Date(bill.dueDate) >= new Date()
+    ).length;
+
+    const overdueBills = billsData.filter(
+        (bill) =>
+            !bill.isPaid &&
+            new Date(bill.dueDate) < new Date()
+    ).length;
+
     return (
         <div className="admin-bills-layout">
 
@@ -159,22 +177,22 @@ function AdminBills() {
                     <div className="admin-bills-stats">
 
                         <div className="stat-item">
-                            <h2>482</h2>
+                            <h2>{totalBills}</h2>
                             <span>Total Bills</span>
                         </div>
 
                         <div className="stat-item">
-                            <h2>71</h2>
+                            <h2>{pendingBills}</h2>
                             <span>Pending</span>
                         </div>
 
                         <div className="stat-item">
-                            <h2>23</h2>
+                            <h2>{overdueBills}</h2>
                             <span>Overdue</span>
                         </div>
 
                         <div className="stat-item">
-                            <h2>388</h2>
+                            <h2>{paidBills}</h2>
                             <span>Paid</span>
                         </div>
 

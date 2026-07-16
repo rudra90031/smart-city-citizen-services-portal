@@ -118,7 +118,7 @@
     font-weight: 600;
 }
 
-.progress {
+/* .progress {
     background: #e7efff;
     color: #2563eb;
 }
@@ -131,7 +131,7 @@
 .rejected {
     background: #ffe8e8;
     color: #dc2626;
-}
+} */
 
 /* RESPONSIVE */
 
@@ -254,7 +254,7 @@
 /* Status Badges */
 
 .status {
-    min-width: 110px;
+    min-width: 120px;
     text-align: center;
 }
 
@@ -324,4 +324,30 @@
 .applications-list::-webkit-scrollbar-thumb {
     background: #d9d9d9;
     border-radius: 20px;
+}
+/* .status-text{
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+} */
+.cert-status-text {
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.cert-pending-text {
+    color: #eb9f25;
+}
+
+.cert-approved-text {
+    color: #35c759;
+}
+
+.cert-rejected-text {
+    color: #ff0400;
 }
