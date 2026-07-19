@@ -43,7 +43,7 @@
 }
 
 .bills-container::-webkit-scrollbar {
-  width: 5px;
+  width: 0px;
 }
 
 .bills-container::-webkit-scrollbar-thumb {
@@ -97,35 +97,7 @@
 
 /* -------------------- STATUS -------------------- */
 
-/* .bill-status {
-  height: 48px;
-  padding: 0 24px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 999px;
-
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-.pending {
-  background: #ffe8b0;
-  color: #9a6500;
-}
-
-.paid {
-  background: #d9ffe2;
-  color: #008c3b;
-}
-
-.overdue {
-  background: #ffd6d6;
-  color: #d10000;
-} */
 
 /* -------------------- BUTTONS -------------------- */
 

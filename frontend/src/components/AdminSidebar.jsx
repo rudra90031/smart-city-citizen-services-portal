@@ -15,6 +15,8 @@ import "../assets/styles/adminSidebar.css";
 function AdminSidebar() {
     const navigate = useNavigate();
 
+    const admin = JSON.parse(localStorage.getItem("admin"));
+
     const handleLogout = () => {
         localStorage.removeItem("adminToken");
         localStorage.removeItem("admin");
@@ -109,12 +111,12 @@ function AdminSidebar() {
                 <div className="admin-profile">
 
                     <div className="profile-circle">
-                        R
+                        {admin?.name?.charAt(0).toUpperCase() || "A"}
                     </div>
 
                     <div>
-                        <h4>Rudra Pratap Singh</h4>
-                        <p>admin@smartcity.gov.in</p>
+                        <h4>{admin?.name || "Administrator"}</h4>
+                        <p>{admin?.email || "admin@smartcity.gov.in"}</p>
                     </div>
 
                 </div>

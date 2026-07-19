@@ -68,6 +68,14 @@ function AdminSettings() {
         try {
 
             await updateAdminProfile(profile);
+            const admin = JSON.parse(localStorage.getItem("admin"));
+
+            const updatedAdmin = {
+                ...admin,
+                ...profile,
+            };
+
+            localStorage.setItem("admin", JSON.stringify(updatedAdmin));
 
             alert("Profile Updated Successfully");
 
@@ -165,7 +173,7 @@ function AdminSettings() {
                         <div className="profile-body">
 
                             <div className="profile-avatar">
-                                A
+                                {profile.name ? profile.name.charAt(0).toUpperCase() : ""}
                             </div>
 
                             <div className="profile-fields">

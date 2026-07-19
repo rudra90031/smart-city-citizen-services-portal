@@ -88,7 +88,11 @@ function TrackComplaint() {
 
                     <div className="track-field">
                         <label>LOCATION</label>
-                        <p>{complaint?.location}</p>
+                        <p>
+                            {searched
+                                ? (complaint?.location?.area || "N/A")
+                                : ""}
+                        </p>
                     </div>
 
                     <div className="track-field">
@@ -136,10 +140,10 @@ function TrackComplaint() {
 
                     <div
                         className={`timeline-item ${complaint?.status === "In Progress" ||
-                                complaint?.status === "Assigned" ||
-                                complaint?.status === "Resolved"
-                                ? "active"
-                                : ""
+                            complaint?.status === "Assigned" ||
+                            complaint?.status === "Resolved"
+                            ? "active"
+                            : ""
                             }`}
                     >
 
@@ -147,16 +151,20 @@ function TrackComplaint() {
 
                         <div className="timeline-content">
                             <h4>In Progress</h4>
-                            <p>{searched ? "17 Jun 2026 • 02:15 PM" : ""}</p>
+                            <p>
+                                {complaint?.status === "In Progress"
+                                    ? new Date(complaint.updatedAt).toLocaleString()
+                                    : ""}
+                            </p>
                         </div>
 
                     </div>
 
                     <div
                         className={`timeline-item ${complaint?.status === "Assigned" ||
-                                complaint?.status === "Resolved"
-                                ? "active"
-                                : ""
+                            complaint?.status === "Resolved"
+                            ? "active"
+                            : ""
                             }`}
                     >
 
@@ -164,15 +172,19 @@ function TrackComplaint() {
 
                         <div className="timeline-content">
                             <h4>Assigned To Technician</h4>
-                            <p>{searched ? "Pending" : ""}</p>
+                            <p>
+                                {complaint?.status === "Assigned"
+                                    ? new Date(complaint.updatedAt).toLocaleString()
+                                    : ""}
+                            </p>
                         </div>
 
                     </div>
 
                     <div
                         className={`timeline-item ${complaint?.status === "Resolved"
-                                ? "active"
-                                : ""
+                            ? "active"
+                            : ""
                             }`}
                     >
 
@@ -180,7 +192,11 @@ function TrackComplaint() {
 
                         <div className="timeline-content">
                             <h4>Resolved</h4>
-                            <p>{searched ? "Pending" : ""}</p>
+                            <p>
+                                {complaint?.status === "Resolved"
+                                    ? new Date(complaint.updatedAt).toLocaleString()
+                                    : ""}
+                            </p>
                         </div>
 
                     </div>
