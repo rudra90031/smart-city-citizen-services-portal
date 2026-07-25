@@ -1296,3 +1296,161 @@ ul {
     }
 
 }
+
+/* ================= ABOUT PAGE ================= */
+
+.about-page{
+    max-width:1200px;
+    margin:auto;
+    padding:60px 40px 100px;
+}
+
+.about-hero{
+    margin-bottom:80px;
+}
+
+.about-hero p{
+    color:#777;
+    letter-spacing:2px;
+    margin-bottom:20px;
+}
+
+.about-hero h1{
+    font-size:80px;
+    line-height:1;
+    font-weight:700;
+    margin-bottom:25px;
+}
+
+.about-hero span{
+    display:block;
+    max-width:700px;
+    font-size:22px;
+    color:#666;
+    line-height:1.6;
+}
+
+.about-block{
+    margin-bottom:80px;
+}
+
+.about-block small{
+    color:#777;
+    letter-spacing:2px;
+}
+
+.about-block h2{
+    margin:18px 0;
+    font-size:50px;
+    max-width:800px;
+}
+
+.about-block p{
+    max-width:850px;
+    color:#555;
+    font-size:19px;
+    line-height:1.8;
+}
+
+.about-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+    margin-bottom:80px;
+}
+
+.feature-card{
+    background:white;
+    border-radius:20px;
+    padding:40px;
+    transition:.3s;
+    border:1px solid #e5e5e5;
+}
+
+.feature-card:hover{
+    transform:translateY(-6px);
+}
+
+.feature-card svg{
+    color:#2563eb;
+    margin-bottom:20px;
+}
+
+.feature-card h3{
+    margin-bottom:12px;
+    font-size:26px;
+}
+
+.feature-card p{
+    color:#666;
+    line-height:1.7;
+}
+
+.mission-wrapper{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:50px;
+    margin-bottom:80px;
+}
+
+.mission-wrapper small{
+    color:#777;
+}
+
+.mission-wrapper h3{
+    margin-top:18px;
+    font-size:36px;
+    line-height:1.4;
+    font-weight:500;
+}
+
+.workflow{
+    padding-top:40px;
+    border-top:1px solid #ddd;
+}
+
+.workflow small{
+    color:#777;
+    letter-spacing:2px;
+}
+
+.steps{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:30px;
+    margin-top:40px;
+}
+
+.steps h2{
+    font-size:65px;
+    color:#2563eb;
+}
+
+.steps p{
+    margin-top:10px;
+    color:#444;
+}
+
+@media(max-width:900px){
+
+.about-grid{
+grid-template-columns:1fr;
+}
+
+.mission-wrapper{
+grid-template-columns:1fr;
+}
+
+.steps{
+grid-template-columns:1fr 1fr;
+}
+
+.about-hero h1{
+font-size:55px;
+}
+
+.about-block h2{
+font-size:38px;
+}
+
+}

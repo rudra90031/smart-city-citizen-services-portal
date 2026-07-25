@@ -24,6 +24,11 @@ app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+app.use(
+  "/email-assets",
+  express.static(path.join(__dirname, "public/email-assets"))
+);
+
 app.get("/api/test", (req, res) => {
   res.json({
     message: "Backend Connected Successfully",
@@ -68,6 +73,7 @@ app.use(
   "/uploads",
   express.static("uploads")
 );
+app.use("/api/email", emailRoutes);
 app.use("/api/bills", billRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/complaints", complaintRoutes);

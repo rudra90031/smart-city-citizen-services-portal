@@ -15,6 +15,7 @@ import AdminBills from "./pages/AdminBills";
 import AdminGISMap from "./pages/AdminGISMap";
 import AdminNotifications from "./pages/AdminNotifications";
 import AdminSettings from "./pages/AdminSettings";
+import About from "./pages/About";
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +27,7 @@ function App() {
           path="/track-complaint"
           element={<TrackComplaint />}
         />
+        <Route path="/about" element={<About />} />
         <Route
           path="/certificates"
           element={<Certificates />}

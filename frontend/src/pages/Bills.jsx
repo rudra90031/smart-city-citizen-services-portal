@@ -98,55 +98,63 @@ function Bills() {
                 </div>
 
                 <div className="bills-container">
-                    {bills.map((bill) => (
-                        <div className="bill-row" key={bill.id}>
-                            <div className="bill-left">
-                                <h2>{bill.type}</h2>
+                    {bills.length === 0 ? (
 
-                                <p>
-                                    Amount: ₹
-                                    {bill.amount + calculateLateFee(bill.dueDate, bill.isPaid)}
-                                </p>
-                                <p>
-                                    Due Date: {new Date(bill.dueDate).toLocaleDateString("en-IN", {
-                                        day: "2-digit",
-                                        month: "short",
-                                        year: "numeric",
-                                    })}
-                                </p>
-                            </div>
-
-                            <div className="bill-right">
-                                {bill.isPaid ? (
-                                    <button className="paid-btn">
-                                        Paid ✓
-                                    </button>
-                                ) : (
-                                    <span
-                                        className={`status-text ${bill.isPaid ? "paid-text" : "pending-text"
-                                            }`}
-                                    >
-                                        {getBillStatus(bill.dueDate, bill.isPaid)}
-                                    </span>
-                                )}
-
-                                {!bill.isPaid && (
-                                    <>
-                                        <button className="details-link">
-                                            Details →
-                                        </button>
-
-                                        <button
-                                            className="pay-btn"
-                                            onClick={() => payBill(bill._id)}
-                                        >
-                                            Pay Bill
-                                        </button>
-                                    </>
-                                )}
-                            </div>
+                        <div className="bill-empty-state">
+                            No Bills Available
                         </div>
-                    ))}
+
+                    ) : (
+
+                        bills.map((bill) => (
+                            <div className="bill-row" key={bill.id}>
+                                <div className="bill-left">
+                                    <h2>{bill.type}</h2>
+
+                                    <p>
+                                        Amount: ₹
+                                        {bill.amount + calculateLateFee(bill.dueDate, bill.isPaid)}
+                                    </p>
+                                    <p>
+                                        Due Date: {new Date(bill.dueDate).toLocaleDateString("en-IN", {
+                                            day: "2-digit",
+                                            month: "short",
+                                            year: "numeric",
+                                        })}
+                                    </p>
+                                </div>
+
+                                <div className="bill-right">
+                                    {bill.isPaid ? (
+                                        <button className="paid-btn">
+                                            Paid ✓
+                                        </button>
+                                    ) : (
+                                        <span
+                                            className={`status-text ${bill.isPaid ? "paid-text" : "pending-text"
+                                                }`}
+                                        >
+                                            {getBillStatus(bill.dueDate, bill.isPaid)}
+                                        </span>
+                                    )}
+
+                                    {!bill.isPaid && (
+                                        <>
+                                            <button className="details-link">
+                                                Details →
+                                            </button>
+
+                                            <button
+                                                className="pay-btn"
+                                                onClick={() => payBill(bill._id)}
+                                            >
+                                                Pay Bill
+                                            </button>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        )))}
                 </div>
 
             </div>

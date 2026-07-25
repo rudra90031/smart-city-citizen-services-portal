@@ -3,12 +3,14 @@ const express = require("express");
 const router = express.Router();
 
 const {
-    sendNotification,
-    getNotifications
+  sendToUser,
+  sendToAllUsers,
 } = require("../controllers/emailController");
 
-router.post("/send", sendNotification);
+// Send to Specific User
+router.post("/send-user", sendToUser);
 
-router.get("/", getNotifications);
+// Send to All Users
+router.post("/send-all", sendToAllUsers);
 
-             module.exports = router;
+module.exports = router;

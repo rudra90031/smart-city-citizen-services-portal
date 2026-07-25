@@ -133,7 +133,6 @@ function TrackComplaint() {
 
                         <div className="timeline-content">
                             <h4>Complaint Submitted</h4>
-                            <p>{searched ? "17 Jun 2026 • 10:30 AM" : ""}</p>
                         </div>
 
                     </div>

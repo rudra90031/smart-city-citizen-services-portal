@@ -1,97 +1,119 @@
-const EmailLog = require("../models/EmailLog");
-const nodemailer = require("nodemailer");
+const transporter = require("../config/emailConfig");
+const User = require("../models/User");
+const generateEmailTemplate = require("../utils/emailTemplate");
+const path = require("path");
 
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD,
-    },
-});
+// Send Email to Specific User
+exports.sendToUser = async (req, res) => {
+  try {
+    const { email, subject, message } = req.body;
 
-// GET ALL NOTIFICATIONS
-const getNotifications = async (req, res) => {
-    try {
-
-        const notifications = await EmailLog
-            .find()
-            .sort({ createdAt: -1 });
-
-        res.json(notifications);
-
-    } catch (err) {
-
-        res.status(500).json({
-            message: err.message
-        });
-
+    if (!email || !subject || !message) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
     }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const html = generateEmailTemplate({
+      subject,
+      message,
+      userName: user.name,
+      portalLink: "http://localhost:5173",
+      servicesLink: "http://localhost:5173/services",
+    });
+
+    await transporter.sendMail({
+      from: `"Smart City Administration" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject,
+      html,
+      
+    });
+
+    res.json({
+      success: true,
+      message: "Email sent successfully",
+    });
+
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to send email",
+    });
+  }
 };
 
-// SEND NOTIFICATION
-const sendNotification = async (req, res) => {
 
-    try {
+// Send Email to All Users
+exports.sendToAllUsers = async (req, res) => {
 
-        const {
-            recipient,
-            email,
-            subject,
-            message
-        } = req.body;
+  try {
 
-        const emailLog = await EmailLog.create({
+    const { subject, message } = req.body;
 
-            recipient,
-            email,
-            subject,
-            message
+    if (!subject || !message) {
 
-        });
-
-        if (recipient === "specific" && email) {
-
-            await transporter.sendMail({
-
-                from: process.env.EMAIL,
-
-                to: email,
-
-                subject,
-
-                text: message
-
-            });
-
-        }
-
-        res.json({
-
-            message: "Email Sent Successfully",
-
-            emailLog
-
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Subject and Message are required"
+      });
 
     }
 
-    catch (err) {
+    const users = await User.find();
 
-        console.log(err);
+    for (const user of users) {
 
-        res.status(500).json({
+      const html = generateEmailTemplate({
+        subject,
+        message,
+        userName: user.name,
+        portalLink: "http://localhost:5173",
+        servicesLink: "http://localhost:5173/services",
+      });
 
-            message: err.message
-
-        });
+      await transporter.sendMail({
+        from: `"Smart City Administration" <${process.env.EMAIL_USER}>`,
+        to: user.email,
+        subject,
+        html,
+        
+      });
 
     }
 
-};
+    res.json({
 
-module.exports = {
+      success: true,
+      message: `Email sent to ${users.length} users successfully.`
 
-    getNotifications,
-    sendNotification
+    });
+
+  }
+
+  catch (err) {
+
+    console.log(err);
+
+    res.status(500).json({
+
+      success: false,
+      message: "Failed to send emails"
+
+    });
+
+  }
 
 };

@@ -17,18 +17,16 @@ function AdminNotifications() {
 
         try {
 
-            await axios.post(
+            const url =
+                recipient === "all"
+                    ? "http://localhost:5000/api/email/send-all"
+                    : "http://localhost:5000/api/email/send-user";
 
-                "http://localhost:5000/api/email/send",
-
-                {
-                    recipient,
-                    email,
-                    subject,
-                    message
-                }
-
-            );
+            await axios.post(url, {
+                email,
+                subject,
+                message,
+            });
 
             alert("Notification Sent");
 

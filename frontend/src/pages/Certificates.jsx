@@ -271,48 +271,66 @@ function Certificates() {
                 <h2>My Applications</h2>
 
                 <div className="applications-list">
-                    {certificates.map((cert) => (
-                        <div className="application-item" key={cert._id}>
-                            <div>
-                                <h4>{cert.certificateType}</h4>
 
-                                <p>
-                                    Application ID: {cert.applicationId}
-                                </p>
+                    {certificates.length === 0 ? (
 
-                                <p>
-                                    Purpose: {cert.purpose}
-                                </p>
+                        <div className="certificate-empty-state">
+                            No Applications Yet
+                        </div>
 
-                                <p>
-                                    Applied on:{" "}
-                                    {new Date(cert.createdAt).toLocaleDateString()}
-                                </p>
-                            </div>
+                    ) : (
 
-                            <div className="application-right">
-                                <div className="status">
-                                    <span
-                                        className={`cert-status-text ${cert.status === "Pending"
-                                                ? "cert-pending-text"
-                                                : cert.status === "Approved"
-                                                    ? "cert-approved-text"
-                                                    : "cert-rejected-text"
-                                            }`}
-                                    >
-                                        {cert.status}
-                                    </span>
+                        certificates.map((cert) => (
+
+                            <div className="application-item" key={cert._id}>
+
+                                <div>
+                                    <h4>{cert.certificateType}</h4>
+
+                                    <p>
+                                        Application ID: {cert.applicationId}
+                                    </p>
+
+                                    <p>
+                                        Purpose: {cert.purpose}
+                                    </p>
+
+                                    <p>
+                                        Applied on:{" "}
+                                        {new Date(cert.createdAt).toLocaleDateString()}
+                                    </p>
                                 </div>
 
-                                {cert.adminRemarks && (
-                                    <p className="remarks">
-                                        <strong>Admin Remarks:</strong>{" "}
-                                        {cert.adminRemarks}
-                                    </p>
-                                )}
+                                <div className="application-right">
+
+                                    <div className="status">
+                                        <span
+                                            className={`cert-status-text ${cert.status === "Pending"
+                                                    ? "cert-pending-text"
+                                                    : cert.status === "Approved"
+                                                        ? "cert-approved-text"
+                                                        : "cert-rejected-text"
+                                                }`}
+                                        >
+                                            {cert.status}
+                                        </span>
+                                    </div>
+
+                                    {cert.adminRemarks && (
+                                        <p className="remarks">
+                                            <strong>Admin Remarks:</strong>{" "}
+                                            {cert.adminRemarks}
+                                        </p>
+                                    )}
+
+                                </div>
+
                             </div>
-                        </div>
-                    ))}
+
+                        ))
+
+                    )}
+
                 </div>
             </div>
 
