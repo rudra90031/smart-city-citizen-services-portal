@@ -40,7 +40,7 @@ function AdminDashboard() {
                 const token = localStorage.getItem("adminToken");
 
                 const res = await axios.get(
-                    "${API}/api/admin/dashboard",
+                    `${API}/api/admin/dashboard`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,

@@ -20,8 +20,8 @@ function AdminNotifications() {
 
             const url =
                 recipient === "all"
-                    ? "${API}/api/email/send-all"
-                    : "${API}/api/email/send-user";
+                    ? `${API}/api/email/send-all`
+                    : `${API}/api/email/send-user`;
             console.log("API called:", url);
 
             await axios.post(url, {

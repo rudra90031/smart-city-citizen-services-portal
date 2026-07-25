@@ -74,7 +74,7 @@ export const updateAdminProfile = async (data) => {
   const token = localStorage.getItem("adminToken");
 
   const response = await axios.put(
-    "${API}/api/admin/profile",
+    `${API}/api/admin/profile`,
     data,
     {
       headers: {
@@ -91,7 +91,7 @@ export const changeAdminPassword = async (data) => {
   const token = localStorage.getItem("adminToken");
 
   const response = await axios.put(
-    "${API}/api/admin/change-password",
+    `${API}/api/admin/change-password`,
     data,
     {
       headers: {
@@ -107,7 +107,7 @@ export const getComplaints = async () => {
   const token = localStorage.getItem("token");
 
   const response = await axios.get(
-    "${API}/api/complaints",
+    `${API}/api/complaints`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

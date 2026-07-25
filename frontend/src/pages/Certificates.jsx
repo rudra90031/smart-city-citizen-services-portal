@@ -47,7 +47,7 @@ function Certificates() {
             const token = localStorage.getItem("token");
 
             const res = await axios.get(
-                "${API}/api/certificates",
+                `${API}/api/certificates`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -65,7 +65,7 @@ function Certificates() {
             const token = localStorage.getItem("token");
 
             const res = await axios.get(
-                "${API}/api/auth/profile",
+                `${API}/api/auth/profile`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -115,7 +115,7 @@ function Certificates() {
             console.log("supportingFile:", supportingFile);
 
             await axios.post(
-                "${API}/api/certificates",
+                `${API}/api/certificates`,
                 formData,
                 {
                     headers: {

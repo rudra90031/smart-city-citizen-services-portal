@@ -83,7 +83,7 @@ function AdminBills() {
             const token = localStorage.getItem("adminToken");
 
             const res = await axios.get(
-                "${API}/api/bills",
+                `${API}/api/bills`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -344,7 +344,7 @@ function AdminBills() {
                                                     const token = localStorage.getItem("adminToken");
 
                                                     const res = await axios.post(
-                                                        "${API}/api/bills",
+                                                        `${API}/api/bills`,
                                                         newBill,
                                                         {
                                                             headers: {

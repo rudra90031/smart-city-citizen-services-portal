@@ -33,7 +33,7 @@ function Bills() {
         try {
             const user = JSON.parse(localStorage.getItem("user"));
 
-            const res = await axios.get("${API}/api/bills/my", {
+            const res = await axios.get(`${API}/api/bills/my`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }

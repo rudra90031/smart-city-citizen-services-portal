@@ -153,7 +153,7 @@ function AdminGISMap() {
             const token = localStorage.getItem("adminToken");
 
             const res = await axios.get(
-                "${API}/api/complaints/admin/all",
+                `${API}/api/complaints/admin/all`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

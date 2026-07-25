@@ -44,7 +44,7 @@ function LodgeComplaint() {
       }
 
       const res = await axios.post(
-        "${API}/api/complaints",
+        `${API}/api/complaints`,
         formData,
         {
           headers: {

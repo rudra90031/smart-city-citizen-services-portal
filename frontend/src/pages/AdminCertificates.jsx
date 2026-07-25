@@ -13,7 +13,7 @@ function AdminCertificates() {
             const token = localStorage.getItem("adminToken");
 
             const res = await axios.get(
-                "${API}/api/certificates/admin/all",
+                `${API}/api/certificates/admin/all`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

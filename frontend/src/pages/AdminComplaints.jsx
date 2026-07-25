@@ -71,7 +71,7 @@ function AdminComplaints() {
       const token = localStorage.getItem("adminToken");
 
       const res = await axios.get(
-        "${API}/api/complaints/admin/all",
+        `${API}/api/complaints/admin/all`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -90,7 +90,7 @@ function AdminComplaints() {
       const token = localStorage.getItem("adminToken");
 
       const response = await axios.get(
-        "${API}/api/complaints/admin/export-excel",
+        `${API}/api/complaints/admin/export-excel`,
         {
           responseType: "blob",
           headers: {
