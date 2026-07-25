@@ -115,7 +115,7 @@ style="max-width:800px;background:white;"
 <td>
 
 <img
-src="http://localhost:5000/email-assets/part1_top_header.png"
+src="https://smart-city-backend-pax7.onrender.com/email-assets/part1_top_header.png"
 width="800"
 style="display:block;width:100%;max-width:800px;height:auto;border:0;"
 alt="Smart City Header">
@@ -195,7 +195,7 @@ VIEW IN PORTAL →
 <td>
 
 <img
-src="http://localhost:5000/email-assets/part3_bottom_footer.png"
+src="https://smart-city-backend-pax7.onrender.com/email-assets/part3_bottom_footer.png"
 width="800"
 style="display:block;width:100%;max-width:800px;height:auto;border:0;"
 alt="Smart City Footer">

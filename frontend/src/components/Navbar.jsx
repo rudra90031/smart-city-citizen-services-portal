@@ -13,7 +13,7 @@ function Navbar() {
                 <li><a href="#home">Home</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><Link to="/about">About</Link></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><Link to="/contact">Emergency Contact</Link></li>
             </ul>
 
             <div className="auth-buttons">
