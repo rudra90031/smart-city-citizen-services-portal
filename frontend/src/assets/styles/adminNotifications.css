@@ -2,19 +2,20 @@
    PAGE
 ========================================================== */
 
-.notification-container{
+.notification-container {
 
-    margin-left:300px;   /* Sidebar width */
+    margin-left: 300px;
+    /* Sidebar width */
 
-    width:calc(100% - 260px);
+    width: calc(100% - 260px);
 
-    min-height:100vh;
+    min-height: 100vh;
 
-    padding:30px;
+    padding: 30px;
 
-    background:#f6f6f4;
+    background: #f6f6f4;
 
-    box-sizing:border-box;
+    box-sizing: border-box;
 
 }
 
@@ -22,19 +23,19 @@
    HEADER
 ========================================================== */
 
-.notification-top{
+.notification-top {
 
-    display:flex;
+    display: flex;
 
-    justify-content:space-between;
+    justify-content: space-between;
 
-    align-items:center;
+    align-items: center;
 
-    margin-bottom:25px;
+    margin-bottom: 25px;
 
 }
 
-.notification-top h1{
+.notification-top h1 {
 
     font-family:
         Impact,
@@ -42,25 +43,25 @@
         "Arial Narrow Bold",
         sans-serif;
 
-    font-size:52px;
+    font-size: 52px;
 
-    font-weight:400;
+    font-weight: 400;
 
-    color:#111;
+    color: #111;
 
-    margin:0;
+    margin: 0;
 
-    letter-spacing:.5px;
+    letter-spacing: .5px;
 
 }
 
-.notification-top p{
+.notification-top p {
 
-    margin-top:6px;
+    margin-top: 6px;
 
-    color:#6d6d6d;
+    color: #6d6d6d;
 
-    font-size:15px;
+    font-size: 15px;
 
 }
 
@@ -68,41 +69,41 @@
    TOTAL SENT CARD
 ========================================================== */
 
-.notification-count{
+.notification-count {
 
-    width:170px;
+    width: 170px;
 
-    height:95px;
+    height: 95px;
 
-    background:#ff6600;
+    background: #ff6600;
 
-    border-radius:6px;
+    border-radius: 6px;
 
-    color:#fff;
+    color: #fff;
 
-    display:flex;
+    display: flex;
 
-    flex-direction:column;
+    flex-direction: column;
 
-    justify-content:center;
+    justify-content: center;
 
-    align-items:center;
-
-}
-
-.notification-count h2{
-
-    margin:0;
-
-    font-size:34px;
-
-    font-weight:700;
+    align-items: center;
 
 }
 
-.notification-count span{
+.notification-count h2 {
 
-    font-size:13px;
+    margin: 0;
+
+    font-size: 34px;
+
+    font-weight: 700;
+
+}
+
+.notification-count span {
+
+    font-size: 13px;
 
 }
 
@@ -110,21 +111,19 @@
    COMPOSE CARD
 ========================================================== */
 
-.notification-card{
+.notification-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 24px;
 
-    background:#fff;
-
-    border:1px solid #ddd;
-
-    border-radius:6px;
-
-    padding:24px;
-
+    max-width: 900px;
+    margin: 0 auto;
 }
 
-.notification-card h3{
+.notification-card h3 {
 
-    margin:0 0 22px;
+    margin: 0 0 22px;
 
     font-family:
         Impact,
@@ -132,23 +131,23 @@
         "Arial Narrow Bold",
         sans-serif;
 
-    font-size:28px;
+    font-size: 28px;
 
-    font-weight:400;
+    font-weight: 400;
 
 }
 
-.notification-card label{
+.notification-card label {
 
-    display:block;
+    display: block;
 
-    margin-top:18px;
+    margin-top: 18px;
 
-    margin-bottom:8px;
+    margin-bottom: 8px;
 
-    font-weight:600;
+    font-weight: 600;
 
-    color:#333;
+    color: #333;
 
 }
 
@@ -156,39 +155,38 @@
 
 .notification-card select,
 
-.notification-card textarea{
+.notification-card textarea {
 
-    width:100%;
+    width: 100%;
 
-    border:1px solid #d8d8d8;
+    border: 1px solid #d8d8d8;
 
-    border-radius:4px;
+    border-radius: 4px;
 
-    padding:12px 14px;
+    padding: 12px 14px;
 
-    font-size:15px;
+    font-size: 15px;
 
-    outline:none;
+    outline: none;
 
-    box-sizing:border-box;
+    box-sizing: border-box;
 
-    transition:.2s;
+    transition: .2s;
 
 }
 
-.notification-card textarea{
-
-    resize:none;
-
+.notification-card textarea {
+    resize: none;
+    height: 90px;
 }
 
 .notification-card input:focus,
 
 .notification-card select:focus,
 
-.notification-card textarea:focus{
+.notification-card textarea:focus {
 
-    border-color:#ff6600;
+    border-color: #ff6600;
 
 }
 
@@ -196,35 +194,35 @@
    BUTTON
 ========================================================== */
 
-.send-btn{
+.send-btn {
 
-    margin-top:25px;
+    margin-top: 25px;
 
-    width:210px;
+    width: 210px;
 
-    height:48px;
+    height: 48px;
 
-    border:none;
+    border: none;
 
-    background:#111;
+    background: #111;
 
-    color:#fff;
+    color: #fff;
 
-    cursor:pointer;
+    cursor: pointer;
 
-    border-radius:4px;
+    border-radius: 4px;
 
-    font-size:15px;
+    font-size: 15px;
 
-    font-weight:700;
+    font-weight: 700;
 
-    transition:.25s;
+    transition: .25s;
 
 }
 
-.send-btn:hover{
+.send-btn:hover {
 
-    background:#ff6600;
+    background: #ff6600;
 
 }
 
@@ -232,27 +230,27 @@
    RECENT CARD
 ========================================================== */
 
-.recent-card{
+.recent-card {
 
-    margin-top:28px;
+    margin-top: 28px;
 
-    background:#fff;
+    background: #fff;
 
-    border:1px solid #ddd;
+    border: 1px solid #ddd;
 
-    border-radius:6px;
+    border-radius: 6px;
 
-    overflow:hidden;
+    overflow: hidden;
 
 }
 
-.recent-card h3{
+.recent-card h3 {
 
-    margin:0;
+    margin: 0;
 
-    padding:18px 22px;
+    padding: 18px 22px;
 
-    border-bottom:1px solid #eee;
+    border-bottom: 1px solid #eee;
 
     font-family:
         Impact,
@@ -260,9 +258,9 @@
         "Arial Narrow Bold",
         sans-serif;
 
-    font-size:28px;
+    font-size: 28px;
 
-    font-weight:400;
+    font-weight: 400;
 
 }
 
@@ -271,22 +269,51 @@
    RESPONSIVE
 ========================================================== */
 
-@media(max-width:900px){
+@media (max-width: 900px) {
 
-    .notification-top{
-
-        flex-direction:column;
-
-        align-items:flex-start;
-
-        gap:18px;
-
+    .notification-container {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px 15px;
     }
 
-    .notification-count{
-
-        width:100%;
-
+    .notification-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
     }
 
+    .notification-count {
+        width: 100%;
+        height: 80px;
+    }
+
+    .notification-card {
+        max-width: 100%;
+        width: 100%;
+        padding: 18px;
+    }
+
+    .notification-card h3 {
+        font-size: 22px;
+    }
+
+    .notification-card input,
+    .notification-card select,
+    .notification-card textarea {
+        font-size: 14px;
+    }
+
+    .notification-card textarea {
+        height: 120px;
+    }
+
+    .send-btn {
+        width: 100%;
+    }
+
+    .notification-container {
+        margin-left: 300px;
+        width: calc(100% - 300px);
+    }
 }

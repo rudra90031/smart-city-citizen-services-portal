@@ -48,11 +48,11 @@ text-decoration:none;
 
 .darkButton{
 display:inline-block;
-padding:15px 34px;
+padding:13px 30px;
 background:#111827;
 color:#ffffff !important;
-font-size:16px;
-font-weight:700;
+font-size:15px;
+font-weight:600;
 border-radius:999px;
 text-decoration:none;
 }
@@ -112,59 +112,33 @@ style="max-width:800px;background:white;"
 <!-- ========================= -->
 
 <tr>
-<td>
-
-<img
-src="https://smart-city-backend-pax7.onrender.com/email-assets/part1_top_header.png"
-width="800"
-style="display:block;width:100%;max-width:800px;height:auto;border:0;"
-alt="Smart City Header">
-
-</td>
-</tr>
-
-<!-- ========================= -->
-<!-- HTML CONTENT -->
-<!-- ========================= -->
-
-<tr>
 
 <td
 style="
 background:#ffffff;
-padding:50px 60px;
+padding:28px 42px;
 font-family:Arial,Helvetica,sans-serif;
 ">
 
-<div
+<h2
 style="
-font-size:14px;
-font-weight:bold;
-color:#2563eb;
-margin-bottom:16px;
-">
-
-📢 SMART CITY UPDATE
-
-</div>
-
-<h1
-style="
-margin:0 0 25px;
-font-size:34px;
+margin:0 0 16px;
+font-size:24px;
+font-weight:700;
 color:#111827;
+line-height:1.35;
 ">
 
 ${subject}
 
-</h1>
+</h2>
 
 <p
 style="
 margin:0;
-font-size:18px;
-line-height:1.8;
-color:#374151;
+font-size:15px;
+line-height:1.7;
+color:#4b5563;
 white-space:pre-line;
 ">
 
@@ -172,7 +146,17 @@ ${message}
 
 </p>
 
-<br><br>
+<table
+role="presentation"
+cellpadding="0"
+cellspacing="0"
+border="0"
+style="margin-top:24px;"
+>
+
+<tr>
+
+<td>
 
 <a
 href="${portalLink}"
@@ -181,6 +165,12 @@ class="darkButton">
 VIEW IN PORTAL →
 
 </a>
+
+</td>
+
+</tr>
+
+</table>
 
 </td>
 
