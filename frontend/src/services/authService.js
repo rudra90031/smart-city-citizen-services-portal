@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API } from "../config/api";
 
 axios.interceptors.response.use(
   (response) => response,
@@ -16,7 +17,7 @@ axios.interceptors.response.use(
   }
 );
 
-const API_URL = "http://localhost:5000/api/auth";
+const API_URL = `${API}/api/auth`;
 
 export const registerUser = async (userData) => {
   const response = await axios.post(
@@ -36,7 +37,7 @@ export const loginUser = async (userData) => {
   return response.data;
 };
 
-const ADMIN_API_URL = "http://localhost:5000/api/admin";
+const ADMIN_API_URL = `${API}/api/admin`;
 
 export const loginAdmin = async (loginData) => {
 
@@ -57,7 +58,7 @@ export const getAdminProfile = async () => {
   const token = localStorage.getItem("adminToken");
 
   const response = await axios.get(
-    "http://localhost:5000/api/admin/profile",
+    `${API}/api/admin/profile`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -73,7 +74,7 @@ export const updateAdminProfile = async (data) => {
   const token = localStorage.getItem("adminToken");
 
   const response = await axios.put(
-    "http://localhost:5000/api/admin/profile",
+    "${API}/api/admin/profile",
     data,
     {
       headers: {
@@ -90,7 +91,7 @@ export const changeAdminPassword = async (data) => {
   const token = localStorage.getItem("adminToken");
 
   const response = await axios.put(
-    "http://localhost:5000/api/admin/change-password",
+    "${API}/api/admin/change-password",
     data,
     {
       headers: {
@@ -106,7 +107,7 @@ export const getComplaints = async () => {
   const token = localStorage.getItem("token");
 
   const response = await axios.get(
-    "http://localhost:5000/api/complaints",
+    "${API}/api/complaints",
     {
       headers: {
         Authorization: `Bearer ${token}`,

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API } from "../config/api";
 import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminComplaints.css";
 
@@ -70,7 +71,7 @@ function AdminComplaints() {
       const token = localStorage.getItem("adminToken");
 
       const res = await axios.get(
-        "http://localhost:5000/api/complaints/admin/all",
+        "${API}/api/complaints/admin/all",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -89,7 +90,7 @@ function AdminComplaints() {
       const token = localStorage.getItem("adminToken");
 
       const response = await axios.get(
-        "http://localhost:5000/api/complaints/admin/export-excel",
+        "${API}/api/complaints/admin/export-excel",
         {
           responseType: "blob",
           headers: {

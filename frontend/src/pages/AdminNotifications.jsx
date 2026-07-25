@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { API } from "../config/api";
 import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminNotifications.css";
 
@@ -19,8 +20,8 @@ function AdminNotifications() {
 
             const url =
                 recipient === "all"
-                    ? "http://localhost:5000/api/email/send-all"
-                    : "http://localhost:5000/api/email/send-user";
+                    ? "${API}/api/email/send-all"
+                    : "${API}/api/email/send-user";
             console.log("API called:", url);
 
             await axios.post(url, {

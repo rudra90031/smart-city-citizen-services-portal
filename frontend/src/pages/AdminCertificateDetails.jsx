@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { API } from "../config/api";
 import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminCertificateDetails.css";
 
@@ -24,7 +25,7 @@ function AdminCertificateDetails() {
             const token = localStorage.getItem("adminToken");
 
             const res = await axios.get(
-                `http://localhost:5000/api/certificates/${id}`,
+                `${API}/api/certificates/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -45,7 +46,7 @@ function AdminCertificateDetails() {
             const token = localStorage.getItem("adminToken");
 
             await axios.put(
-                `http://localhost:5000/api/certificates/${id}/status`,
+                `${API}/api/certificates/${id}/status`,
                 {
                     status,
                     adminRemarks: remarks,
@@ -151,7 +152,7 @@ function AdminCertificateDetails() {
                                         </span>
 
                                         <a
-                                            href={`http://localhost:5000/uploads/${application.aadhaarFile}`}
+                                            href={`${API}/uploads/${application.aadhaarFile}`}
                                             target="_blank"
                                             rel="noreferrer"
                                             className="cert-details-document-btn"
@@ -174,7 +175,7 @@ function AdminCertificateDetails() {
                                         </span>
 
                                         <a
-                                            href={`http://localhost:5000/uploads/${application.supportingFile}`}
+                                            href={`${API}/uploads/${application.supportingFile}`}
                                             target="_blank"
                                             rel="noreferrer"
                                             className="cert-details-document-btn"

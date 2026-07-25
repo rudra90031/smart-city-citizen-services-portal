@@ -3,6 +3,7 @@ import "../assets/styles/certificates.css";
 import RevealText from "../components/RevealText";
 import "../assets/styles/revealText.css";
 import axios from "axios";
+import { API } from "../config/api";
 function Certificates() {
     const [purpose, setPurpose] = useState("");
     const [certificates, setCertificates] = useState([]);
@@ -46,7 +47,7 @@ function Certificates() {
             const token = localStorage.getItem("token");
 
             const res = await axios.get(
-                "http://localhost:5000/api/certificates",
+                "${API}/api/certificates",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -64,7 +65,7 @@ function Certificates() {
             const token = localStorage.getItem("token");
 
             const res = await axios.get(
-                "http://localhost:5000/api/auth/profile",
+                "${API}/api/auth/profile",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -114,7 +115,7 @@ function Certificates() {
             console.log("supportingFile:", supportingFile);
 
             await axios.post(
-                "http://localhost:5000/api/certificates",
+                "${API}/api/certificates",
                 formData,
                 {
                     headers: {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { API } from "../config/api";
 import "../assets/styles/bills.css";
 import AnimatedWave from "../components/AnimatedWave";
 
@@ -32,7 +33,7 @@ function Bills() {
         try {
             const user = JSON.parse(localStorage.getItem("user"));
 
-            const res = await axios.get("http://localhost:5000/api/bills/my", {
+            const res = await axios.get("${API}/api/bills/my", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -69,7 +70,7 @@ function Bills() {
         try {
 
             await axios.put(
-                `http://localhost:5000/api/bills/${billId}/pay`,
+                `${API}/api/bills/${billId}/pay`,
                 {},
                 {
                     headers: {

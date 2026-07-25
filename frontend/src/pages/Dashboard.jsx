@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getComplaints } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API } from "../config/api";
 function Dashboard() {
   // const [showMenu, setShowMenu] = useState(false);
   const [userName, setUserName] = useState("");
@@ -46,7 +47,7 @@ function Dashboard() {
         const token = localStorage.getItem("token");
 
         const res = await axios.get(
-          "http://localhost:5000/api/certificates",
+          "${API}/api/certificates",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -73,7 +74,7 @@ function Dashboard() {
         const user = JSON.parse(localStorage.getItem("user"));
 
         const res = await axios.get(
-          `http://localhost:5000/api/notifications/${user.id}`
+          `${API}/api/notifications/${user.id}`
         );
 
         setNotifications(res.data);
@@ -97,7 +98,7 @@ function Dashboard() {
         const user = JSON.parse(localStorage.getItem("user"));
 
         const res = await axios.get(
-          "http://localhost:5000/api/bills/my",
+          "${API}/api/bills/my",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -128,7 +129,7 @@ function Dashboard() {
     try {
 
       await axios.put(
-        `http://localhost:5000/api/notifications/${id}/read`
+        `${API}/api/notifications/${id}/read`
       );
 
       setNotifications((prev) =>

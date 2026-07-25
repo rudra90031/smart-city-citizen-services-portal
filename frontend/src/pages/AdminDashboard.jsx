@@ -2,6 +2,7 @@ import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminDashboard.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API } from "../config/api";
 import { Doughnut } from "react-chartjs-2";
 
 import {
@@ -39,7 +40,7 @@ function AdminDashboard() {
                 const token = localStorage.getItem("adminToken");
 
                 const res = await axios.get(
-                    "http://localhost:5000/api/admin/dashboard",
+                    "${API}/api/admin/dashboard",
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,

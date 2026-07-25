@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { API } from "../config/api";
 import L from "leaflet";
 import { useMap } from "react-leaflet";
 
@@ -111,7 +112,7 @@ function AdminGISMap() {
             const token = localStorage.getItem("adminToken");
 
             const { data } = await axios.put(
-                `http://localhost:5000/api/complaints/admin/${selectedComplaint._id}/status`,
+                `${API}/api/complaints/admin/${selectedComplaint._id}/status`,
                 {
                     status: newStatus,
                 },
@@ -152,7 +153,7 @@ function AdminGISMap() {
             const token = localStorage.getItem("adminToken");
 
             const res = await axios.get(
-                "http://localhost:5000/api/complaints/admin/all",
+                "${API}/api/complaints/admin/all",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -780,7 +781,7 @@ function AdminGISMap() {
                                         {selectedComplaint?.image && (
                                             <div className="gis-photo">
                                                 <img
-                                                    src={`http://localhost:5000/uploads/${selectedComplaint.image}`}
+                                                    src={`${API}/uploads/${selectedComplaint.image}`}
                                                     alt="complaint"
                                                 />
                                             </div>

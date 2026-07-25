@@ -1,6 +1,7 @@
 import "../assets/styles/profile.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { API } from "../config/api";
 
 function Profile() {
 
@@ -21,7 +22,7 @@ function Profile() {
             setPhone(user.mobile || "");
             setProfilePic(
                 user.profilePic
-                    ? `http://localhost:5000${user.profilePic}`
+                    ? `${API}${user.profilePic}`
                     : ""
             );
 
@@ -51,7 +52,7 @@ function Profile() {
             }
 
             const res = await axios.put(
-                `http://localhost:5000/api/auth/${user.id}`,
+                `${API}/api/auth/${user.id}`,
                 formData,
                 {
                     headers: {
@@ -76,7 +77,7 @@ function Profile() {
 
             setProfilePic(
                 updatedUser.profilePic
-                    ? `http://localhost:5000${updatedUser.profilePic}`
+                    ? `${API}${updatedUser.profilePic}`
                     : ""
             );
 
@@ -108,7 +109,7 @@ function Profile() {
 
             await axios.put(
 
-                `http://localhost:5000/api/users/change-password/${user.id}`,
+                `${API}/api/users/change-password/${user.id}`,
 
                 {
 

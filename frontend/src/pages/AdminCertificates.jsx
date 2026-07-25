@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { API } from "../config/api";
 import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminCertificates.css";
 
@@ -12,7 +13,7 @@ function AdminCertificates() {
             const token = localStorage.getItem("adminToken");
 
             const res = await axios.get(
-                "http://localhost:5000/api/certificates/admin/all",
+                "${API}/api/certificates/admin/all",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

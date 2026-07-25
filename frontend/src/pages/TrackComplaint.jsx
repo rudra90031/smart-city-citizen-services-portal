@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API } from "../config/api";
 function TrackComplaint() {
     const [searched, setSearched] = useState(false);
     const [complaintId, setComplaintId] = useState("");
@@ -15,7 +16,7 @@ function TrackComplaint() {
             const token = localStorage.getItem("token");
 
             const response = await axios.get(
-                `http://localhost:5000/api/complaints/track/${complaintId}`,
+                `${API}/api/complaints/track/${complaintId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

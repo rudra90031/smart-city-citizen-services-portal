@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { API } from "../config/api";
 import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminBills.css";
 
@@ -54,7 +55,7 @@ function AdminBills() {
             const token = localStorage.getItem("adminToken");
 
             const res = await axios.put(
-                `http://localhost:5000/api/bills/${selectedBill._id}`,
+                `${API}/api/bills/${selectedBill._id}`,
                 selectedBill,
                 {
                     headers: {
@@ -82,7 +83,7 @@ function AdminBills() {
             const token = localStorage.getItem("adminToken");
 
             const res = await axios.get(
-                "http://localhost:5000/api/bills",
+                "${API}/api/bills",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -343,7 +344,7 @@ function AdminBills() {
                                                     const token = localStorage.getItem("adminToken");
 
                                                     const res = await axios.post(
-                                                        "http://localhost:5000/api/bills",
+                                                        "${API}/api/bills",
                                                         newBill,
                                                         {
                                                             headers: {
@@ -546,7 +547,7 @@ function AdminBills() {
                                                     const token = localStorage.getItem("adminToken");
 
                                                     const res = await axios.put(
-                                                        `http://localhost:5000/api/bills/${selectedBill._id}`,
+                                                        `${API}/api/bills/${selectedBill._id}`,
                                                         {
                                                             ...selectedBill,
                                                             isPaid: true,
@@ -578,7 +579,7 @@ function AdminBills() {
                                                     const token = localStorage.getItem("adminToken");
 
                                                     await axios.delete(
-                                                        `http://localhost:5000/api/bills/${selectedBill._id}`,
+                                                        `${API}/api/bills/${selectedBill._id}`,
                                                         {
                                                             headers: {
                                                                 Authorization: `Bearer ${token}`,

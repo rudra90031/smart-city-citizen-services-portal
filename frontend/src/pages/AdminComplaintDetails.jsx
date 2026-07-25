@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { API } from "../config/api";
 import AdminSidebar from "../components/AdminSidebar";
 import "../assets/styles/adminComplaintDetails.css";
 
@@ -18,7 +19,7 @@ function AdminComplaintDetails() {
             const token = localStorage.getItem("adminToken");
 
             await axios.put(
-                `http://localhost:5000/api/complaints/admin/${id}/status`,
+                `${API}/api/complaints/admin/${id}/status`,
                 { status },
                 {
                     headers: {
@@ -47,7 +48,7 @@ function AdminComplaintDetails() {
             
 
             const res = await axios.get(
-                `http://localhost:5000/api/complaints/admin/${id}`,
+                `${API}/api/complaints/admin/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -145,7 +146,7 @@ function AdminComplaintDetails() {
                                     {complaint.image ? (
 
                                         <img
-                                            src={`http://localhost:5000/uploads/${complaint.image}`}
+                                            src={`${API}/uploads/${complaint.image}`}
                                             alt="Complaint Evidence"
                                             className="evidence-image"
                                         />

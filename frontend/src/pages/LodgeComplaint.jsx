@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API } from "../config/api";
 import LocationPicker from "../components/LocationPicker";
 function LodgeComplaint() {
   const [title, setTitle] = useState("");
@@ -43,7 +44,7 @@ function LodgeComplaint() {
       }
 
       const res = await axios.post(
-        "http://localhost:5000/api/complaints",
+        "${API}/api/complaints",
         formData,
         {
           headers: {
