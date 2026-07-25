@@ -32,6 +32,8 @@ exports.sendToUser = async (req, res) => {
       servicesLink: "http://localhost:5173/services",
     });
 
+    console.log("sendToUser called:", email, new Date().toISOString());
+
     await transporter.sendMail({
       from: `"Smart City Administration" <${process.env.EMAIL_USER}>`,
       to: email,
@@ -83,6 +85,8 @@ exports.sendToAllUsers = async (req, res) => {
         portalLink: "http://localhost:5173",
         servicesLink: "http://localhost:5173/services",
       });
+
+      console.log("sendToAllUsers called:", user.email, new Date().toISOString());
 
       await transporter.sendMail({
         from: `"Smart City Administration" <${process.env.EMAIL_USER}>`,

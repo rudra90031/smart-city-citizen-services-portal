@@ -48,10 +48,10 @@ text-decoration:none;
 
 .darkButton{
 display:inline-block;
-padding:13px 30px;
+padding:11px 29px;
 background:#111827;
 color:#ffffff !important;
-font-size:15px;
+font-size:13px;
 font-weight:600;
 border-radius:999px;
 text-decoration:none;
@@ -79,7 +79,13 @@ white-space:pre-line;
 
 </head>
 
-<body>
+<body
+style="
+margin:0;
+padding:0;
+background-color:#eef3f8;
+background:#eef3f8;
+">
 
 <table
 width="100%"
@@ -112,17 +118,46 @@ style="max-width:800px;background:white;"
 <!-- ========================= -->
 
 <tr>
+<td>
+
+<img
+src="https://smart-city-backend-pax7.onrender.com/email-assets/part1_top_header.png"
+width="800"
+style="display:block;width:100%;max-width:800px;height:auto;border:0;"
+alt="Smart City Header">
+
+</td>
+</tr>
+
+<!-- ========================= -->
+<!-- HTML CONTENT -->
+<!-- ========================= -->
+
+<tr>
+<td bgcolor="#ffffff">
+
+<table
+width="100%"
+cellpadding="0"
+cellspacing="0"
+border="0"
+bgcolor="#ffffff"
+style="background:#ffffff;background-color:#ffffff;">
+
+<tr>
 
 <td
+bgcolor="#ffffff"
 style="
-background:#ffffff;
-padding:28px 42px;
+background:#ffffff !important;
+background-color:#ffffff !important;
+padding:18px 42px;
 font-family:Arial,Helvetica,sans-serif;
 ">
 
 <h2
 style="
-margin:0 0 16px;
+margin:0 0 6px;
 font-size:24px;
 font-weight:700;
 color:#111827;
@@ -151,7 +186,7 @@ role="presentation"
 cellpadding="0"
 cellspacing="0"
 border="0"
-style="margin-top:24px;"
+style="margin-top:12px;"
 >
 
 <tr>
@@ -165,6 +200,12 @@ class="darkButton">
 VIEW IN PORTAL →
 
 </a>
+
+</td>
+
+</tr>
+
+</table>
 
 </td>
 

@@ -21,6 +21,7 @@ function AdminNotifications() {
                 recipient === "all"
                     ? "http://localhost:5000/api/email/send-all"
                     : "http://localhost:5000/api/email/send-user";
+            console.log("API called:", url);
 
             await axios.post(url, {
                 email,
