@@ -72,6 +72,7 @@ const loginUser = async (req, res) => {
                 expiresIn: "7d",
             }
         );
+        
 
         res.status(200).json({
             message: "Login Successful",
@@ -83,6 +84,7 @@ const loginUser = async (req, res) => {
                 mobile: user.mobile,
                 profilePic: user.profilePic,
                 role: user.role,
+                createdAt: user.createdAt,
             },
         });
 

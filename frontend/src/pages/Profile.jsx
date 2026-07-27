@@ -292,7 +292,15 @@ function Profile() {
 
                         <div className="info-row">
                             <span>Registered On</span>
-                            <strong>15 Jan 2026</strong>
+                            <strong>
+                                {user?.createdAt
+                                    ? new Date(user.createdAt).toLocaleDateString("en-GB", {
+                                        day: "2-digit",
+                                        month: "short",
+                                        year: "numeric",
+                                    })
+                                    : "-"}
+                            </strong>
                         </div>
 
                         <div className="info-row">
